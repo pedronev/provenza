@@ -5,5 +5,9 @@ import tailwindcss from '@tailwindcss/vite'
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react(), tailwindcss()],
-  base: 'https://pedronev.github.io/provenza',
+  base: '/provenza/',  // Solo el nombre del repositorio con barras
+  build: {
+    outDir: 'dist',
+    sourcemap: false
+  }
 })

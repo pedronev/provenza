@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import { HashRouter as Router, Routes, Route } from 'react-router-dom'
 import DiscountBannersShowcase from './components/DiscountBannersShowcase'
 import ProvenzaHeader from './components/ProvenzaHeader'
 import GalleryTemplatesShowcase from './components/GalleryTemplatesShowcase'

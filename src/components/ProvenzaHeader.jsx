@@ -1,5 +1,6 @@
 import { Facebook, Instagram, ChevronDown, Sparkles } from "lucide-react"
 import { useState, useEffect, useRef, lazy, Suspense } from "react"
+import logoSvg from '../assets/logo.svg'
 
 // Lazy load del componente de demos
 const DiscountBannersShowcase = lazy(() => import('./DiscountBannersShowcase'))
@@ -66,7 +67,7 @@ const ProvenzaHeader = () => {
               isScrolled ? "scale-90" : "scale-100"
             }`}>
               <img
-                src="/src/assets/logo.svg"
+                src={logoSvg}
                 alt="Provenza Logo"
                 className={`h-8 md:h-10 mr-2 md:mr-3 transition-all duration-300 ${
                   isScrolled ? "brightness-0 invert" : ""
