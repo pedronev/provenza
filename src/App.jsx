@@ -2,6 +2,7 @@ import { HashRouter as Router, Routes, Route } from 'react-router-dom'
 import DiscountBannersShowcase from './components/DiscountBannersShowcase'
 import ProvenzaHeader from './components/ProvenzaHeader'
 import GalleryTemplatesShowcase from './components/GalleryTemplatesShowcase'
+import './App.css' // Importamos el CSS aquí
 
 const App = () => {
   return (
