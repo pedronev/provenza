@@ -1,24 +1,48 @@
-import { Facebook, Instagram, ChevronDown, Sparkles } from "lucide-react"
+import { Facebook, Instagram, Sparkles } from "lucide-react"
 import { useState, useEffect, useRef, lazy, Suspense } from "react"
 import logoSvg from '../assets/logo.svg'
+
+// Import components
+import HeroSection from './HeroSection'
+import PropertyDetailsSection from './PropertyDetailsSection'
+import WhyProvenzaSection from './WhyProvenzaSection'
+import LocationSection from './LocationSection'
+import AmenitiesGallerySection from './AmenitiesGallerySection'
+import InfoSection from './InfoSection'
+import FooterSection from './FooterSection'
 
 // Lazy load del componente de demos
 const DiscountBannersShowcase = lazy(() => import('./DiscountBannersShowcase'))
 
 const ProvenzaHeader = () => {
   const [isScrolled, setIsScrolled] = useState(false)
-  const [currentWordIndex, setCurrentWordIndex] = useState(0)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [visibleSections, setVisibleSections] = useState(new Set())
   const [showDiscountDemo, setShowDiscountDemo] = useState(false)
 
-  const rotatingWords = ["FELICIDAD", "HOGAR", "CAMINO"]
   const sectionRefs = {
     hero: useRef(null),
+    details: useRef(null),
+    why: useRef(null),
+    location: useRef(null),
+    gallery: useRef(null),
     info: useRef(null),
     title: useRef(null),
     subtitle: useRef(null),
-    arrow: useRef(null)
+    arrow: useRef(null),
+    footer: useRef(null)
+  }
+
+  const scrollToSection = (sectionKey) => {
+    const sectionRef = sectionRefs[sectionKey]
+    if (sectionRef && sectionRef.current) {
+      const offsetTop = sectionRef.current.offsetTop - 50 // Account for fixed header height
+      window.scrollTo({
+        top: offsetTop,
+        behavior: 'smooth'
+      })
+    }
+    setMobileMenuOpen(false) // Close mobile menu after navigation
   }
 
   useEffect(() => {
@@ -42,13 +66,6 @@ const ProvenzaHeader = () => {
     return () => window.removeEventListener("scroll", handleScroll)
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [visibleSections])
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentWordIndex((prev) => (prev + 1) % rotatingWords.length)
-    }, 3000)
-    return () => clearInterval(interval)
-  }, [rotatingWords.length])
 
   return (
     <div className="min-h-screen bg-white">
@@ -100,10 +117,15 @@ const ProvenzaHeader = () => {
 
             {/* Desktop Navigation with hover effects */}
             <nav className="hidden md:flex items-center space-x-8 lg:space-x-12">
-              {["UBICACIÓN", "AMENIDADES", "MODELOS", "CONTACTO"].map((item, index) => (
-                <a
-                  key={item}
-                  href={`#${item.toLowerCase()}`}
+              {[
+                { name: "UBICACIÓN", key: "location" },
+                { name: "AMENIDADES", key: "gallery" },
+                { name: "MODELOS", key: "details" },
+                { name: "CONTACTO", key: "footer" }
+              ].map((item, index) => (
+                <button
+                  key={item.name}
+                  onClick={() => scrollToSection(item.key)}
                   className={`relative transition-all duration-300 font-normal text-sm lg:text-base tracking-wider uppercase group ${
                     isScrolled 
                       ? "text-white hover:text-[#9CAFA2] py-2" 
@@ -113,11 +135,11 @@ const ProvenzaHeader = () => {
                     animationDelay: `${index * 100}ms`
                   }}
                 >
-                  {item}
+                  {item.name}
                   <span className={`absolute bottom-0 left-0 w-0 h-0.5 transition-all duration-300 group-hover:w-full ${
                     isScrolled ? "bg-[#9CAFA2]" : "bg-blue-700"
                   }`}></span>
-                </a>
+                </button>
               ))}
             </nav>
 
@@ -148,223 +170,105 @@ const ProvenzaHeader = () => {
               mobileMenuOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
             }`}
           >
-            <nav className="pt-4 pb-2 space-y-3">
-              {["UBICACIÓN", "AMENIDADES", "MODELOS", "CONTACTO"].map((item) => (
-                <a
-                  key={item}
-                  href={`#${item.toLowerCase()}`}
-                  className="block text-[#0A2259] hover:text-blue-700 transition-colors font-normal text-sm tracking-wider uppercase py-2"
-                  onClick={() => setMobileMenuOpen(false)}
+            <nav className={`pt-4 pb-2 space-y-3 ${
+              mobileMenuOpen ? (isScrolled ? 'bg-[#0A2259]/95 backdrop-blur-md' : 'bg-white') : ''
+            }`}>
+              {[
+                { name: "UBICACIÓN", key: "location" },
+                { name: "AMENIDADES", key: "gallery" },
+                { name: "MODELOS", key: "details" },
+                { name: "CONTACTO", key: "footer" }
+              ].map((item) => (
+                <button
+                  key={item.name}
+                  onClick={() => scrollToSection(item.key)}
+                  className={`block w-full text-left transition-colors font-normal text-sm tracking-wider uppercase py-2 ${
+                    isScrolled ? 'text-white hover:text-[#9CAFA2]' : 'text-[#0A2259] hover:text-blue-700'
+                  }`}
                 >
-                  {item}
-                </a>
+                  {item.name}
+                </button>
               ))}
 
               <div className="flex items-center space-x-3 pt-4">
                 <a
                   href="#"
-                  className="w-8 h-8 bg-[#0A2259] rounded-none flex items-center justify-center hover:bg-blue-800 transition-colors"
+                  className={`w-8 h-8 rounded-none flex items-center justify-center transition-colors ${
+                    isScrolled 
+                      ? 'bg-white/20 hover:bg-white/30' 
+                      : 'bg-[#0A2259] hover:bg-blue-800'
+                  }`}
                 >
-                  <Facebook className="w-4 h-4 text-white" />
+                  <Facebook className={`w-4 h-4 ${isScrolled ? 'text-white' : 'text-white'}`} />
                 </a>
                 <a
                   href="#"
-                  className="w-8 h-8 bg-[#0A2259] rounded-none flex items-center justify-center hover:bg-blue-800 transition-colors"
+                  className={`w-8 h-8 rounded-none flex items-center justify-center transition-colors ${
+                    isScrolled 
+                      ? 'bg-white/20 hover:bg-white/30' 
+                      : 'bg-[#0A2259] hover:bg-blue-800'
+                  }`}
                 >
-                  <Instagram className="w-4 h-4 text-white" />
+                  <Instagram className={`w-4 h-4 ${isScrolled ? 'text-white' : 'text-white'}`} />
                 </a>
               </div>
             </nav>
           </div>
         </div>
       </header>
+      
 
-      {/* Hero Section with fade-in animation */}
-      <div 
-        ref={sectionRefs.hero}
-        className={`pt-16 md:pt-20 flex justify-center transition-all duration-1000 ${
-          visibleSections.has('hero') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-        }`}
-      >
-        <div className="w-[95%] rounded-3xl overflow-hidden bg-[#4B75C3] relative">
-          <div className="absolute inset-0 z-0">
-            <img
-              src="https://images.unsplash.com/photo-1628624747186-a941c476b7ef?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
-              alt="Provenza Residencial Development"
-              className="w-full h-full object-cover"
-            />
-            <div className="absolute inset-0 bg-black/15"></div>
-          </div>
+      {/* Hero Section */}
+      <HeroSection 
+        heroRef={sectionRefs.hero}
+        visibleSections={visibleSections}
+      />
 
-          <div className="relative z-20 h-full flex flex-col justify-between p-8 md:p-12 min-h-[80vh]">
-            <div className="w-full text-center mt-4">
-              <div className="inline-block">
-                <div className="text-sm md:text-base font-normal tracking-wider text-white uppercase animate-fade-in-up">
-                  UBICADO AL INICIO
-                </div>
-                <h1 className="text-lg md:text-2xl font-normal tracking-wider text-white uppercase animate-fade-in-up animation-delay-200">
-                  DEL CORREDOR TURÍSTICO A IMALA
-                </h1>
-              </div>
-            </div>
+            {/* Info Section */}
+      <InfoSection 
+        infoRef={sectionRefs.info}
+        titleRef={sectionRefs.title}
+        subtitleRef={sectionRefs.subtitle}
+        arrowRef={sectionRefs.arrow}
+        visibleSections={visibleSections}
+      />
 
-            <div className="flex-1 flex flex-col justify-end mb-20">
-              <div className="text-left">
-                <div
-                  className="text-7xl sm:text-8xl md:text-9xl font-normal text-white uppercase tracking-wider animate-fade-in-up animation-delay-400"
-                  style={{
-                    fontFamily: "'Times New Roman', serif",
-                    textShadow: "1px 1px 3px rgba(0,0,0,0.2)",
-                  }}
-                >
-                  CERCA DE
-                </div>
+      {/* Property Details Section */}
+      <PropertyDetailsSection 
+        detailsRef={sectionRefs.details}
+        visibleSections={visibleSections}
+      />
 
-                <div className="relative h-24 sm:h-28 md:h-36 mt-0 overflow-hidden">
-                  <div className="absolute inset-0 flex items-start justify-start">
-                    <div
-                      key={currentWordIndex}
-                      className="font-normal text-7xl sm:text-8xl md:text-9xl tracking-wider uppercase animate-word-bounce"
-                      style={{
-                        fontFamily: "'Times New Roman', serif",
-                        color: "#b8c0b1",
-                        textShadow: "1px 1px 3px rgba(0,0,0,0.2)",
-                      }}
-                    >
-                      {rotatingWords[currentWordIndex]}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+      {/* Why Provenza Section */}
+      <WhyProvenzaSection 
+        whyRef={sectionRefs.why}
+        visibleSections={visibleSections}
+      />
 
-            <div className="mb-6 max-w-md animate-fade-in-up animation-delay-600">
-              <div className="text-white">
-                <div className="mb-3">
-                  <div
-                    className="text-base tracking-wide uppercase"
-                    style={{ color: "#ccc", fontFamily: "Arial, sans-serif" }}
-                  >
-                    CONOCE NUESTRA{" "}
-                    <span className="font-bold text-white" style={{ letterSpacing: "0.05em" }}>
-                      PRIMERA ETAPA
-                    </span>
-                  </div>
-                </div>
+      {/* Location Section */}
+      <LocationSection 
+        locationRef={sectionRefs.location}
+        visibleSections={visibleSections}
+      />
 
-                <p
-                  className="text-xs leading-relaxed text-white/90 font-light"
-                  style={{ fontFamily: "Arial, sans-serif", letterSpacing: "0.02em" }}
-                >
-                  Lo aquí reflejado no debe considerarse como definitivo, su propósito es meramente ilustrativo. El
-                  desarrollador se reserva el derecho a realizar cambios en los materiales, especificaciones y diseño
-                  sin previo aviso.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      {/* Amenities Gallery Section */}
+      <AmenitiesGallerySection 
+        galleryRef={sectionRefs.gallery}
+        visibleSections={visibleSections}
+      />
 
-      {/* New Info Section */}
-      <section 
-        ref={sectionRefs.info}
-        className={`mt-16 md:mt-8 py-20 md:py-32 bg-[#9CAFA2] transition-all duration-1000 ${
-          visibleSections.has('info') ? 'opacity-100' : 'opacity-0'
-        }`}
-      >
-        <div className="max-w-7xl mx-auto px-4 md:px-8">
-          {/* Logo Animation */}
-          <div 
-            className={`flex justify-center mb-12 md:mb-16 transition-all duration-1000 delay-200 ${
-              visibleSections.has('info') ? 'opacity-100 scale-100' : 'opacity-0 scale-75'
-            }`}
-          >
-            <div className="relative">
-              <svg
-                width="120"
-                height="120"
-                viewBox="0 0 120 120"
-                className="animate-float"
-              >
-                <g transform="translate(60, 60)">
-                  {/* Decorative pattern */}
-                  {[0, 90, 180, 270].map((rotation, index) => (
-                    <g key={index} transform={`rotate(${rotation})`}>
-                      <path
-                        d="M 0,-40 Q 20,-20 0,0 Q -20,-20 0,-40"
-                        fill="#0A2259"
-                        opacity="0.8"
-                        className={`animate-fade-in-scale animation-delay-${index * 200}`}
-                      />
-                    </g>
-                  ))}
-                  
-                  {/* Center circle */}
-                  <circle r="8" fill="#0A2259" className="animate-pulse-subtle" />
-                </g>
-                
-                {/* Text around logo */}
-                <text className="fill-[#0A2259] text-xs tracking-widest uppercase">
-                  <textPath href="#circle" startOffset="0%">
-                    DISFRUTA CADA DIA • DISFRUTA CADA DIA • 
-                  </textPath>
-                </text>
-                
-                {/* Define circular path for text */}
-                <defs>
-                  <path
-                    id="circle"
-                    d="M 60,20 A 40,40 0 1,1 59.9,20"
-                    fill="none"
-                  />
-                </defs>
-              </svg>
-            </div>
-          </div>
 
-          {/* Main Title */}
-          <div 
-            ref={sectionRefs.title}
-            className={`text-center mb-8 md:mb-12 transition-all duration-1000 delay-400 ${
-              visibleSections.has('title') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-            }`}
-          >
-            <h2 className="text-3xl md:text-5xl lg:text-6xl font-light text-[#0A2259] uppercase tracking-wider leading-tight">
-              UN DESARROLLO DE 5 ETAPAS HECHO
-            </h2>
-          </div>
 
-          {/* Subtitle */}
-          <div 
-            ref={sectionRefs.subtitle}
-            className={`text-center mb-16 md:mb-20 transition-all duration-1000 delay-600 ${
-              visibleSections.has('subtitle') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-            }`}
-          >
-            <p className="text-xl md:text-3xl lg:text-4xl font-light text-[#0A2259] uppercase tracking-wide leading-relaxed max-w-5xl mx-auto">
-              ESPECIALMENTE PARA TI, EN DONDE LA ARMONÍA Y SERENIDAD HACEN UN AMBIENTE ÚNICO.
-            </p>
-          </div>
-
-          {/* Arrow Animation */}
-          <div 
-            ref={sectionRefs.arrow}
-            className={`flex justify-center transition-all duration-1000 delay-800 ${
-              visibleSections.has('arrow') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-            }`}
-          >
-            <div className="w-16 h-16 md:w-20 md:h-20 rounded-full border-2 border-[#0A2259] flex items-center justify-center hover:bg-[#0A2259] hover:text-white transition-all duration-300 cursor-pointer group">
-              <ChevronDown className="w-8 h-8 md:w-10 md:h-10 animate-bounce-slow group-hover:animate-none" />
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* Footer Section */}
+      <FooterSection 
+        footerRef={sectionRefs.footer}
+        visibleSections={visibleSections}
+      />
 
       {/* Floating Demo Button */}
       <button
         onClick={() => setShowDiscountDemo(true)}
-        className="fixed bottom-8 right-8 z-40 bg-gradient-to-r from-[#0A2259] to-[#1a3668] text-white px-6 py-3 rounded-full shadow-2xl hover:shadow-3xl transform hover:scale-105 transition-all duration-300 flex items-center space-x-2 group animate-pulse-subtle"
+        className="fixed bottom-8 left-8 z-40 bg-gradient-to-r from-[#0A2259] to-[#1a3668] text-white px-6 py-3 rounded-full shadow-2xl hover:shadow-3xl transform hover:scale-105 transition-all duration-300 flex items-center space-x-2 group animate-pulse-subtle"
       >
         <Sparkles className="w-5 h-5 group-hover:rotate-180 transition-transform duration-500" />
         <span className="font-semibold">Ver Promociones</span>
