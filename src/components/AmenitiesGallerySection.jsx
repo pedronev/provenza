@@ -151,62 +151,59 @@ const AmenitiesGallerySection = ({ galleryRef, visibleSections }) => {
                     : 'translate-y-10 opacity-0'
                 }`}>
                   <div className="w-full p-8 md:p-12">
-                    <div className="grid md:grid-cols-2 gap-8 items-end">
-                      {/* Left Side - Content */}
-                      <div>
-                        <div className="flex items-center space-x-3 mb-4">
-                          <div className="w-12 h-12 border-2 border-white rounded-full flex items-center justify-center">
-                            <svg className="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-                            </svg>
-                          </div>
-                          <div className="w-16 h-0.5 bg-[#9CAFA2]"></div>
+                    <div className="max-w-2xl">
+                      <div className="flex items-center space-x-3 mb-4">
+                        <div className="w-12 h-12 border-2 border-white rounded-full flex items-center justify-center">
+                          <svg className="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                          </svg>
                         </div>
-                        
-                        <h3 
-                          className="text-3xl md:text-4xl lg:text-5xl font-normal text-white uppercase tracking-wider leading-tight mb-4"
-                          style={{ fontFamily: "'Times New Roman', serif" }}
-                        >
-                          {amenity.title}
-                        </h3>
-                        
-                        <p className="text-lg md:text-xl text-[#9CAFA2] font-medium mb-4 uppercase tracking-wide">
-                          {amenity.subtitle}
-                        </p>
-                        
-                        <p className="text-base md:text-lg text-white/90 leading-relaxed max-w-lg">
-                          {amenity.description}
-                        </p>
+                        <div className="w-16 h-0.5 bg-[#9CAFA2]"></div>
                       </div>
-
-                      {/* Right Side - Navigation */}
-                      <div className="flex justify-end">
-                        <div className="flex items-center space-x-4">
-                          <button
-                            onClick={() => {
-                              setCurrentIndex((prev) => (prev - 1 + amenities.length) % amenities.length)
-                              setIsAutoPlaying(false)
-                            }}
-                            className="p-4 bg-white/20 backdrop-blur-sm rounded-full hover:bg-white/30 transition-colors group"
-                          >
-                            <ChevronLeft className="w-6 h-6 text-white group-hover:scale-110 transition-transform" />
-                          </button>
-                          <button
-                            onClick={() => {
-                              setCurrentIndex((prev) => (prev + 1) % amenities.length)
-                              setIsAutoPlaying(false)
-                            }}
-                            className="p-4 bg-white/20 backdrop-blur-sm rounded-full hover:bg-white/30 transition-colors group"
-                          >
-                            <ChevronRight className="w-6 h-6 text-white group-hover:scale-110 transition-transform" />
-                          </button>
-                        </div>
-                      </div>
+                      
+                      <h3 
+                        className="text-3xl md:text-4xl lg:text-5xl font-normal text-white uppercase tracking-wider leading-tight mb-4"
+                        style={{ fontFamily: "'Times New Roman', serif" }}
+                      >
+                        {amenity.title}
+                      </h3>
+                      
+                      <p className="text-lg md:text-xl text-[#9CAFA2] font-medium mb-4 uppercase tracking-wide">
+                        {amenity.subtitle}
+                      </p>
+                      
+                      <p className="text-base md:text-lg text-white/90 leading-relaxed max-w-lg">
+                        {amenity.description}
+                      </p>
                     </div>
                   </div>
                 </div>
               </div>
             ))}
+            
+            {/* Navigation Arrows - Bottom Right Position */}
+            <div className="absolute bottom-8 right-8 md:bottom-12 md:right-12 z-30">
+              <div className="flex items-center space-x-4">
+                <button
+                  onClick={() => {
+                    setCurrentIndex((prev) => (prev - 1 + amenities.length) % amenities.length)
+                    setIsAutoPlaying(false)
+                  }}
+                  className="p-4 bg-white/20 backdrop-blur-sm rounded-full hover:bg-white/30 transition-colors group"
+                >
+                  <ChevronLeft className="w-6 h-6 text-white group-hover:scale-110 transition-transform" />
+                </button>
+                <button
+                  onClick={() => {
+                    setCurrentIndex((prev) => (prev + 1) % amenities.length)
+                    setIsAutoPlaying(false)
+                  }}
+                  className="p-4 bg-white/20 backdrop-blur-sm rounded-full hover:bg-white/30 transition-colors group"
+                >
+                  <ChevronRight className="w-6 h-6 text-white group-hover:scale-110 transition-transform" />
+                </button>
+              </div>
+            </div>
             
             {/* Progress Bar */}
             <div className="absolute bottom-0 left-0 right-0 h-1 bg-white/20">
