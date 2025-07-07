@@ -1,2 +1,16 @@
 @import "tailwindcss";
 
+* {
+    scroll-behavior: smooth;
+}
+
+.will-change-transform {
+    will-change: transform;
+}
+
+/* Reducir animaciones para usuarios sensibles */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+    } }
