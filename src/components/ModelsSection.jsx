@@ -1,5 +1,7 @@
+"use client"
+
 import { useState } from "react"
-import { X, ChevronLeft, ChevronRight, Home, Car, Bath, Square, Layers } from "lucide-react"
+import { X, ChevronLeft, ChevronRight, Home, Car, Bath, Square, Layers, Eye, MapPin, Maximize2 } from "lucide-react"
 
 const ModelsSection = ({ modelsRef, visibleSections }) => {
   const [selectedModel, setSelectedModel] = useState(null)
@@ -15,22 +17,25 @@ const ModelsSection = ({ modelsRef, visibleSections }) => {
       dimensions: "6.70m x 17m",
       levels: "2",
       parking: "2 AUTOS",
-      mainImage: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
+      mainImage:
+        "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
       images: [
         "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
         "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
-        "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80"
+        "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
       ],
-      description: "Encuentra el equilibrio y la dulzura en cada rincón de tu hogar. Este modelo de dos niveles toma su nombre y su inspiración por su belleza y elegancia.",
+      virtualTour: "https://www.theasys.io/viewer/NIQTizr51Ey9g4ulZuYFm3E4kJaYKX/",
+      description:
+        "Encuentra el equilibrio y la dulzura en cada rincón de tu hogar. Este modelo de dos niveles toma su nombre y su inspiración por su belleza y elegancia.",
       features: [
         "COMEDOR",
-        "COCINA", 
+        "COCINA",
         "SALA",
         "BALCÓN EN FACHADA",
         "PASILLO LATERAL",
         "SALA DE TV",
-        "WALK IN CLOSET Y BAÑO COMPLETO EN RECÁMARA PRINCIPAL"
-      ]
+        "WALK IN CLOSET Y BAÑO COMPLETO EN RECÁMARA PRINCIPAL",
+      ],
     },
     {
       id: 2,
@@ -41,22 +46,25 @@ const ModelsSection = ({ modelsRef, visibleSections }) => {
       dimensions: "7.50m x 17m",
       levels: "2",
       parking: "2 AUTOS",
-      mainImage: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
+      mainImage:
+        "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
       images: [
         "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
         "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
-        "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80"
+        "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
       ],
-      description: "Elegancia y sofisticación en cada detalle. Un modelo que combina funcionalidad con un diseño contemporáneo excepcional.",
+      virtualTour: "https://www.theasys.io/viewer/RsEYESXzzp13Giqkh7DaS66qDROsXK/",
+      description:
+        "Elegancia y sofisticación en cada detalle. Un modelo que combina funcionalidad con un diseño contemporáneo excepcional.",
       features: [
         "COMEDOR AMPLIO",
-        "COCINA INTEGRAL", 
+        "COCINA INTEGRAL",
         "SALA PRINCIPAL",
         "TERRAZA TECHADA",
         "JARDÍN FRONTAL",
         "ESTUDIO/OFICINA",
-        "MASTER SUITE CON VESTIDOR"
-      ]
+        "MASTER SUITE CON VESTIDOR",
+      ],
     },
     {
       id: 3,
@@ -67,23 +75,26 @@ const ModelsSection = ({ modelsRef, visibleSections }) => {
       dimensions: "8.00m x 17m",
       levels: "2",
       parking: "2 AUTOS",
-      mainImage: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
+      mainImage:
+        "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
       images: [
         "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
         "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
-        "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80"
+        "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
       ],
-      description: "El modelo más amplio y lujoso de nuestra colección. Diseñado para familias que buscan el máximo confort y espacios generosos.",
+      virtualTour: "https://www.theasys.io/viewer/Z815XhW4DBPy3FAwe7J3yQOWjLcyiv/",
+      description:
+        "El modelo más amplio y lujoso de nuestra colección. Diseñado para familias que buscan el máximo confort y espacios generosos.",
       features: [
         "COMEDOR DE LUJO",
-        "COCINA GOURMET", 
+        "COCINA GOURMET",
         "DOBLE SALA",
         "BALCÓN PANORÁMICO",
         "PATIO TRASERO",
         "FAMILY ROOM",
-        "SUITE PRINCIPAL CON JACUZZI"
-      ]
-    }
+        "SUITE PRINCIPAL CON JACUZZI",
+      ],
+    },
   ]
 
   const openModal = (model) => {
@@ -96,37 +107,60 @@ const ModelsSection = ({ modelsRef, visibleSections }) => {
     setModalImageIndex(0)
   }
 
+  const handleModalBackdropClick = (e) => {
+    if (e.target === e.currentTarget) {
+      closeModal()
+    }
+  }
+
   const nextImage = () => {
     if (selectedModel) {
-      setModalImageIndex((prev) => (prev + 1) % selectedModel.images.length)
+      const totalSlides = selectedModel.images.length + 1 // +1 for virtual tour
+      setModalImageIndex((prev) => (prev + 1) % totalSlides)
     }
   }
 
   const prevImage = () => {
     if (selectedModel) {
-      setModalImageIndex((prev) => (prev - 1 + selectedModel.images.length) % selectedModel.images.length)
+      const totalSlides = selectedModel.images.length + 1 // +1 for virtual tour
+      setModalImageIndex((prev) => (prev - 1 + totalSlides) % totalSlides)
     }
   }
 
+  const setImageIndex = (index) => {
+    setModalImageIndex(index)
+  }
+
+  const isVirtualTourSlide = () => {
+    return selectedModel && modalImageIndex === selectedModel.images.length
+  }
+
   return (
-    <section 
+    <section
       ref={modelsRef}
-      className="py-16 md:py-20 bg-[#f5f3f0]"
+      className={`py-16 md:py-20 bg-[#f5f3f0] transition-all duration-1000 ${
+        visibleSections.has("models") ? "opacity-100" : "opacity-0"
+      }`}
     >
       <div className="max-w-7xl mx-auto px-4 md:px-8">
         {/* Header */}
-        <div className="text-center mb-12 md:mb-16">
-          <h2 
+        <div
+          className={`text-center mb-12 md:mb-16 transition-all duration-1000 delay-200 ${
+            visibleSections.has("models") ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
+          }`}
+        >
+          <h2
             className="text-4xl md:text-6xl lg:text-7xl font-normal text-[#0A2259] uppercase tracking-wider leading-tight mb-6"
             style={{ fontFamily: "'Times New Roman', serif" }}
           >
             NUESTROS MODELOS
           </h2>
-          
+
           <div className="w-20 h-1 bg-[#0A2259] mx-auto mb-6"></div>
-          
+
           <p className="text-lg md:text-xl text-[#0A2259] opacity-80 max-w-3xl mx-auto leading-relaxed">
-            Descubre la variedad de diseños arquitectónicos que tenemos para ti. Cada modelo está pensado para brindar el máximo confort y funcionalidad.
+            Descubre la variedad de diseños arquitectónicos que tenemos para ti. Cada modelo está pensado para brindar
+            el máximo confort y funcionalidad.
           </p>
         </div>
 
@@ -135,14 +169,17 @@ const ModelsSection = ({ modelsRef, visibleSections }) => {
           {models.map((model, index) => (
             <div
               key={model.id}
-              className="bg-white rounded-3xl shadow-xl overflow-hidden hover:shadow-2xl transition-all duration-500 hover:scale-105 group"
+              className={`bg-white rounded-3xl shadow-xl overflow-hidden hover:shadow-2xl transition-all duration-500 hover:scale-105 group ${
+                visibleSections.has("models") ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
+              }`}
+              style={{
+                transitionDelay: `${400 + index * 200}ms`,
+              }}
             >
               {/* Model Header */}
               <div className="p-6 pb-4 text-center">
-                <span className="text-sm font-medium text-[#0A2259] opacity-70 uppercase tracking-wider">
-                  MODELO
-                </span>
-                <h3 
+                <span className="text-sm font-medium text-[#0A2259] opacity-70 uppercase tracking-wider">MODELO</span>
+                <h3
                   className="text-3xl md:text-4xl font-normal text-[#0A2259] uppercase tracking-wider mt-1"
                   style={{ fontFamily: "'Times New Roman', serif" }}
                 >
@@ -153,11 +190,17 @@ const ModelsSection = ({ modelsRef, visibleSections }) => {
               {/* Image */}
               <div className="relative mx-6 mb-6 rounded-2xl overflow-hidden">
                 <img
-                  src={model.mainImage}
+                  src={model.mainImage || "/placeholder.svg"}
                   alt={`Modelo ${model.name}`}
                   className="w-full h-64 object-cover transition-transform duration-700 group-hover:scale-110"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+
+                {/* Virtual Tour Badge */}
+                <div className="absolute top-4 right-4 bg-[#0A2259]/90 backdrop-blur-sm text-white px-3 py-1 rounded-full text-xs font-semibold flex items-center space-x-1">
+                  <Eye className="w-3 h-3" />
+                  <span>TOUR 360°</span>
+                </div>
               </div>
 
               {/* Specifications */}
@@ -170,7 +213,6 @@ const ModelsSection = ({ modelsRef, visibleSections }) => {
                     </div>
                     <div className="text-lg font-bold text-[#0A2259]">{model.area}</div>
                   </div>
-
                   {/* Bedrooms */}
                   <div className="text-center">
                     <div className="w-12 h-12 mx-auto mb-2 border-2 border-[#0A2259] rounded-full flex items-center justify-center">
@@ -178,7 +220,6 @@ const ModelsSection = ({ modelsRef, visibleSections }) => {
                     </div>
                     <div className="text-lg font-bold text-[#0A2259]">{model.bedrooms}</div>
                   </div>
-
                   {/* Bathrooms */}
                   <div className="text-center">
                     <div className="w-12 h-12 mx-auto mb-2 border-2 border-[#0A2259] rounded-full flex items-center justify-center">
@@ -201,159 +242,214 @@ const ModelsSection = ({ modelsRef, visibleSections }) => {
         </div>
       </div>
 
-      {/* Modal */}
+      {/* Modal Optimizado */}
       {selectedModel && (
-        <div className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-3xl max-w-6xl w-full max-h-[90vh] overflow-hidden shadow-2xl">
-            {/* Modal Header */}
-            <div className="flex justify-between items-center p-6 border-b border-gray-200">
-              <div>
-                <span className="text-sm font-medium text-[#0A2259] opacity-70 uppercase tracking-wider">
-                  MODELO
-                </span>
-                <h3 
-                  className="text-3xl font-normal text-[#0A2259] uppercase tracking-wider"
-                  style={{ fontFamily: "'Times New Roman', serif" }}
-                >
-                  {selectedModel.name}
-                </h3>
+        <div
+          className="fixed inset-0 bg-black/90 backdrop-blur-sm z-50 flex items-center justify-center p-2 md:p-4"
+          onClick={handleModalBackdropClick}
+        >
+          <div className="bg-white rounded-2xl md:rounded-3xl max-w-[98vw] md:max-w-[95vw] w-full max-h-[95vh] overflow-hidden shadow-2xl animate-modal-in">
+            {/* Modal Header - Compacto */}
+            <div className="relative bg-gradient-to-r from-[#0A2259] to-[#1a3668] text-white px-4 md:px-8 py-4 md:py-6">
+              <div className="flex justify-between items-center">
+                <div>
+                  <span className="text-xs md:text-sm font-medium opacity-80 uppercase tracking-wider">MODELO</span>
+                  <h3
+                    className="text-2xl md:text-3xl lg:text-4xl font-normal uppercase tracking-wider"
+                    style={{ fontFamily: "'Times New Roman', serif" }}
+                  >
+                    {selectedModel.name}
+                  </h3>
+                </div>
+                <button onClick={closeModal} className="p-2 md:p-3 hover:bg-white/20 rounded-full transition-colors">
+                  <X className="w-5 h-5 md:w-6 md:h-6" />
+                </button>
               </div>
-              <button
-                onClick={closeModal}
-                className="p-2 hover:bg-gray-100 rounded-full transition-colors"
-              >
-                <X className="w-6 h-6 text-[#0A2259]" />
-              </button>
             </div>
 
-            <div className="overflow-y-auto" style={{ maxHeight: 'calc(90vh - 88px)' }}>
-              <div className="grid lg:grid-cols-2 gap-8 p-6">
-                {/* Left Side - Specifications */}
-                <div className="space-y-6">
+            {/* Modal Content - Layout optimizado */}
+            <div className="p-4 md:p-6 lg:p-8 overflow-y-auto max-h-[calc(95vh-100px)] md:max-h-[calc(95vh-120px)]">
+              <div className="grid lg:grid-cols-3 gap-4 md:gap-6 lg:gap-8">
+                {/* Left Column - Specifications */}
+                <div className="lg:col-span-1 space-y-4 md:space-y-6">
                   {/* Main Specs */}
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="text-center p-4 bg-gray-50 rounded-2xl">
-                      <div className="w-12 h-12 mx-auto mb-3 border-2 border-[#0A2259] rounded-full flex items-center justify-center">
-                        <Square className="w-6 h-6 text-[#0A2259]" />
+                  <div className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-xl md:rounded-2xl p-4 md:p-6">
+                    <h4 className="text-base md:text-lg font-semibold text-[#0A2259] mb-3 md:mb-4 uppercase tracking-wide">
+                      Especificaciones
+                    </h4>
+                    <div className="grid grid-cols-2 gap-2 md:gap-4">
+                      <div className="bg-white rounded-lg md:rounded-xl p-3 md:p-4 shadow-sm hover:shadow-md transition-shadow">
+                        <div className="w-8 h-8 md:w-10 md:h-10 mx-auto mb-2 md:mb-3 bg-[#0A2259] rounded-full flex items-center justify-center">
+                          <Square className="w-4 h-4 md:w-5 md:h-5 text-white" />
+                        </div>
+                        <div className="text-xs text-[#0A2259] opacity-70 uppercase tracking-wide text-center">
+                          ÁREA TOTAL
+                        </div>
+                        <div className="text-sm md:text-lg font-bold text-[#0A2259] text-center">{selectedModel.area}</div>
                       </div>
-                      <div className="text-sm text-[#0A2259] opacity-70 uppercase tracking-wide mb-1">ÁREA</div>
-                      <div className="text-xl font-bold text-[#0A2259]">{selectedModel.area}</div>
-                    </div>
 
-                    <div className="text-center p-4 bg-gray-50 rounded-2xl">
-                      <div className="w-12 h-12 mx-auto mb-3 border-2 border-[#0A2259] rounded-full flex items-center justify-center">
-                        <Home className="w-6 h-6 text-[#0A2259]" />
+                      <div className="bg-white rounded-lg md:rounded-xl p-3 md:p-4 shadow-sm hover:shadow-md transition-shadow">
+                        <div className="w-8 h-8 md:w-10 md:h-10 mx-auto mb-2 md:mb-3 bg-[#0A2259] rounded-full flex items-center justify-center">
+                          <Home className="w-4 h-4 md:w-5 md:h-5 text-white" />
+                        </div>
+                        <div className="text-xs text-[#0A2259] opacity-70 uppercase tracking-wide text-center">
+                          RECÁMARAS
+                        </div>
+                        <div className="text-sm md:text-lg font-bold text-[#0A2259] text-center">{selectedModel.bedrooms}</div>
                       </div>
-                      <div className="text-sm text-[#0A2259] opacity-70 uppercase tracking-wide mb-1">RECÁMARAS</div>
-                      <div className="text-xl font-bold text-[#0A2259]">{selectedModel.bedrooms}</div>
-                    </div>
 
-                    <div className="text-center p-4 bg-gray-50 rounded-2xl">
-                      <div className="w-12 h-12 mx-auto mb-3 border-2 border-[#0A2259] rounded-full flex items-center justify-center">
-                        <Bath className="w-6 h-6 text-[#0A2259]" />
+                      <div className="bg-white rounded-lg md:rounded-xl p-3 md:p-4 shadow-sm hover:shadow-md transition-shadow">
+                        <div className="w-8 h-8 md:w-10 md:h-10 mx-auto mb-2 md:mb-3 bg-[#0A2259] rounded-full flex items-center justify-center">
+                          <Bath className="w-4 h-4 md:w-5 md:h-5 text-white" />
+                        </div>
+                        <div className="text-xs text-[#0A2259] opacity-70 uppercase tracking-wide text-center">
+                          BAÑOS
+                        </div>
+                        <div className="text-sm md:text-lg font-bold text-[#0A2259] text-center">{selectedModel.bathrooms}</div>
                       </div>
-                      <div className="text-sm text-[#0A2259] opacity-70 uppercase tracking-wide mb-1">BAÑOS</div>
-                      <div className="text-xl font-bold text-[#0A2259]">{selectedModel.bathrooms}</div>
-                    </div>
 
-                    <div className="text-center p-4 bg-gray-50 rounded-2xl">
-                      <div className="w-12 h-12 mx-auto mb-3 border-2 border-[#0A2259] rounded-full flex items-center justify-center">
-                        <Layers className="w-6 h-6 text-[#0A2259]" />
+                      <div className="bg-white rounded-lg md:rounded-xl p-3 md:p-4 shadow-sm hover:shadow-md transition-shadow">
+                        <div className="w-8 h-8 md:w-10 md:h-10 mx-auto mb-2 md:mb-3 bg-[#0A2259] rounded-full flex items-center justify-center">
+                          <Layers className="w-4 h-4 md:w-5 md:h-5 text-white" />
+                        </div>
+                        <div className="text-xs text-[#0A2259] opacity-70 uppercase tracking-wide text-center">
+                          NIVELES
+                        </div>
+                        <div className="text-sm md:text-lg font-bold text-[#0A2259] text-center">{selectedModel.levels}</div>
                       </div>
-                      <div className="text-sm text-[#0A2259] opacity-70 uppercase tracking-wide mb-1">NIVELES</div>
-                      <div className="text-xl font-bold text-[#0A2259]">{selectedModel.levels}</div>
-                    </div>
 
-                    <div className="text-center p-4 bg-gray-50 rounded-2xl">
-                      <div className="w-12 h-12 mx-auto mb-3 border-2 border-[#0A2259] rounded-full flex items-center justify-center">
-                        <Square className="w-6 h-6 text-[#0A2259]" />
+                      <div className="bg-white rounded-lg md:rounded-xl p-3 md:p-4 shadow-sm hover:shadow-md transition-shadow col-span-2">
+                        <div className="flex items-center justify-center space-x-3 md:space-x-4">
+                          <div className="w-8 h-8 md:w-10 md:h-10 bg-[#0A2259] rounded-full flex items-center justify-center">
+                            <Car className="w-4 h-4 md:w-5 md:h-5 text-white" />
+                          </div>
+                          <div>
+                            <div className="text-xs text-[#0A2259] opacity-70 uppercase tracking-wide">
+                              ESTACIONAMIENTO
+                            </div>
+                            <div className="text-sm md:text-lg font-bold text-[#0A2259]">{selectedModel.parking}</div>
+                          </div>
+                        </div>
                       </div>
-                      <div className="text-sm text-[#0A2259] opacity-70 uppercase tracking-wide mb-1">MEDIDAS</div>
-                      <div className="text-sm font-bold text-[#0A2259]">{selectedModel.dimensions}</div>
-                    </div>
-
-                    <div className="text-center p-4 bg-gray-50 rounded-2xl">
-                      <div className="w-12 h-12 mx-auto mb-3 border-2 border-[#0A2259] rounded-full flex items-center justify-center">
-                        <Car className="w-6 h-6 text-[#0A2259]" />
-                      </div>
-                      <div className="text-sm text-[#0A2259] opacity-70 uppercase tracking-wide mb-1">COCHERA</div>
-                      <div className="text-sm font-bold text-[#0A2259]">{selectedModel.parking}</div>
                     </div>
                   </div>
 
-                  {/* Features */}
-                  <div>
-                    <h4 className="text-xl font-semibold text-[#0A2259] mb-4 uppercase tracking-wide">
-                      Características
-                    </h4>
-                    <div className="space-y-3">
-                      {selectedModel.features.map((feature, index) => (
-                        <div key={index} className="flex items-center space-x-3 text-[#0A2259]">
-                          <div className="w-2 h-2 bg-[#9CAFA2] rounded-full flex-shrink-0"></div>
-                          <span className="text-sm uppercase tracking-wide">{feature}</span>
-                        </div>
-                      ))}
-                    </div>
+                  {/* Description */}
+                  <div className="bg-gradient-to-br from-[#0A2259] to-[#1a3668] rounded-xl md:rounded-2xl p-4 md:p-6 text-white shadow-lg">
+                    <h4 className="text-base md:text-lg font-semibold mb-3 md:mb-4 uppercase tracking-wide">Descripción</h4>
+                    <p className="text-xs md:text-sm leading-relaxed opacity-90">{selectedModel.description}</p>
                   </div>
                 </div>
 
-                {/* Right Side - Images */}
-                <div className="space-y-4">
-                  {/* Main Image */}
-                  <div className="relative rounded-2xl overflow-hidden">
-                    <img
-                      src={selectedModel.images[modalImageIndex]}
-                      alt={`${selectedModel.name} - Vista ${modalImageIndex + 1}`}
-                      className="w-full h-80 object-cover"
-                    />
-                    
-                    {/* Image Navigation */}
-                    {selectedModel.images.length > 1 && (
-                      <>
-                        <button
-                          onClick={prevImage}
-                          className="absolute left-4 top-1/2 transform -translate-y-1/2 p-3 bg-white/90 rounded-full hover:bg-white transition-colors shadow-lg"
-                        >
-                          <ChevronLeft className="w-5 h-5 text-[#0A2259]" />
-                        </button>
-                        <button
-                          onClick={nextImage}
-                          className="absolute right-4 top-1/2 transform -translate-y-1/2 p-3 bg-white/90 rounded-full hover:bg-white transition-colors shadow-lg"
-                        >
-                          <ChevronRight className="w-5 h-5 text-[#0A2259]" />
-                        </button>
-                      </>
+                {/* Right Section - Images and Virtual Tour */}
+                <div className="lg:col-span-2 space-y-4 md:space-y-6">
+                  {/* Main Display Area */}
+                  <div className="relative rounded-xl md:rounded-2xl overflow-hidden bg-gray-100 shadow-lg">
+                    {isVirtualTourSlide() ? (
+                      // Virtual Tour iframe
+                      <div className="relative">
+                        <iframe
+                          src={selectedModel.virtualTour}
+                          className="w-full h-64 md:h-80 lg:h-96 border-0"
+                          allow="vr;gyroscope;accelerometer"
+                          title={`Tour Virtual - Modelo ${selectedModel.name}`}
+                        />
+                        <div className="absolute top-3 md:top-6 left-3 md:left-6 bg-gradient-to-r from-[#0A2259] to-[#1a3668] text-white px-2 md:px-4 py-2 md:py-3 rounded-lg md:rounded-xl shadow-lg">
+                          <div className="flex items-center space-x-1 md:space-x-2">
+                            <Eye className="w-3 h-3 md:w-5 md:h-5" />
+                            <span className="text-xs md:text-sm font-semibold">Recorrido Virtual 360°</span>
+                          </div>
+                        </div>
+                      </div>
+                    ) : (
+                      // Regular Image
+                      <img
+                        src={selectedModel.images[modalImageIndex] || "/placeholder.svg"}
+                        alt={`${selectedModel.name} - Vista ${modalImageIndex + 1}`}
+                        className="w-full h-64 md:h-80 lg:h-96 object-cover"
+                      />
                     )}
+
+                    {/* Image Navigation */}
+                    <button
+                      onClick={prevImage}
+                      className="absolute left-2 md:left-4 top-1/2 transform -translate-y-1/2 p-2 md:p-4 bg-white/95 backdrop-blur-sm rounded-full hover:bg-white transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-110"
+                    >
+                      <ChevronLeft className="w-4 h-4 md:w-6 md:h-6 text-[#0A2259]" />
+                    </button>
+                    <button
+                      onClick={nextImage}
+                      className="absolute right-2 md:right-4 top-1/2 transform -translate-y-1/2 p-2 md:p-4 bg-white/95 backdrop-blur-sm rounded-full hover:bg-white transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-110"
+                    >
+                      <ChevronRight className="w-4 h-4 md:w-6 md:h-6 text-[#0A2259]" />
+                    </button>
+
+                    {/* Image Counter */}
+                    <div className="absolute bottom-2 md:bottom-4 right-2 md:right-4 bg-black/70 backdrop-blur-sm text-white px-2 md:px-3 py-1 rounded-full text-xs md:text-sm">
+                      {isVirtualTourSlide() ? "Tour 360°" : `${modalImageIndex + 1} / ${selectedModel.images.length}`}
+                    </div>
                   </div>
 
                   {/* Thumbnail Gallery */}
-                  {selectedModel.images.length > 1 && (
-                    <div className="grid grid-cols-3 gap-2">
+                  <div className="bg-gray-50 rounded-xl md:rounded-2xl p-3 md:p-4">
+                    <div className="grid grid-cols-4 md:grid-cols-6 gap-2 md:gap-3">
+                      {/* Image Thumbnails */}
                       {selectedModel.images.map((image, index) => (
                         <button
                           key={index}
-                          onClick={() => setModalImageIndex(index)}
-                          className={`relative rounded-lg overflow-hidden ${
-                            index === modalImageIndex 
-                              ? 'ring-2 ring-[#0A2259] ring-offset-2' 
-                              : 'opacity-70 hover:opacity-100'
-                          } transition-all duration-300`}
+                          onClick={() => setImageIndex(index)}
+                          className={`relative rounded-lg md:rounded-xl overflow-hidden transition-all duration-300 ${
+                            index === modalImageIndex && !isVirtualTourSlide()
+                              ? "ring-2 md:ring-3 ring-[#0A2259] ring-offset-1 md:ring-offset-2 scale-105 shadow-lg"
+                              : "opacity-70 hover:opacity-100 hover:scale-105 shadow-md hover:shadow-lg"
+                          }`}
                         >
                           <img
-                            src={image}
+                            src={image || "/placeholder.svg"}
                             alt={`Vista ${index + 1}`}
-                            className="w-full h-20 object-cover"
+                            className="w-full h-12 md:h-16 object-cover"
                           />
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 hover:opacity-100 transition-opacity"></div>
                         </button>
                       ))}
-                    </div>
-                  )}
 
-                  {/* Description */}
-                  <div className="p-6 bg-gradient-to-br from-[#0A2259] to-[#1a3668] rounded-2xl text-white">
-                    <p className="leading-relaxed">
-                      {selectedModel.description}
-                    </p>
+                      {/* Virtual Tour Thumbnail */}
+                      <button
+                        onClick={() => setImageIndex(selectedModel.images.length)}
+                        className={`relative rounded-lg md:rounded-xl overflow-hidden bg-gradient-to-br from-[#0A2259] to-[#1a3668] transition-all duration-300 ${
+                          isVirtualTourSlide()
+                            ? "ring-2 md:ring-3 ring-[#0A2259] ring-offset-1 md:ring-offset-2 scale-105 shadow-lg"
+                            : "opacity-70 hover:opacity-100 hover:scale-105 shadow-md hover:shadow-lg"
+                        }`}
+                      >
+                        <div className="w-full h-12 md:h-16 flex items-center justify-center">
+                          <div className="text-center">
+                            <Eye className="w-4 h-4 md:w-6 md:h-6 text-white mx-auto mb-0.5 md:mb-1" />
+                            <span className="text-xs text-white font-semibold">360°</span>
+                          </div>
+                        </div>
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Features debajo de la galería */}
+                  <div className="bg-white rounded-xl md:rounded-2xl p-4 md:p-6 shadow-lg border border-gray-100">
+                    <h4 className="text-base md:text-lg font-semibold text-[#0A2259] mb-3 md:mb-4 uppercase tracking-wide flex items-center">
+                      <Maximize2 className="w-4 h-4 md:w-5 md:h-5 mr-2" />
+                      Características
+                    </h4>
+                    {/* Features en formato similar a la imagen */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-3">
+                      {selectedModel.features.map((feature, index) => (
+                        <div
+                          key={index}
+                          className="flex items-center space-x-3 p-2 md:p-3 border-b border-gray-200 last:border-b-0"
+                        >
+                          <div className="w-1.5 h-1.5 md:w-2 md:h-2 bg-gradient-to-r from-[#0A2259] to-[#1a3668] rounded-full flex-shrink-0"></div>
+                          <span className="text-xs md:text-sm text-[#0A2259] uppercase tracking-wide font-medium">{feature}</span>
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 </div>
               </div>
@@ -361,9 +457,45 @@ const ModelsSection = ({ modelsRef, visibleSections }) => {
           </div>
         </div>
       )}
+
+      {/* Animation Styles */}
+      <style jsx>{`
+        @keyframes modalIn {
+          0% {
+            opacity: 0;
+            transform: scale(0.95) translateY(30px);
+          }
+          100% {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+          }
+        }
+        
+        .animate-modal-in {
+          animation: modalIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Custom scrollbar */
+        .overflow-y-auto::-webkit-scrollbar {
+          width: 4px;
+        }
+        
+        .overflow-y-auto::-webkit-scrollbar-track {
+          background: #f1f1f1;
+          border-radius: 10px;
+        }
+        
+        .overflow-y-auto::-webkit-scrollbar-thumb {
+          background: #0A2259;
+          border-radius: 10px;
+        }
+        
+        .overflow-y-auto::-webkit-scrollbar-thumb:hover {
+          background: #1a3668;
+        }
+      `}</style>
     </section>
   )
 }
 
 export default ModelsSection
-               

@@ -102,16 +102,6 @@ const ProvenzaHeader = () => {
             >
               <span
                 className={`w-6 h-0.5 ${isScrolled ? 'bg-white' : 'bg-[#0A2259]'} transition-all duration-300 ${
-                  mobileMenuOpen ? "rotate-45 translate-y-1.5" : ""
-                }`}
-              ></span>
-              <span
-                className={`w-6 h-0.5 ${isScrolled ? 'bg-white' : 'bg-[#0A2259]'} transition-all duration-300 ${
-                  mobileMenuOpen ? "opacity-0" : ""
-                }`}
-              ></span>
-              <span
-                className={`w-6 h-0.5 ${isScrolled ? 'bg-white' : 'bg-[#0A2259]'} transition-all duration-300 ${
                   mobileMenuOpen ? "-rotate-45 -translate-y-1.5" : ""
                 }`}
               ></span>
@@ -122,7 +112,7 @@ const ProvenzaHeader = () => {
               {[
                 { name: "UBICACIÓN", key: "location" },
                 { name: "AMENIDADES", key: "gallery" },
-                { name: "MODELOS", key: "details" },
+                { name: "MODELOS", key: "models" },
                 { name: "CONTACTO", key: "footer" }
               ].map((item, index) => (
                 <button
@@ -178,7 +168,7 @@ const ProvenzaHeader = () => {
               {[
                 { name: "UBICACIÓN", key: "location" },
                 { name: "AMENIDADES", key: "gallery" },
-                { name: "MODELOS", key: "details" },
+                { name: "MODELOS", key: "models" },
                 { name: "CONTACTO", key: "footer" }
               ].map((item) => (
                 <button
@@ -259,12 +249,11 @@ const ProvenzaHeader = () => {
         visibleSections={visibleSections}
       />
 
+      {/* Models Section */}
       <ModelsSection 
-        galleryRef={sectionRefs.models}
+        modelsRef={sectionRefs.models}
         visibleSections={visibleSections}
       />
-
-
 
       {/* Footer Section */}
       <FooterSection 
