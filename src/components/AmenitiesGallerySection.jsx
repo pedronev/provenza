@@ -251,6 +251,7 @@ const AmenitiesGallerySection = ({ galleryRef, visibleSections }) => {
           </div>
         </div>
       </div>
+      {/* <iframe src="https://www.theasys.io/viewer/Z815XhW4DBPy3FAwe7J3yQOWjLcyiv"  frameborder="0" scrolling="no" allow="vr;gyroscope;accelerometer" width="1280" height="450" ></iframe> */}
     </section>
   )
 }
