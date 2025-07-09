@@ -12,10 +12,12 @@ import {
   Layers,
   Eye,
   Maximize2,
+  RulerDimensionLineIcon,
 } from "lucide-react";
 import lirio from "../assets/lirio.png";
 import rosa from "../assets/rosa.png";
 import malva from "../assets/malva.png";
+import DimensionsIcon from "../assets/icons/DimensionsIcon";
 const ModelsSection = ({ modelsRef, visibleSections }) => {
   const [selectedModel, setSelectedModel] = useState(null);
   const [modalImageIndex, setModalImageIndex] = useState(0);
@@ -33,9 +35,9 @@ const ModelsSection = ({ modelsRef, visibleSections }) => {
         parking: "2 AUTOS",
         mainImage: rosa,
         images: [
-          "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
-          "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
-          "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
+          "src/assets/rosa.png",
+          "src/assets/Rosa-planta-baja.jpg",
+          "src/assets/Rosa-planta-alta.jpg",
         ],
         virtualTour:
           "https://www.theasys.io/viewer/NIQTizr51Ey9g4ulZuYFm3E4kJaYKX/",
@@ -57,27 +59,27 @@ const ModelsSection = ({ modelsRef, visibleSections }) => {
         area: "169 M2",
         bedrooms: "3",
         bathrooms: "2 1/2",
-        dimensions: "7.50m x 17m",
+        dimensions: "6.70m x 17m",
         levels: "2",
         parking: "2 AUTOS",
         mainImage: lirio,
         images: [
-          "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
-          "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
-          "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
+          "src/assets/lirio.png",
+          "src/assets/Lirio-planta-baja.jpg",
+          "src/assets/Lirio-planta-alta.jpg",
         ],
         virtualTour:
           "https://www.theasys.io/viewer/RsEYESXzzp13Giqkh7DaS66qDROsXK/",
         description:
-          "Elegancia y sofisticación en cada detalle. Un modelo que combina funcionalidad con un diseño contemporáneo excepcional.",
+          "Vive en un entorno donde la naturaleza y la tranquilidad se unen. Este modelo de 2 niveles toma inspiración en la elegante flor que simboliza la pureza y la renovación. Con un balcón en la fachada que adorna la recámara principal, este hogar te invita a experimentar la frescura de la vida en cada rincón.",
         features: [
-          "COMEDOR AMPLIO",
-          "COCINA INTEGRAL",
-          "SALA PRINCIPAL",
-          "TERRAZA TECHADA",
-          "JARDÍN FRONTAL",
-          "ESTUDIO/OFICINA",
-          "MASTER SUITE CON VESTIDOR",
+          "COMEDOR",
+          "COCINA",
+          "SALA",
+          "BALCÓN EN FACHADA",
+          "PASILLO LATERAL",
+          "SALA DE TV / ESTUDIO",
+          "WALK IN CLOSET Y BAÑO COMPLETO EN RECÁMARA PRINCIPAL",
         ],
       },
       {
@@ -86,27 +88,27 @@ const ModelsSection = ({ modelsRef, visibleSections }) => {
         area: "185 M2",
         bedrooms: "3",
         bathrooms: "3 1/2",
-        dimensions: "8.00m x 17m",
+        dimensions: "7.50m x 17.50m",
         levels: "2",
         parking: "2 AUTOS",
         mainImage: malva,
         images: [
-          "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
-          "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
-          "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
+          "src/assets/malva.png",
+          "src/assets/Malva-planta-baja.jpg",
+          "src/assets/Malva-planta-alta.jpg",
         ],
         virtualTour:
           "https://www.theasys.io/viewer/Z815XhW4DBPy3FAwe7J3yQOWjLcyiv/",
         description:
-          "El modelo más amplio y lujoso de nuestra colección. Diseñado para familias que buscan el máximo confort y espacios generosos.",
+          "Sumérgete en la armonía de este modelo de 2 niveles, inspirada en la flor que simboliza la tranquilidad y la creatividad, encontrarás un hogar donde tus ideas puedan florecer y tus momentos sean coloreados con la serenidad que buscas.",
         features: [
-          "COMEDOR DE LUJO",
-          "COCINA GOURMET",
-          "DOBLE SALA",
-          "BALCÓN PANORÁMICO",
-          "PATIO TRASERO",
-          "FAMILY ROOM",
-          "SUITE PRINCIPAL CON JACUZZI",
+          "COMEDOR",
+          "COCINA",
+          "SALA",
+          "BALCÓN EN FACHADA",
+          "PASILLO LATERAL",
+          "ÁREA DE LAVADO EN SEGUNDA PLANTA",
+          "WALK IN CLOSET Y BAÑO COMPLETO EN RECÁMARA PRINCIPAL",
         ],
       },
     ],
@@ -367,18 +369,27 @@ const ModelsSection = ({ modelsRef, visibleSections }) => {
                           {selectedModel.levels}
                         </div>
                       </div>
-                      <div className="bg-white rounded-lg md:rounded-xl p-3 md:p-4 shadow-sm hover:shadow-md transition-shadow duration-200 col-span-2">
-                        <div className="flex items-center justify-center space-x-3 md:space-x-4">
-                          <div className="w-8 h-8 md:w-10 md:h-10 bg-[#0A2259] rounded-full flex items-center justify-center">
-                            <Car className="w-4 h-4 md:w-5 md:h-5 text-white" />
+                      <div className="bg-white rounded-lg md:rounded-xl p-3 md:p-4 shadow-sm hover:shadow-md transition-shadow duration-200">
+                        <div className="w-8 h-8 md:w-10 md:h-10 mx-auto mb-2 md:mb-3 bg-[#0A2259] rounded-full flex items-center justify-center">
+                          <RulerDimensionLineIcon className="w-4 h-4 md:w-5 md:h-5 text-white" />
+                        </div>
+                        <div className="text-xs text-[#0A2259] opacity-70 uppercase tracking-wide text-center">
+                          Medidas
+                        </div>
+                        <div className="text-sm md:text-lg font-bold text-[#0A2259] text-center">
+                          {selectedModel.dimensions}
+                        </div>
+                      </div>
+                      <div className="bg-white rounded-lg md:rounded-xl p-3 md:p-4 shadow-sm hover:shadow-md transition-shadow duration-200">
+                        <div className="w-8 h-8 md:w-10 md:h-10 mx-auto mb-2 md:mb-3 bg-[#0A2259] rounded-full flex items-center justify-center">
+                          <Car className="w-4 h-4 md:w-5 md:h-5 text-white" />
+                        </div>
+                        <div>
+                          <div className="text-xs text-[#0A2259] opacity-70 uppercase tracking-wide text-center">
+                            COCHERA
                           </div>
-                          <div>
-                            <div className="text-xs text-[#0A2259] opacity-70 uppercase tracking-wide">
-                              ESTACIONAMIENTO
-                            </div>
-                            <div className="text-sm md:text-lg font-bold text-[#0A2259]">
-                              {selectedModel.parking}
-                            </div>
+                          <div className="text-sm md:text-lg font-bold text-[#0A2259] text-center">
+                            {selectedModel.parking}
                           </div>
                         </div>
                       </div>

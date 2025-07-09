@@ -1,75 +1,69 @@
-import logoSvg from '../assets/logo.svg'
+import logoProvenza from "../assets/logo_provenza_footer.svg";
+import logoEterna from "../assets/logo_eterna_footer.svg";
 
 const FooterSection = ({ footerRef, visibleSections }) => {
   return (
-    <footer 
+    <footer
       ref={footerRef}
       className={`bg-[#e8e4df] py-12 md:py-14 transition-all duration-1000 ${
-        visibleSections.has('footer') ? 'opacity-100' : 'opacity-0'
+        visibleSections.has("footer") ? "opacity-100" : "opacity-0"
       }`}
     >
       <div className="max-w-6xl mx-auto px-4 md:px-8">
         {/* Main Footer Content */}
-        <div 
+        <div
           className={`transition-all duration-1000 delay-200 ${
-            visibleSections.has('footer') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+            visibleSections.has("footer")
+              ? "opacity-100 translate-y-0"
+              : "opacity-0 translate-y-10"
           }`}
         >
           {/* Top Section - Logos and Company Info */}
-          <div className="grid md:grid-cols-2 gap-8 md:gap-12 mb-4">
-            {/* Left - Provenza Logo and Eternia Info */}
-            <div className="text-center md:text-left">
-              {/* Provenza Logo */}
-              <div className="mb-6">
-                <img
-                  src={logoSvg}
-                  alt="Provenza Logo"
-                  className="h-10 md:h-12 mx-auto md:mx-0 mb-3"
-                />
-                <div className="text-xs tracking-[0.2em] text-[#0A2259] uppercase opacity-70">
-                  RESIDENCIAL
-                </div>
+          <div className="flex flex-col md:flex-row gap-12 md:gap-8 mb-4 items-center md:items-start">
+            {/* Left - Logos, centering, more space */}
+            <div className="flex-1 flex flex-col items-center md:items-center">
+              <img
+                src={logoProvenza}
+                alt="Provenza Logo"
+                className="h-16 md:h-24 mx-auto mb-3"
+                style={{ minHeight: 56 }}
+              />
+              <div className="text-xs tracking-[0.2em] text-[#0A2259] uppercase opacity-70 mb-6">
+                RESIDENCIAL
               </div>
-
-              {/* Project Info */}
-              <div className="mb-6">
-                <div className="text-sm text-[#0A2259] font-medium mb-3 tracking-wide">
+              {/* Línea divisora y texto */}
+              <div className="flex items-center w-full justify-center mb-6">
+                <span className="border-t border-[#0A2259] flex-1 mx-3" />
+                <span className="text-[#0A2259] font-medium text-base md:text-lg px-2">
                   ES UN PROYECTO DE:
-                </div>
-                
-                {/* Eternia Logo */}
-                <div className="flex items-center justify-center md:justify-start space-x-3">
-                  <div className="w-7 h-7 bg-[#2D9B8C] rounded-lg flex items-center justify-center">
-                    <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M12 2L13.09 8.26L19 7L14.74 12L19 17L13.09 15.74L12 22L10.91 15.74L5 17L9.26 12L5 7L10.91 8.26L12 2Z"/>
-                    </svg>
-                  </div>
-                  <div>
-                    <div className="text-xl md:text-2xl font-bold text-[#2D9B8C] tracking-wide">
-                      ETERNIA
-                    </div>
-                    <div className="text-xs tracking-[0.15em] text-[#2D9B8C] uppercase">
-                      DESARROLLOS
-                    </div>
-                  </div>
-                </div>
+                </span>
+                <span className="border-t border-[#0A2259] flex-1 mx-3" />
+              </div>
+              {/* Logo Eterna */}
+              <img
+                src={logoEterna}
+                alt="Eternia Desarrollos Logo"
+                className="h-14 md:h-20 mx-auto"
+                style={{ minHeight: 52 }}
+              />
+              <div className="text-[#2D9B8C] text-xs tracking-[0.15em] font-bold mt-2 mb-2">
+                DESARROLLOS
               </div>
             </div>
-
             {/* Right - Company Description */}
-            <div className="text-center md:text-left">
+            <div className="flex-1 flex flex-col justify-center items-center md:items-start text-center md:text-left">
               <div className="mb-4">
-                <span className="text-[#0A2259] text-base md:text-lg tracking-wide">
+                <span className="text-[#0A2259] text-lg md:text-2xl tracking-wide font-semibold">
                   EN{" "}
-                  <span className="text-[#2D9B8C] font-semibold">
+                  <span className="text-[#2D9B8C] font-bold">
                     ETERNIA DESARROLLOS
                   </span>
-                  <span className="text-xs align-super">®</span>{" "}
-                  LA
+                  <span className="text-xs align-super">®</span>
                 </span>
               </div>
-              <div className="text-[#0A2259] text-base md:text-lg leading-relaxed tracking-wide mb-4">
-                EXPERIENCIA RESPALDA NUESTROS PROYECTOS, CONTAMOS CON MÁS DE 30 AÑOS EN EL GIRO INMOBILIARIO.
+              <div className="text-[#0A2259] text-base md:text-xl leading-relaxed tracking-wide mb-4 font-normal">
+                LA EXPERIENCIA RESPALDA NUESTROS PROYECTOS, CONTAMOS CON MÁS DE
+                30 AÑOS EN EL GIRO INMOBILIARIO.
               </div>
               <div className="text-sm text-[#0A2259] underline cursor-pointer hover:text-[#2D9B8C] transition-colors">
                 AVISO DE PRIVACIDAD
@@ -78,9 +72,11 @@ const FooterSection = ({ footerRef, visibleSections }) => {
           </div>
 
           {/* Contact Information Grid */}
-          <div 
+          <div
             className={`grid md:grid-cols-3 gap-6 md:gap-8 border-t border-[#0A2259]/20 pt-8 transition-all duration-1000 delay-400 ${
-              visibleSections.has('footer') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+              visibleSections.has("footer")
+                ? "opacity-100 translate-y-0"
+                : "opacity-0 translate-y-10"
             }`}
           >
             {/* Address */}
@@ -89,7 +85,8 @@ const FooterSection = ({ footerRef, visibleSections }) => {
                 DIRECCIÓN
               </h4>
               <p className="text-[#0A2259] text-sm leading-relaxed mb-3">
-                ESTADO DE VERACRUZ 1440, LAS QUINTAS, 80060<br />
+                ESTADO DE VERACRUZ 1440, LAS QUINTAS, 80060
+                <br />
                 CULIACÁN ROSALES, SIN.
               </p>
               <div className="text-[#0A2259] text-sm underline cursor-pointer hover:text-[#2D9B8C] transition-colors">
@@ -125,9 +122,9 @@ const FooterSection = ({ footerRef, visibleSections }) => {
           </div>
 
           {/* Bottom Line */}
-          <div 
+          <div
             className={`border-t border-[#0A2259]/20 pt-6 mt-8 text-center transition-all duration-1000 delay-600 ${
-              visibleSections.has('footer') ? 'opacity-100' : 'opacity-0'
+              visibleSections.has("footer") ? "opacity-100" : "opacity-0"
             }`}
           >
             <p className="text-xs text-[#0A2259] opacity-70 tracking-wide">
@@ -136,10 +133,8 @@ const FooterSection = ({ footerRef, visibleSections }) => {
           </div>
         </div>
       </div>
-
-
     </footer>
-  )
-}
+  );
+};
 
-export default FooterSection
+export default FooterSection;

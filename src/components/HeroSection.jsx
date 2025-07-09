@@ -1,6 +1,6 @@
 import { ChevronDown } from "lucide-react";
 import { useState, useEffect } from "react";
-import casas from "../assets/casas.png";
+import casas from "../assets/provenza.jpg";
 const HeroSection = ({ heroRef, visibleSections }) => {
   const [currentWordIndex, setCurrentWordIndex] = useState(0);
   const rotatingWords = ["FELICIDAD", "HOGAR", "CAMINO"];

@@ -107,7 +107,7 @@ const LocationSection = ({ locationRef, visibleSections }) => {
               <div className="relative flex-1">
                 <div className="aspect-[5/2] rounded-2xl overflow-hidden shadow-xl h-full">
                   <img
-                    src="https://images.unsplash.com/photo-1486325212027-8081e485255e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
+                    src="src/assets/casas.png"
                     alt="Vista aérea del desarrollo Provenza"
                     className="w-full h-full object-cover"
                   />
