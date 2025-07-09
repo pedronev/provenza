@@ -103,6 +103,7 @@ const ProvenzaHeader = () => {
       clearTimeout(timeoutId)
       observer.disconnect()
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []) // Sin dependencias para evitar re-renders
 
   return (
