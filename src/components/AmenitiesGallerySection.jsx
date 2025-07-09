@@ -1,5 +1,9 @@
 import { useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight, Play, Pause } from "lucide-react";
+import juegos from "../assets/juegos.jpg";
+import asadores from "../assets/asadores.jpg";
+import infantiles from "../assets/infantiles.jpg";
+import canchas from "../assets/canchas.jpg";
 
 const AmenitiesGallerySection = ({ galleryRef, visibleSections }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -9,7 +13,7 @@ const AmenitiesGallerySection = ({ galleryRef, visibleSections }) => {
   const amenities = [
     {
       id: 1,
-      url: "src/assets/juegos.jpg",
+      url: juegos,
       title: "JUEGOS ESPECIALES PARA BEBÉS",
       subtitle: "Juegos especiales para los más pequeños",
       description:
@@ -17,7 +21,7 @@ const AmenitiesGallerySection = ({ galleryRef, visibleSections }) => {
     },
     {
       id: 2,
-      url: "src/assets/asadores.jpg",
+      url: asadores,
       title: "TERRAZA CON ASADIRES",
       subtitle: "Para tu carnita asada los fines de semana",
       description:
@@ -25,7 +29,7 @@ const AmenitiesGallerySection = ({ galleryRef, visibleSections }) => {
     },
     {
       id: 3,
-      url: "src/assets/infantiles.jpg",
+      url: infantiles,
       title: "JUEGOS INFANTILES",
       subtitle:
         "Espacios seguros, donde tus hijos explorarán y crearán recuerdos para toda la vida.					",
@@ -34,7 +38,7 @@ const AmenitiesGallerySection = ({ galleryRef, visibleSections }) => {
     },
     {
       id: 4,
-      url: "src/assets/canchas.jpg",
+      url: canchas,
       title: "CANCHAS DEPORTIVAS",
       subtitle: "Reunirte con tus amigos para pasar tardes de diversión.",
       description:

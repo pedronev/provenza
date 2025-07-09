@@ -1,4 +1,5 @@
 import { MapPin, Clock, Phone } from "lucide-react";
+import casas from "../assets/casas.png";
 
 const LocationSection = ({ locationRef, visibleSections }) => {
   return (
@@ -107,7 +108,7 @@ const LocationSection = ({ locationRef, visibleSections }) => {
               <div className="relative flex-1">
                 <div className="aspect-[5/2] rounded-2xl overflow-hidden shadow-xl h-full">
                   <img
-                    src="src/assets/casas.png"
+                    src={casas}
                     alt="Vista aérea del desarrollo Provenza"
                     className="w-full h-full object-cover"
                   />

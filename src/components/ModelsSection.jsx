@@ -14,10 +14,19 @@ import {
   Maximize2,
   RulerDimensionLineIcon,
 } from "lucide-react";
+
 import lirio from "../assets/lirio.png";
+import lirioBaja from "../assets/lirio-planta-baja.jpg";
+import lirioAlta from "../assets/lirio-planta-alta.jpg";
+
 import rosa from "../assets/rosa.png";
+import rosaBaja from "../assets/rosa-planta-baja.jpg";
+import rosaAlta from "../assets/rosa-planta-alta.jpg";
+
 import malva from "../assets/malva.png";
-import DimensionsIcon from "../assets/icons/DimensionsIcon";
+import malvaBaja from "../assets/malva-planta-baja.jpg";
+import malvaAlta from "../assets/malva-planta-alta.jpg";
+
 const ModelsSection = ({ modelsRef, visibleSections }) => {
   const [selectedModel, setSelectedModel] = useState(null);
   const [modalImageIndex, setModalImageIndex] = useState(0);
@@ -34,11 +43,7 @@ const ModelsSection = ({ modelsRef, visibleSections }) => {
         levels: "2",
         parking: "2 AUTOS",
         mainImage: rosa,
-        images: [
-          "src/assets/rosa.png",
-          "src/assets/Rosa-planta-baja.jpg",
-          "src/assets/Rosa-planta-alta.jpg",
-        ],
+        images: [rosa, rosaBaja, rosaAlta],
         virtualTour:
           "https://www.theasys.io/viewer/NIQTizr51Ey9g4ulZuYFm3E4kJaYKX/",
         description:
@@ -63,11 +68,7 @@ const ModelsSection = ({ modelsRef, visibleSections }) => {
         levels: "2",
         parking: "2 AUTOS",
         mainImage: lirio,
-        images: [
-          "src/assets/lirio.png",
-          "src/assets/Lirio-planta-baja.jpg",
-          "src/assets/Lirio-planta-alta.jpg",
-        ],
+        images: [lirio, lirioBaja, lirioAlta],
         virtualTour:
           "https://www.theasys.io/viewer/RsEYESXzzp13Giqkh7DaS66qDROsXK/",
         description:
@@ -92,11 +93,7 @@ const ModelsSection = ({ modelsRef, visibleSections }) => {
         levels: "2",
         parking: "2 AUTOS",
         mainImage: malva,
-        images: [
-          "src/assets/malva.png",
-          "src/assets/Malva-planta-baja.jpg",
-          "src/assets/Malva-planta-alta.jpg",
-        ],
+        images: [malva, malvaBaja, malvaAlta],
         virtualTour:
           "https://www.theasys.io/viewer/Z815XhW4DBPy3FAwe7J3yQOWjLcyiv/",
         description:
