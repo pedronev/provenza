@@ -16,16 +16,16 @@ import {
 } from "lucide-react";
 
 import lirio from "../assets/lirio.png";
-import lirioBaja from "../assets/lirio-planta-baja.jpg";
-import lirioAlta from "../assets/lirio-planta-alta.jpg";
+import lirioBaja from "../assets/Lirio-planta-baja.jpg";
+import lirioAlta from "../assets/Lirio-planta-alta.jpg";
 
 import rosa from "../assets/rosa.png";
-import rosaBaja from "../assets/rosa-planta-baja.jpg";
-import rosaAlta from "../assets/rosa-planta-alta.jpg";
+import rosaBaja from "../assets/Rosa-planta-baja.jpg";
+import rosaAlta from "../assets/Rosa-planta-alta.jpg";
 
 import malva from "../assets/malva.png";
-import malvaBaja from "../assets/malva-planta-baja.jpg";
-import malvaAlta from "../assets/malva-planta-alta.jpg";
+import malvaBaja from "../assets/Malva-planta-baja.jpg";
+import malvaAlta from "../assets/Malva-planta-alta.jpg";
 
 const ModelsSection = ({ modelsRef, visibleSections }) => {
   const [selectedModel, setSelectedModel] = useState(null);
