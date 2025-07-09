@@ -1,35 +1,37 @@
-import { ChevronDown } from "lucide-react"
-import { useState, useEffect } from "react"
-
+import { ChevronDown } from "lucide-react";
+import { useState, useEffect } from "react";
+import casas from "../assets/casas.png";
 const HeroSection = ({ heroRef, visibleSections }) => {
-  const [currentWordIndex, setCurrentWordIndex] = useState(0)
-  const rotatingWords = ["FELICIDAD", "HOGAR", "CAMINO"]
+  const [currentWordIndex, setCurrentWordIndex] = useState(0);
+  const rotatingWords = ["FELICIDAD", "HOGAR", "CAMINO"];
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentWordIndex((prev) => (prev + 1) % rotatingWords.length)
-    }, 3000)
-    return () => clearInterval(interval)
-  }, [rotatingWords.length])
+      setCurrentWordIndex((prev) => (prev + 1) % rotatingWords.length);
+    }, 3000);
+    return () => clearInterval(interval);
+  }, [rotatingWords.length]);
 
   return (
-    <div 
+    <div
       ref={heroRef}
       className={`pt-16 md:pt-20 mb-6 flex justify-center transition-all duration-1000 ${
-        visibleSections.has('hero') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+        visibleSections.has("hero")
+          ? "opacity-100 translate-y-0"
+          : "opacity-0 translate-y-10"
       }`}
     >
       <div className="w-[95%] rounded-3xl overflow-hidden bg-[#4B75C3] relative">
         <div className="absolute inset-0 z-0">
           <img
-            src="https://images.unsplash.com/photo-1628624747186-a941c476b7ef?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
+            src={casas}
             alt="Provenza Residencial Development"
             className="w-full h-full object-cover"
           />
           <div className="absolute inset-0 bg-black/15"></div>
         </div>
 
-        <div className="relative z-20 h-full flex flex-col justify-between p-8 md:p-12 min-h-[80vh]">
+        <div className="relative z-20 h-full flex flex-col justify-between p-8 md:p-12 min-h-[60vh]">
           <div className="w-full text-center mt-4">
             <div className="inline-block">
               <div className="text-sm md:text-base font-normal tracking-wider text-white uppercase animate-fade-in-up">
@@ -79,7 +81,10 @@ const HeroSection = ({ heroRef, visibleSections }) => {
                   style={{ color: "#ccc", fontFamily: "Arial, sans-serif" }}
                 >
                   CONOCE NUESTRA{" "}
-                  <span className="font-bold text-white" style={{ letterSpacing: "0.05em" }}>
+                  <span
+                    className="font-bold text-white"
+                    style={{ letterSpacing: "0.05em" }}
+                  >
                     PRIMERA ETAPA
                   </span>
                 </div>
@@ -87,18 +92,22 @@ const HeroSection = ({ heroRef, visibleSections }) => {
 
               <p
                 className="text-xs leading-relaxed text-white/90 font-light"
-                style={{ fontFamily: "Arial, sans-serif", letterSpacing: "0.02em" }}
+                style={{
+                  fontFamily: "Arial, sans-serif",
+                  letterSpacing: "0.02em",
+                }}
               >
-                Lo aquí reflejado no debe considerarse como definitivo, su propósito es meramente ilustrativo. El
-                desarrollador se reserva el derecho a realizar cambios en los materiales, especificaciones y diseño
-                sin previo aviso.
+                Lo aquí reflejado no debe considerarse como definitivo, su
+                propósito es meramente ilustrativo. El desarrollador se reserva
+                el derecho a realizar cambios en los materiales,
+                especificaciones y diseño sin previo aviso.
               </p>
             </div>
           </div>
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default HeroSection
+export default HeroSection;
