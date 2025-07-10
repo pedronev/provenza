@@ -79,7 +79,7 @@ const InfoSection = ({
         >
           <h2
             className="text-3xl md:text-5xl lg:text-6xl font-normal text-[#0A2259] uppercase tracking-wider leading-tight"
-            style={{ fontFamily: "'Times New Roman', serif" }}
+            style={{ fontFamily: "Montserrat, Arial, sans-serif" }}
           >
             UN DESARROLLO DE 5 ETAPAS HECHO
           </h2>
@@ -96,7 +96,7 @@ const InfoSection = ({
         >
           <p
             className="text-xl md:text-3xl lg:text-4xl font-normal text-[#0A2259] uppercase tracking-wide leading-relaxed max-w-5xl mx-auto"
-            style={{ fontFamily: "'Times New Roman', serif" }}
+            style={{ fontFamily: "Montserrat, Arial, sans-serif" }}
           >
             ESPECIALMENTE PARA TI, EN DONDE LA ARMONÍA Y SERENIDAD HACEN UN
             AMBIENTE ÚNICO.

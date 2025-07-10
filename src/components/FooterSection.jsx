@@ -28,9 +28,6 @@ const FooterSection = ({ footerRef, visibleSections }) => {
                 className="h-16 md:h-24 mx-auto mb-3"
                 style={{ minHeight: 56 }}
               />
-              <div className="text-xs tracking-[0.2em] text-[#0A2259] uppercase opacity-70 mb-6">
-                RESIDENCIAL
-              </div>
               {/* Línea divisora y texto */}
               <div className="flex items-center w-full justify-center mb-6">
                 <span className="border-t border-[#0A2259] flex-1 mx-3" />
@@ -42,13 +39,10 @@ const FooterSection = ({ footerRef, visibleSections }) => {
               {/* Logo Eterna */}
               <img
                 src={logoEterna}
-                alt="Eternia Desarrollos Logo"
+                alt="Eterna Desarrollos Logo"
                 className="h-14 md:h-20 mx-auto"
                 style={{ minHeight: 52 }}
               />
-              <div className="text-[#2D9B8C] text-xs tracking-[0.15em] font-bold mt-2 mb-2">
-                DESARROLLOS
-              </div>
             </div>
             {/* Right - Company Description */}
             <div className="flex-1 flex flex-col justify-center items-center md:items-start text-center md:text-left">
@@ -56,7 +50,7 @@ const FooterSection = ({ footerRef, visibleSections }) => {
                 <span className="text-[#0A2259] text-lg md:text-2xl tracking-wide font-semibold">
                   EN{" "}
                   <span className="text-[#2D9B8C] font-bold">
-                    ETERNIA DESARROLLOS
+                    ETERNA DESARROLLOS
                   </span>
                   <span className="text-xs align-super">®</span>
                 </span>

@@ -3,6 +3,7 @@
 import { Facebook, Instagram } from "lucide-react";
 import { useState, useEffect, useRef, lazy, Suspense } from "react";
 import logoSvg from "../assets/logo.svg";
+// Importamos el componente personalizado TikTokIcon
 
 // Import components
 import HeroSection from "./HeroSection";
@@ -16,6 +17,7 @@ import ModelsSection from "./ModelsSection";
 import lirio from "../assets/lirio.png";
 import rosa from "../assets/rosa.png";
 import malva from "../assets/malva.png";
+import TikTokIcon from "../assets/icons/TikTokIcon";
 // Lazy load del componente de demos
 const DiscountBannersShowcase = lazy(() => import("./DiscountBannersShowcase"));
 
@@ -234,7 +236,7 @@ const ProvenzaHeader = () => {
               ))}
             </nav>
 
-            {/* Social Icons with hover animation */}
+            {/* Social Icons with hover animation - AQUÍ AGREGAMOS TIKTOK */}
             <div className="hidden md:flex items-center space-x-2">
               <a
                 href="https://www.facebook.com/provenzaculiacan"
@@ -255,6 +257,19 @@ const ProvenzaHeader = () => {
                 className="w-8 h-8 rounded-none flex items-center justify-center hover:scale-110 transition-all duration-300"
               >
                 <Instagram
+                  className={`w-8 h-8 transition-colors duration-300 ${
+                    isScrolled
+                      ? "text-white hover:text-[#9CAFA2]"
+                      : "text-blue-950"
+                  }`}
+                />
+              </a>
+              <a
+                href="https://www.tiktok.com/@provenzaculiacan"
+                target="_blank"
+                className="w-8 h-8 rounded-none flex items-center justify-center hover:scale-110 transition-all duration-300"
+              >
+                <TikTokIcon
                   className={`w-8 h-8 transition-colors duration-300 ${
                     isScrolled
                       ? "text-white hover:text-[#9CAFA2]"
@@ -299,9 +314,11 @@ const ProvenzaHeader = () => {
                 </button>
               ))}
 
+              {/* Íconos sociales para móvil - TAMBIÉN ACTUALIZAMOS AQUÍ */}
               <div className="flex items-center space-x-3 pt-4">
                 <a
-                  href="#"
+                  href="https://www.facebook.com/provenzaculiacan"
+                  target="_blank"
                   className={`w-8 h-8 rounded-none flex items-center justify-center transition-colors ${
                     isScrolled
                       ? "bg-white/20 hover:bg-white/30"
@@ -315,7 +332,8 @@ const ProvenzaHeader = () => {
                   />
                 </a>
                 <a
-                  href="#"
+                  href="https://www.instagram.com/provenzaculiacan/"
+                  target="_blank"
                   className={`w-8 h-8 rounded-none flex items-center justify-center transition-colors ${
                     isScrolled
                       ? "bg-white/20 hover:bg-white/30"
@@ -323,6 +341,21 @@ const ProvenzaHeader = () => {
                   }`}
                 >
                   <Instagram
+                    className={`w-4 h-4 ${
+                      isScrolled ? "text-white" : "text-white"
+                    }`}
+                  />
+                </a>
+                <a
+                  href="https://www.tiktok.com/@provenzaculiacan"
+                  target="_blank"
+                  className={`w-8 h-8 rounded-none flex items-center justify-center transition-colors ${
+                    isScrolled
+                      ? "bg-white/20 hover:bg-white/30"
+                      : "bg-[#0A2259] hover:bg-blue-800"
+                  }`}
+                >
+                  <TikTokIcon
                     className={`w-4 h-4 ${
                       isScrolled ? "text-white" : "text-white"
                     }`}

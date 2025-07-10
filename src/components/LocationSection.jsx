@@ -20,7 +20,7 @@ const LocationSection = ({ locationRef, visibleSections }) => {
         >
           <h2
             className="text-4xl md:text-6xl lg:text-7xl font-normal text-[#0A2259] uppercase tracking-wider leading-tight mb-6"
-            style={{ fontFamily: "'Times New Roman', serif" }}
+            style={{ fontFamily: "Montserrat, Arial, sans-serif" }}
           >
             DESCUBRE TU CAMINO
           </h2>

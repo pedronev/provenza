@@ -176,7 +176,7 @@ const ModelsSection = ({ modelsRef, visibleSections }) => {
           >
             <h2
               className="text-4xl md:text-6xl lg:text-7xl font-normal text-[#0A2259] uppercase tracking-wider leading-tight mb-6"
-              style={{ fontFamily: "'Times New Roman', serif" }}
+              style={{ fontFamily: "Montserrat, Arial, sans-serif" }}
             >
               NUESTROS MODELOS
             </h2>
@@ -210,7 +210,7 @@ const ModelsSection = ({ modelsRef, visibleSections }) => {
                   </span>
                   <h3
                     className="text-3xl md:text-4xl font-normal text-[#0A2259] uppercase tracking-wider mt-1"
-                    style={{ fontFamily: "'Times New Roman', serif" }}
+                    style={{ fontFamily: "Montserrat, Arial, sans-serif" }}
                   >
                     {model.name}
                   </h3>
@@ -297,7 +297,7 @@ const ModelsSection = ({ modelsRef, visibleSections }) => {
                   </span>
                   <h3
                     className="text-2xl md:text-3xl lg:text-4xl font-normal uppercase tracking-wider"
-                    style={{ fontFamily: "'Times New Roman', serif" }}
+                    style={{ fontFamily: "Montserrat, Arial, sans-serif" }}
                   >
                     {selectedModel.name}
                   </h3>

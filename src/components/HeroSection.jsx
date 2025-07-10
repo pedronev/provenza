@@ -1,9 +1,9 @@
 import { ChevronDown } from "lucide-react";
 import { useState, useEffect } from "react";
-import casas from "../assets/provenza.jpg";
+import casas from "../assets/casas.png";
 const HeroSection = ({ heroRef, visibleSections }) => {
   const [currentWordIndex, setCurrentWordIndex] = useState(0);
-  const rotatingWords = ["FELICIDAD", "HOGAR", "CAMINO"];
+  const rotatingWords = ["TU FELICIDAD", "TU HOGAR", "TU CAMINO"];
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -27,6 +27,7 @@ const HeroSection = ({ heroRef, visibleSections }) => {
             src={casas}
             alt="Provenza Residencial Development"
             className="w-full h-full object-cover"
+            style={{ objectPosition: "center 80%" }}
           />
           <div className="absolute inset-0 bg-black/15"></div>
         </div>
@@ -43,26 +44,25 @@ const HeroSection = ({ heroRef, visibleSections }) => {
             </div>
           </div>
 
-          <div className="flex-1 flex flex-col justify-end mb-20">
+          <div className="flex-1 flex flex-col justify-center mb-14 md:mb-24">
             <div className="text-left">
               <div
-                className="text-7xl sm:text-8xl md:text-9xl font-normal text-white uppercase tracking-wider animate-fade-in-up animation-delay-400"
+                className="text-5xl sm:text-7xl md:text-9xl font-normal text-white uppercase tracking-wider animate-fade-in-up animation-delay-400"
                 style={{
-                  fontFamily: "'Times New Roman', serif",
+                  fontFamily: "Montserrat, Arial, sans-serif",
                   textShadow: "1px 1px 3px rgba(0,0,0,0.2)",
                 }}
               >
-                CERCA DE TU
+                CERCA DE
               </div>
 
-              <div className="relative h-24 sm:h-28 md:h-36 mt-0 overflow-hidden">
+              <div className="relative h-20 sm:h-24 md:h-36 mt-0 overflow-hidden">
                 <div className="absolute inset-0 flex items-start justify-start">
                   <div
                     key={currentWordIndex}
-                    className="font-normal text-7xl sm:text-8xl md:text-9xl tracking-wider uppercase animate-word-bounce"
+                    className="font-bold text-5xl sm:text-7xl md:text-9xl tracking-wider uppercase animate-word-bounce text-white"
                     style={{
-                      fontFamily: "'Times New Roman', serif",
-                      color: "#b8c0b1",
+                      fontFamily: "Montserrat, Arial, sans-serif",
                       textShadow: "1px 1px 3px rgba(0,0,0,0.2)",
                     }}
                   >
@@ -73,37 +73,38 @@ const HeroSection = ({ heroRef, visibleSections }) => {
             </div>
           </div>
 
-          <div className="mb-6 max-w-md animate-fade-in-up animation-delay-600">
+          <div className="mb-3 animate-fade-in-up animation-delay-600">
             <div className="text-white">
-              <div className="mb-3">
-                <div
-                  className="text-base tracking-wide uppercase"
-                  style={{ color: "#ccc", fontFamily: "Arial, sans-serif" }}
-                >
-                  CONOCE NUESTRA{" "}
-                  <span
-                    className="font-bold text-white"
-                    style={{ letterSpacing: "0.05em" }}
-                  >
-                    PRIMERA ETAPA
-                  </span>
-                </div>
-              </div>
-
-              <p
-                className="text-xs leading-relaxed text-white/90 font-light"
-                style={{
-                  fontFamily: "Arial, sans-serif",
-                  letterSpacing: "0.02em",
-                }}
+              <div
+                className="text-xl md:text-2xl tracking-wide uppercase"
+                style={{ color: "#ccc", fontFamily: "Arial, sans-serif" }}
               >
-                Lo aquí reflejado no debe considerarse como definitivo, su
-                propósito es meramente ilustrativo. El desarrollador se reserva
-                el derecho a realizar cambios en los materiales,
-                especificaciones y diseño sin previo aviso.
-              </p>
+                CONOCE NUESTRA{" "}
+                <span
+                  className="font-bold text-white"
+                  style={{ letterSpacing: "0.05em" }}
+                >
+                  PRIMERA ETAPA
+                </span>
+              </div>
             </div>
           </div>
+        </div>
+
+        {/* Disclaimer text centered at the bottom as a single line */}
+        <div className="absolute bottom-0 left-0 right-0 z-30 text-center px-8 pb-4">
+          <p
+            className="text-xs md:text-sm leading-relaxed text-white/90 font-light mx-auto max-w-full whitespace-nowrap overflow-hidden text-ellipsis"
+            style={{
+              fontFamily: "Arial, sans-serif",
+              letterSpacing: "0.02em",
+            }}
+          >
+            Lo aquí reflejado no debe considerarse como definitivo, su propósito
+            es meramente ilustrativo. El desarrollador se reserva el derecho a
+            realizar cambios en los materiales, especificaciones y diseño sin
+            previo aviso.
+          </p>
         </div>
       </div>
     </div>

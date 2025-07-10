@@ -22,7 +22,7 @@ const AmenitiesGallerySection = ({ galleryRef, visibleSections }) => {
     {
       id: 2,
       url: asadores,
-      title: "TERRAZA CON ASADIRES",
+      title: "TERRAZA CON ASADORES",
       subtitle: "Para tu carnita asada los fines de semana",
       description:
         "Disfruta de una terraza con asadores y parrillas para disfrutar de la comida asada en la tarde.",
@@ -74,7 +74,7 @@ const AmenitiesGallerySection = ({ galleryRef, visibleSections }) => {
         >
           <h2
             className="text-4xl md:text-6xl lg:text-7xl font-normal text-white uppercase tracking-wider leading-tight mb-5"
-            style={{ fontFamily: "'Times New Roman', serif" }}
+            style={{ fontFamily: "Montserrat, Arial, sans-serif" }}
           >
             DESCUBRE TU FELICIDAD
           </h2>
@@ -195,7 +195,7 @@ const AmenitiesGallerySection = ({ galleryRef, visibleSections }) => {
 
                       <h3
                         className="text-3xl md:text-4xl lg:text-5xl font-normal text-white uppercase tracking-wider leading-tight mb-4"
-                        style={{ fontFamily: "'Times New Roman', serif" }}
+                        style={{ fontFamily: "Montserrat, Arial, sans-serif" }}
                       >
                         {amenity.title}
                       </h3>
