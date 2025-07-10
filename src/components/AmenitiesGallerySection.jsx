@@ -16,6 +16,7 @@ const AmenitiesGallerySection = ({ galleryRef, visibleSections }) => {
       url: juegos,
       title: "JUEGOS ESPECIALES PARA BEBÉS",
       subtitle: "Juegos especiales para los más pequeños",
+      position: "70%",
       description:
         "Área dedicada especialmente para el entretenimiento y desarrollo de los bebés y niños pequeños.",
     },
@@ -23,6 +24,7 @@ const AmenitiesGallerySection = ({ galleryRef, visibleSections }) => {
       id: 2,
       url: asadores,
       title: "TERRAZA CON ASADORES",
+      position: "90%",
       subtitle: "Para tu carnita asada los fines de semana",
       description:
         "Disfruta de una terraza con asadores y parrillas para disfrutar de la comida asada en la tarde.",
@@ -30,6 +32,7 @@ const AmenitiesGallerySection = ({ galleryRef, visibleSections }) => {
     {
       id: 3,
       url: infantiles,
+      position: "40%",
       title: "JUEGOS INFANTILES",
       subtitle:
         "Espacios seguros, donde tus hijos explorarán y crearán recuerdos para toda la vida.					",
@@ -39,6 +42,7 @@ const AmenitiesGallerySection = ({ galleryRef, visibleSections }) => {
     {
       id: 4,
       url: canchas,
+      position: "60%",
       title: "CANCHAS DEPORTIVAS",
       subtitle: "Reunirte con tus amigos para pasar tardes de diversión.",
       description:
@@ -160,6 +164,7 @@ const AmenitiesGallerySection = ({ galleryRef, visibleSections }) => {
                 <img
                   src={amenity.url}
                   alt={amenity.title}
+                  style={{ objectPosition: "center " + amenity.position }}
                   className="w-full h-full object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
