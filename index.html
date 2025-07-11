@@ -1,106 +1,19 @@
-<!-- En tu public/index.html o usando React Helmet -->
 <!DOCTYPE html>
-<html lang="es-MX">
+<html lang="en">
   <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-
-    <!-- SEO Básico -->
-    <title>
-      Provenza - Desarrollos Residenciales | Casas Rosa, Lirio y Malva
-    </title>
-    <meta
-      name="description"
-      content="Descubre Provenza, desarrollos residenciales con modelos Rosa, Lirio y Malva. Casas de 2 niveles con recorridos virtuales 360°, desde 155m² hasta 185m². Tours virtuales disponibles."
-    />
-    <meta
-      name="keywords"
-      content="casas en venta, desarrollos residenciales, Provenza, modelo Rosa, modelo Lirio, modelo Malva, casas de lujo, inmobiliaria, tour virtual 360, casas 2 niveles"
-    />
-    <meta name="author" content="Provenza Desarrollos" />
-
-    <!-- Open Graph (Facebook, WhatsApp) -->
-    <meta property="og:type" content="website" />
-    <meta
-      property="og:title"
-      content="Provenza - Desarrollos Residenciales de Lujo"
-    />
-    <meta
-      property="og:description"
-      content="Descubre nuestros modelos Rosa, Lirio y Malva. Casas de 2 niveles con tours virtuales 360°."
-    />
-    <!-- <meta
-      property="og:image"
-      content="https://provenzaresidencial.mx//assets/provenza-preview.jpg"
-    /> -->
-    <!-- <meta property="og:url" content="https://provenzaresidencial.mx/" /> -->
-    <meta property="og:site_name" content="Provenza Desarrollos" />
-    <meta property="og:locale" content="es_MX" />
-
-    <!-- Twitter Cards -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta
-      name="twitter:title"
-      content="Provenza - Desarrollos Residenciales de Lujo"
-    />
-    <meta
-      name="twitter:description"
-      content="Descubre nuestros modelos Rosa, Lirio y Malva. Tours virtuales 360° disponibles."
-    />
-    <!-- <meta
-      name="twitter:image"
-      content="https://provenzaresidencial.mx/assets/provenza-preview.jpg"
-    /> -->
-
-    <!-- Geo Tags (si es relevante) -->
-    <meta name="geo.region" content="MX-SIN" />
-    <meta name="geo.placename" content="Sinaloa, México" />
-
-    <!-- Robots -->
-    <meta name="robots" content="index, follow" />
-
-    <!-- Favicon -->
+    <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="src/assets/icon.svg" />
-
-    <!-- Preconnect para recursos externos -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="preconnect" href="https://www.theasys.io" />
-
-    <!-- Schema.org JSON-LD -->
-    <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@type": "RealEstateAgent",
-        "name": "Provenza Desarrollos",
-        "description": "Desarrollos residenciales de lujo con modelos Rosa, Lirio y Malva",
-        <!-- "url": "https://provenzaresidencial.mx/", -->
-        "address": {
-          "@type": "PostalAddress",
-          "addressRegion": "Sinaloa",
-          "addressCountry": "MX"
-        },
-        "offers": [
-          {
-            "@type": "Product",
-            "name": "Modelo Rosa",
-            "description": "Casa de 155m², 3 recámaras, 2.5 baños, 2 niveles",
-            "category": "Casa Residencial"
-          },
-          {
-            "@type": "Product",
-            "name": "Modelo Lirio",
-            "description": "Casa de 169m², 3 recámaras, 2.5 baños, 2 niveles",
-            "category": "Casa Residencial"
-          },
-          {
-            "@type": "Product",
-            "name": "Modelo Malva",
-            "description": "Casa de 185m², 3 recámaras, 3.5 baños, 2 niveles",
-            "category": "Casa Residencial"
-          }
-        ]
-      }
-    </script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap"
+      rel="stylesheet"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Eliminamos la línea que importa App.css directamente, lo importaremos en los componentes React -->
+    <title>Provenza Residencial</title>
   </head>
+
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
 </html>
