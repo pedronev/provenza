@@ -3,9 +3,8 @@ const WhatsAppButton = () => {
 
   // Mensaje personalizado que hace referencia a la página web
   const message = encodeURIComponent(
-    `¡Hola! 👋 Me interesa conocer más información sobre las casas en Provenza. ` +
-      `Vi las promociones especiales en su página web y me gustaría saber más detalles sobre los modelos disponibles y precios. ` +
-      `¿Podrían ayudarme con información sobre financiamiento y disponibilidad? 🏠✨`
+    `¡Hola! 👋 ` +
+      `Vengo desde su sitio web y me gustaría más información sobre Provenza Residencial 🏠✨`
   );
 
   // URL de WhatsApp con número y mensaje

@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import casas from "../assets/casas.png";
 const HeroSection = ({ heroRef, visibleSections }) => {
   const [currentWordIndex, setCurrentWordIndex] = useState(0);
-  const rotatingWords = ["TU FELICIDAD", "TU HOGAR", "TU CAMINO"];
+  const rotatingWords = ["TU FELICIDAD", "TU HOGAR", "TU CAMINO", "TODO"];
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -76,8 +76,8 @@ const HeroSection = ({ heroRef, visibleSections }) => {
           <div className="mb-3 animate-fade-in-up animation-delay-600">
             <div className="text-white">
               <div
-                className="text-xl md:text-2xl tracking-wide uppercase"
-                style={{ color: "#ccc", fontFamily: "Arial, sans-serif" }}
+                className="text-xl md:text-2xl tracking-wide uppercase text-white"
+                style={{ fontFamily: "Arial, sans-serif" }}
               >
                 CONOCE NUESTRA{" "}
                 <span

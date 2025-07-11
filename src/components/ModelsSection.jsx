@@ -1,6 +1,4 @@
-"use client";
-
-import { useState, useCallback, useMemo } from "react";
+import { useState, useCallback, useMemo, useEffect } from "react";
 import {
   X,
   ChevronLeft,
@@ -13,6 +11,7 @@ import {
   Eye,
   Maximize2,
   RulerDimensionLineIcon,
+  Maximize,
 } from "lucide-react";
 
 import lirio from "../assets/lirio.png";
@@ -30,6 +29,113 @@ import malvaAlta from "../assets/Malva-planta-alta.jpg";
 const ModelsSection = ({ modelsRef, visibleSections }) => {
   const [selectedModel, setSelectedModel] = useState(null);
   const [modalImageIndex, setModalImageIndex] = useState(0);
+  const [images, setImages] = useState({
+    lirio: [],
+    malva: [],
+    rosa: [],
+  });
+  const [isFullscreen, setIsFullscreen] = useState(false);
+  const closeModal = useCallback(() => {
+    setSelectedModel(null);
+    setModalImageIndex(0);
+    // Restaurar scroll del body
+    document.body.style.overflow = "unset";
+  }, []);
+
+  const handleModalBackdropClick = useCallback(
+    (e) => {
+      if (e.target === e.currentTarget) {
+        closeModal();
+      }
+    },
+    [closeModal]
+  );
+  // Agregar estas funciones
+  const openFullscreen = useCallback(() => {
+    setIsFullscreen(true);
+    document.body.style.overflow = "hidden";
+  }, []);
+
+  const closeFullscreen = useCallback(() => {
+    setIsFullscreen(false);
+  }, []);
+
+  const handleFullscreenBackdrop = useCallback(
+    (e) => {
+      if (e.target === e.currentTarget) {
+        closeFullscreen();
+      }
+    },
+    [closeFullscreen]
+  );
+
+  useEffect(() => {
+    const loadImages = async () => {
+      // Función para cargar imágenes de una carpeta
+      const loadFolderImages = async (folderName) => {
+        const imageModules = await Promise.all([
+          // Lirio
+          ...(folderName === "lirio"
+            ? [
+                import("../assets/lirio/Bano-principal.jpg"),
+                import("../assets/lirio/Closet-principal.jpg"),
+                import("../assets/lirio/Closet-Recamara-2.jpg"),
+                import("../assets/lirio/Cocina.jpg"),
+                import("../assets/lirio/Estudio.jpg"),
+                import("../assets/lirio/Recamara-2.jpg"),
+                import("../assets/lirio/Sala-comedor-min.jpg"),
+                import("../assets/lirio/Sala-comedor.jpg"),
+              ]
+            : []),
+          // Malva
+          ...(folderName === "malva"
+            ? [
+                import("../assets/malva/Area-lavado.jpg"),
+                import("../assets/malva/Bano-recamara-principal.jpg"),
+                import("../assets/malva/Recamara-Closet.jpg"),
+                import("../assets/malva/Recamara-Closet3.jpg"),
+                import("../assets/malva/Recamara-gamer.jpg"),
+                import("../assets/malva/Recamara-principal.jpg"),
+                import("../assets/malva/Recamara3.jpg"),
+                import("../assets/malva/Recibidor-y-Escaleras.jpg"),
+                import("../assets/malva/Sala-Comedor-Cocina.jpg"),
+                import("../assets/malva/Terraza.jpg"),
+                import("../assets/malva/Vestidor-horizontal.jpg"),
+              ]
+            : []),
+          // Rosa
+          ...(folderName === "rosa"
+            ? [
+                import("../assets/rosa/Bano-planta-alta.jpg"),
+                import("../assets/rosa/Closet-recamara2.jpg"),
+                import("../assets/rosa/Comedor-Cocina.jpg"),
+                import("../assets/rosa/Comedor-y-Escaleras.jpg"),
+                import("../assets/rosa/Medio-bano.jpg"),
+                import("../assets/rosa/Recamara-principal.jpg"),
+                import("../assets/rosa/recamara.jpg"),
+                import("../assets/rosa/recamara3.jpg"),
+                import("../assets/rosa/Sala-TV.jpg"),
+                import("../assets/rosa/Vestidor-principal.jpg"),
+              ]
+            : []),
+        ]);
+
+        return imageModules.map((module) => module.default);
+      };
+
+      const lirioImages = await loadFolderImages("lirio");
+      const malvaImages = await loadFolderImages("malva");
+      const rosaImages = await loadFolderImages("rosa");
+
+      setImages({
+        lirio: lirioImages,
+        malva: malvaImages,
+        rosa: rosaImages,
+      });
+    };
+
+    loadImages();
+  }, []);
 
   const models = useMemo(
     () => [
@@ -43,7 +149,7 @@ const ModelsSection = ({ modelsRef, visibleSections }) => {
         levels: "2",
         parking: "2 AUTOS",
         mainImage: rosa,
-        images: [rosa, rosaBaja, rosaAlta],
+        images: [rosa, rosaBaja, rosaAlta, ...images.rosa],
         virtualTour:
           "https://www.theasys.io/viewer/NIQTizr51Ey9g4ulZuYFm3E4kJaYKX/",
         description:
@@ -68,7 +174,7 @@ const ModelsSection = ({ modelsRef, visibleSections }) => {
         levels: "2",
         parking: "2 AUTOS",
         mainImage: lirio,
-        images: [lirio, lirioBaja, lirioAlta],
+        images: [lirio, lirioBaja, lirioAlta, ...images.lirio],
         virtualTour:
           "https://www.theasys.io/viewer/RsEYESXzzp13Giqkh7DaS66qDROsXK/",
         description:
@@ -93,7 +199,7 @@ const ModelsSection = ({ modelsRef, visibleSections }) => {
         levels: "2",
         parking: "2 AUTOS",
         mainImage: malva,
-        images: [malva, malvaBaja, malvaAlta],
+        images: [malva, malvaBaja, malvaAlta, ...images.malva],
         virtualTour:
           "https://www.theasys.io/viewer/Z815XhW4DBPy3FAwe7J3yQOWjLcyiv/",
         description:
@@ -109,7 +215,7 @@ const ModelsSection = ({ modelsRef, visibleSections }) => {
         ],
       },
     ],
-    []
+    [images]
   );
 
   const openModal = useCallback((model) => {
@@ -118,22 +224,6 @@ const ModelsSection = ({ modelsRef, visibleSections }) => {
     // Prevenir scroll del body
     document.body.style.overflow = "hidden";
   }, []);
-
-  const closeModal = useCallback(() => {
-    setSelectedModel(null);
-    setModalImageIndex(0);
-    // Restaurar scroll del body
-    document.body.style.overflow = "unset";
-  }, []);
-
-  const handleModalBackdropClick = useCallback(
-    (e) => {
-      if (e.target === e.currentTarget) {
-        closeModal();
-      }
-    },
-    [closeModal]
-  );
 
   const nextImage = useCallback(() => {
     if (selectedModel) {
@@ -156,7 +246,35 @@ const ModelsSection = ({ modelsRef, visibleSections }) => {
   const isVirtualTourSlide = useMemo(() => {
     return selectedModel && modalImageIndex === selectedModel.images.length;
   }, [selectedModel, modalImageIndex]);
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === "Escape") {
+        if (isFullscreen) {
+          closeFullscreen();
+        } else if (selectedModel) {
+          closeModal();
+        }
+      }
+      if (isFullscreen || selectedModel) {
+        if (e.key === "ArrowLeft") {
+          prevImage();
+        }
+        if (e.key === "ArrowRight") {
+          nextImage();
+        }
+      }
+    };
 
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [
+    isFullscreen,
+    selectedModel,
+    closeFullscreen,
+    closeModal,
+    prevImage,
+    nextImage,
+  ]);
   return (
     <>
       <section
@@ -223,6 +341,7 @@ const ModelsSection = ({ modelsRef, visibleSections }) => {
                     alt={`Modelo ${model.name}`}
                     className="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-105"
                     loading="lazy"
+                    decoding="async"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                   {/* Virtual Tour Badge */}
@@ -428,17 +547,30 @@ const ModelsSection = ({ modelsRef, visibleSections }) => {
                       </div>
                     ) : (
                       // Regular Image
-                      <img
-                        src={
-                          selectedModel.images[modalImageIndex] ||
-                          "/placeholder.svg"
-                        }
-                        alt={`${selectedModel.name} - Vista ${
-                          modalImageIndex + 1
-                        }`}
-                        className="w-full h-64 md:h-80 lg:h-96 object-cover"
-                        loading="lazy"
-                      />
+                      <div className="relative">
+                        <img
+                          src={
+                            selectedModel.images[modalImageIndex] ||
+                            "/placeholder.svg"
+                          }
+                          alt={`${selectedModel.name} - Vista ${
+                            modalImageIndex + 1
+                          }`}
+                          className="w-full h-64 md:h-80 lg:h-96 object-cover cursor-pointer"
+                          loading="lazy"
+                          decoding="async"
+                          onClick={openFullscreen} // ✅ Click para pantalla completa
+                        />
+
+                        {/* ✅ Botón de pantalla completa */}
+                        <button
+                          onClick={openFullscreen}
+                          className="absolute top-3 md:top-4 right-3 md:right-4 p-2 md:p-3 bg-black/70 hover:bg-black/90 rounded-lg md:rounded-xl transition-all duration-200 shadow-lg hover:shadow-xl group"
+                          title="Ver en pantalla completa"
+                        >
+                          <Maximize className="w-4 h-4 md:w-5 md:h-5 text-white group-hover:scale-110 transition-transform" />
+                        </button>
+                      </div>
                     )}
 
                     {/* Image Navigation */}
@@ -487,6 +619,7 @@ const ModelsSection = ({ modelsRef, visibleSections }) => {
                             alt={`Vista ${index + 1}`}
                             className="w-full h-12 md:h-16 object-cover"
                             loading="lazy"
+                            decoding="async"
                           />
                         </button>
                       ))}
@@ -534,6 +667,64 @@ const ModelsSection = ({ modelsRef, visibleSections }) => {
                       ))}
                     </div>
                   </div>
+                  {/* Modal de Pantalla Completa */}
+                  {isFullscreen && !isVirtualTourSlide && (
+                    <div
+                      className="fixed inset-0 bg-black z-[60] flex items-center justify-center"
+                      onClick={handleFullscreenBackdrop}
+                    >
+                      {/* Imagen en pantalla completa */}
+                      <img
+                        src={
+                          selectedModel.images[modalImageIndex] ||
+                          "/placeholder.svg"
+                        }
+                        alt={`${selectedModel.name} - Vista ${
+                          modalImageIndex + 1
+                        }`}
+                        className="max-w-[95vw] max-h-[95vh] object-contain"
+                        loading="lazy"
+                        decoding="async"
+                      />
+
+                      {/* Botón cerrar */}
+                      <button
+                        onClick={closeFullscreen}
+                        className="absolute top-4 right-4 p-3 bg-black/70 hover:bg-black/90 rounded-full transition-all duration-200"
+                      >
+                        <X className="w-6 h-6 text-white" />
+                      </button>
+
+                      {/* Navegación en pantalla completa */}
+                      <button
+                        onClick={prevImage}
+                        className="absolute left-4 top-1/2 transform -translate-y-1/2 p-4 bg-black/70 hover:bg-black/90 rounded-full transition-all duration-200"
+                      >
+                        <ChevronLeft className="w-8 h-8 text-white" />
+                      </button>
+                      <button
+                        onClick={nextImage}
+                        className="absolute right-4 top-1/2 transform -translate-y-1/2 p-4 bg-black/70 hover:bg-black/90 rounded-full transition-all duration-200"
+                      >
+                        <ChevronRight className="w-8 h-8 text-white" />
+                      </button>
+
+                      {/* Info de la imagen */}
+                      <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-black/70 text-white px-4 py-2 rounded-full">
+                        <span className="text-sm font-medium">
+                          {selectedModel.name} - {modalImageIndex + 1} de{" "}
+                          {selectedModel.images.length}
+                        </span>
+                      </div>
+
+                      {/* Hint para cerrar */}
+                      <div className="absolute top-4 left-4 bg-black/70 text-white px-3 py-2 rounded-lg">
+                        <span className="text-sm">
+                          Presiona ESC o haz clic para cerrar
+                        </span>
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
