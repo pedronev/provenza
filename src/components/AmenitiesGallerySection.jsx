@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight, Play, Pause } from "lucide-react";
-import juegos from "../assets/juegos.jpg";
+import juegos from "../assets/juegosbebes.png";
 import asadores from "../assets/asadores.jpg";
-import infantiles from "../assets/infantiles.jpg";
+import infantiles from "../assets/juegos.jpg";
 import canchas from "../assets/canchas.jpg";
 
 const AmenitiesGallerySection = ({ galleryRef, visibleSections }) => {
