@@ -1,4 +1,4 @@
-import { ChevronDown } from "lucide-react";
+import logoProvenza from "../assets/icon.svg";
 
 const InfoSection = ({
   infoRef,
@@ -23,49 +23,12 @@ const InfoSection = ({
               : "opacity-0 scale-75"
           }`}
         >
-          <div className="relative">
-            <svg
-              width="120"
-              height="120"
-              viewBox="0 0 120 120"
-              className="animate-float"
-            >
-              <g transform="translate(60, 60)">
-                {/* Decorative pattern */}
-                {[0, 90, 180, 270].map((rotation, index) => (
-                  <g key={index} transform={`rotate(${rotation})`}>
-                    <path
-                      d="M 0,-40 Q 20,-20 0,0 Q -20,-20 0,-40"
-                      fill="#0A2259"
-                      opacity="0.8"
-                      className={`animate-fade-in-scale animation-delay-${
-                        index * 200
-                      }`}
-                    />
-                  </g>
-                ))}
-
-                {/* Center circle */}
-                <circle r="8" fill="#0A2259" className="animate-pulse-subtle" />
-              </g>
-
-              {/* Text around logo */}
-              <text className="fill-[#0A2259] text-xs tracking-widest uppercase">
-                <textPath href="#circle" startOffset="0%">
-                  DISFRUTA CADA DIA • DISFRUTA CADA DIA •
-                </textPath>
-              </text>
-
-              {/* Define circular path for text */}
-              <defs>
-                <path
-                  id="circle"
-                  d="M 60,20 A 40,40 0 1,1 59.9,20"
-                  fill="none"
-                />
-              </defs>
-            </svg>
-          </div>
+          <img
+            src={logoProvenza}
+            alt="Provenza Logo"
+            className="h-16 md:h-24 mx-auto mb-3"
+            style={{ minHeight: 56 }}
+          />
         </div>
 
         {/* Main Title */}

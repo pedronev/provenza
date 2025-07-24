@@ -3,7 +3,12 @@ import { useState, useEffect } from "react";
 import casas from "../assets/casas.png";
 const HeroSection = ({ heroRef, visibleSections }) => {
   const [currentWordIndex, setCurrentWordIndex] = useState(0);
-  const rotatingWords = ["TU FELICIDAD", "TU HOGAR", "TU CAMINO", "TODO"];
+  const rotatingWords = [
+    "TU FELICIDAD",
+    "TU TRANQUILIDAD",
+    "TU HOGAR IDEAL",
+    "TODO",
+  ];
 
   useEffect(() => {
     const interval = setInterval(() => {

@@ -514,9 +514,6 @@ const ModelsSection = ({ modelsRef, visibleSections }) => {
 
                   {/* Description */}
                   <div className="bg-[#0A2259] rounded-xl md:rounded-2xl p-4 md:p-6 text-white shadow-lg">
-                    <h4 className="text-base md:text-lg font-semibold mb-3 md:mb-4 uppercase tracking-wide">
-                      Descripción
-                    </h4>
                     <p className="text-xs md:text-sm leading-relaxed opacity-90">
                       {selectedModel.description}
                     </p>

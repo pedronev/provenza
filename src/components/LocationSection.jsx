@@ -1,5 +1,5 @@
 import { MapPin, Clock, Phone } from "lucide-react";
-import image from "../assets/location.jpg";
+import image from "../assets/aerea.jpg";
 
 const LocationSection = ({ locationRef, visibleSections }) => {
   return (
@@ -69,7 +69,7 @@ const LocationSection = ({ locationRef, visibleSections }) => {
                         HORARIOS DE ATENCIÓN
                       </h4>
                       <p className="text-white text-lg font-medium">
-                        LUN - DOM 8:00 AM A 8:00 PM
+                        LUN - DOM 9:00 AM A 7:00 PM
                       </p>
                     </div>
                   </div>
