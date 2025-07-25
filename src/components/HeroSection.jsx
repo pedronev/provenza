@@ -52,7 +52,7 @@ const HeroSection = ({ heroRef, visibleSections }) => {
           <div className="flex-1 flex flex-col justify-center mb-14 md:mb-24">
             <div className="text-left">
               <div
-                className="text-5xl sm:text-7xl md:text-9xl font-normal text-white uppercase tracking-wider animate-fade-in-up animation-delay-400"
+                className="text-4xl sm:text-7xl md:text-9xl font-normal text-white uppercase tracking-wider animate-fade-in-up animation-delay-400"
                 style={{
                   fontFamily: "Montserrat, Arial, sans-serif",
                   textShadow: "1px 1px 3px rgba(0,0,0,0.2)",
@@ -65,7 +65,7 @@ const HeroSection = ({ heroRef, visibleSections }) => {
                 <div className="absolute inset-0 flex items-start justify-start">
                   <div
                     key={currentWordIndex}
-                    className="font-bold text-5xl sm:text-7xl md:text-9xl tracking-wider uppercase animate-word-bounce text-white"
+                    className="font-bold text-4xl sm:text-7xl md:text-9xl tracking-wider uppercase animate-word-bounce text-white"
                     style={{
                       fontFamily: "Montserrat, Arial, sans-serif",
                       textShadow: "1px 1px 3px rgba(0,0,0,0.2)",

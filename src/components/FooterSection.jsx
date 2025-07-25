@@ -122,7 +122,7 @@ const FooterSection = ({ footerRef, visibleSections }) => {
             }`}
           >
             <p className="text-xs text-[#0A2259] opacity-70 tracking-wide">
-              ROK DISTRIBUCIONES SA DE CV, TODOS LOS DERECHOS RESERVADOS. 2024.
+              ROK DISTRIBUCIONES SA DE CV, TODOS LOS DERECHOS RESERVADOS. 2025.
             </p>
           </div>
         </div>
@@ -132,15 +132,3 @@ const FooterSection = ({ footerRef, visibleSections }) => {
 };
 
 export default FooterSection;
-
-//mapa 9 am a 7pm lunes a domingo
-
-//quitar descripcion en modal de los modelos
-
-//cambiar el logo de UN DESARROLLO DE 5 ETAPAS HECHO
-
-//vista aerea en el mapa
-
-//quitar mancha roja de whatsapp
-
-//ver para editar texto de promociones

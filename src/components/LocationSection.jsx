@@ -86,7 +86,7 @@ const LocationSection = ({ locationRef, visibleSections }) => {
                         TELÉFONO DE VENTAS
                       </h4>
                       <p className="text-white text-xl font-medium">
-                        (667) 411 55 57
+                        (667) 797 69 41
                       </p>
                     </div>
                   </div>
