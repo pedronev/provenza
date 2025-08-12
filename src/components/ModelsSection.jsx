@@ -344,11 +344,11 @@ const ModelsSection = ({ modelsRef, visibleSections }) => {
                     decoding="async"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                  {/* Virtual Tour Badge */}
+                  {/* Virtual Tour Badge
                   <div className="absolute top-4 right-4 bg-[#0A2259]/90 text-white px-3 py-1 rounded-full text-xs font-semibold flex items-center space-x-1">
                     <Eye className="w-3 h-3" />
                     <span>TOUR 360°</span>
-                  </div>
+                  </div> */}
                 </div>
 
                 {/* Specifications */}
@@ -621,7 +621,7 @@ const ModelsSection = ({ modelsRef, visibleSections }) => {
                         </button>
                       ))}
                       {/* Virtual Tour Thumbnail */}
-                      <button
+                      {/* <button
                         onClick={() =>
                           setImageIndex(selectedModel.images.length)
                         }
@@ -640,7 +640,7 @@ const ModelsSection = ({ modelsRef, visibleSections }) => {
                             </span>
                           </div>
                         </div>
-                      </button>
+                      </button> */}
                     </div>
                   </div>
 
