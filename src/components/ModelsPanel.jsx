@@ -1,5 +1,5 @@
 import Lotes from "../assets/Lotes.png";
-import Infonavit from "../assets/infonavit.png";
+import Infonavit from "../assets/Infonavit.png";
 
 const ModelsPanel = ({
   showModelsPanel,
