@@ -12,6 +12,8 @@ import {
   Maximize2,
   RulerDimensionLineIcon,
   Maximize,
+  MapPin,
+  Phone,
 } from "lucide-react";
 
 import lirio from "../assets/lirio.png";
@@ -26,6 +28,8 @@ import malva from "../assets/malva.png";
 import malvaBaja from "../assets/Malva-planta-baja.jpg";
 import malvaAlta from "../assets/Malva-planta-alta.jpg";
 
+import Lotes from "../assets/Lotes.png";
+
 const ModelsSection = ({ modelsRef, visibleSections }) => {
   const [selectedModel, setSelectedModel] = useState(null);
   const [modalImageIndex, setModalImageIndex] = useState(0);
@@ -35,10 +39,10 @@ const ModelsSection = ({ modelsRef, visibleSections }) => {
     rosa: [],
   });
   const [isFullscreen, setIsFullscreen] = useState(false);
+  
   const closeModal = useCallback(() => {
     setSelectedModel(null);
     setModalImageIndex(0);
-    // Restaurar scroll del body
     document.body.style.overflow = "unset";
   }, []);
 
@@ -50,7 +54,7 @@ const ModelsSection = ({ modelsRef, visibleSections }) => {
     },
     [closeModal]
   );
-  // Agregar estas funciones
+
   const openFullscreen = useCallback(() => {
     setIsFullscreen(true);
     document.body.style.overflow = "hidden";
@@ -71,10 +75,8 @@ const ModelsSection = ({ modelsRef, visibleSections }) => {
 
   useEffect(() => {
     const loadImages = async () => {
-      // Función para cargar imágenes de una carpeta
       const loadFolderImages = async (folderName) => {
         const imageModules = await Promise.all([
-          // Lirio
           ...(folderName === "lirio"
             ? [
                 import("../assets/lirio/Bano-principal.jpg"),
@@ -87,7 +89,6 @@ const ModelsSection = ({ modelsRef, visibleSections }) => {
                 import("../assets/lirio/Sala-comedor.jpg"),
               ]
             : []),
-          // Malva
           ...(folderName === "malva"
             ? [
                 import("../assets/malva/Area-lavado.jpg"),
@@ -103,7 +104,6 @@ const ModelsSection = ({ modelsRef, visibleSections }) => {
                 import("../assets/malva/Vestidor-horizontal.jpg"),
               ]
             : []),
-          // Rosa
           ...(folderName === "rosa"
             ? [
                 import("../assets/rosa/Bano-planta-alta.jpg"),
@@ -214,6 +214,31 @@ const ModelsSection = ({ modelsRef, visibleSections }) => {
           "WALK IN CLOSET Y BAÑO COMPLETO EN RECÁMARA PRINCIPAL",
         ],
       },
+      // Nuevo modelo: LOTES
+      {
+        id: 4,
+        name: "LOTES",
+        type: "lot",
+        area: "7.5m x 17.5m",
+        dimensions: "7.5m x 17.5m",
+        price: "$7,500 mx/m²",
+        mainImage: Lotes,
+        images: [Lotes],
+        description:
+          "Exclusivo Lotes en Provenza Residencial (Primera Etapa): Construye a tu Medida. Ubicaciones privilegiadas frente al área común con la libertad de diseñar tu hogar ideal según tus necesidades y gustos.",
+        features: [
+          "UBICACIONES PRIVILEGIADAS FRENTE AL ÁREA COMÚN",
+          "MEDIDAS: 7.5M DE FRENTE X 17.5M DE FONDO",
+          "PRECIO: $7,500 MX POR M²",
+          "CONSTRUYE A TU MEDIDA",
+          "PRIMERA ETAPA",
+        ],
+        contactInfo: {
+          phone: "(667) 797 6941",
+          note: "*Algunas ubicaciones pueden tener variaciones en sus medidas.",
+          additionalInfo: "Para más información técnica favor de contactarnos vía telefónica o WhatsApp al (667) 797 6941"
+        }
+      },
     ],
     [images]
   );
@@ -221,12 +246,15 @@ const ModelsSection = ({ modelsRef, visibleSections }) => {
   const openModal = useCallback((model) => {
     setSelectedModel(model);
     setModalImageIndex(0);
-    // Prevenir scroll del body
     document.body.style.overflow = "hidden";
   }, []);
 
   const nextImage = useCallback(() => {
     if (selectedModel) {
+      if (selectedModel.type === "lot") {
+        // Para lotes, no hay navegación de imágenes
+        return;
+      }
       const totalSlides = selectedModel.images.length + 1;
       setModalImageIndex((prev) => (prev + 1) % totalSlides);
     }
@@ -234,6 +262,10 @@ const ModelsSection = ({ modelsRef, visibleSections }) => {
 
   const prevImage = useCallback(() => {
     if (selectedModel) {
+      if (selectedModel.type === "lot") {
+        // Para lotes, no hay navegación de imágenes
+        return;
+      }
       const totalSlides = selectedModel.images.length + 1;
       setModalImageIndex((prev) => (prev - 1 + totalSlides) % totalSlides);
     }
@@ -244,8 +276,9 @@ const ModelsSection = ({ modelsRef, visibleSections }) => {
   }, []);
 
   const isVirtualTourSlide = useMemo(() => {
-    return selectedModel && modalImageIndex === selectedModel.images.length;
+    return selectedModel && selectedModel.type !== "lot" && modalImageIndex === selectedModel.images.length;
   }, [selectedModel, modalImageIndex]);
+
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.key === "Escape") {
@@ -255,7 +288,7 @@ const ModelsSection = ({ modelsRef, visibleSections }) => {
           closeModal();
         }
       }
-      if (isFullscreen || selectedModel) {
+      if ((isFullscreen || selectedModel) && selectedModel?.type !== "lot") {
         if (e.key === "ArrowLeft") {
           prevImage();
         }
@@ -275,6 +308,7 @@ const ModelsSection = ({ modelsRef, visibleSections }) => {
     prevImage,
     nextImage,
   ]);
+
   return (
     <>
       <section
@@ -307,7 +341,7 @@ const ModelsSection = ({ modelsRef, visibleSections }) => {
           </div>
 
           {/* Models Grid */}
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12">
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
             {models.map((model, index) => (
               <div
                 key={model.id}
@@ -324,7 +358,7 @@ const ModelsSection = ({ modelsRef, visibleSections }) => {
                 {/* Model Header */}
                 <div className="p-6 pb-4 text-center">
                   <span className="text-sm font-medium text-[#0A2259] opacity-70 uppercase tracking-wider">
-                    MODELO
+                    {model.type === "lot" ? "TERRENOS" : "MODELO"}
                   </span>
                   <h3
                     className="text-3xl md:text-4xl font-normal text-[#0A2259] uppercase tracking-wider mt-1"
@@ -338,50 +372,76 @@ const ModelsSection = ({ modelsRef, visibleSections }) => {
                 <div className="relative mx-6 mb-6 rounded-2xl overflow-hidden">
                   <img
                     src={model.mainImage || "/placeholder.svg"}
-                    alt={`Modelo ${model.name}`}
+                    alt={`${model.type === "lot" ? "Lotes" : "Modelo"} ${model.name}`}
                     className="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-105"
                     loading="lazy"
                     decoding="async"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                  {/* Virtual Tour Badge
-                  <div className="absolute top-4 right-4 bg-[#0A2259]/90 text-white px-3 py-1 rounded-full text-xs font-semibold flex items-center space-x-1">
-                    <Eye className="w-3 h-3" />
-                    <span>TOUR 360°</span>
-                  </div> */}
                 </div>
 
                 {/* Specifications */}
                 <div className="px-6 pb-6">
-                  <div className="grid grid-cols-3 gap-4 mb-6">
-                    {/* Area */}
-                    <div className="text-center">
-                      <div className="w-12 h-12 mx-auto mb-2 border-2 border-[#0A2259] rounded-full flex items-center justify-center">
-                        <Square className="w-5 h-5 text-[#0A2259]" />
+                  {model.type === "lot" ? (
+                    /* Especificaciones para Lotes */
+                    <div className="grid grid-cols-2 gap-4 mb-6">
+                      {/* Dimensiones */}
+                      <div className="text-center">
+                        <div className="w-12 h-12 mx-auto mb-2 border-2 border-[#0A2259] rounded-full flex items-center justify-center">
+                          <Square className="w-5 h-5 text-[#0A2259]" />
+                        </div>
+                        <div className="text-lg font-bold text-[#0A2259]">
+                          {model.area}
+                        </div>
                       </div>
-                      <div className="text-lg font-bold text-[#0A2259]">
-                        {model.area}
+                      {/* Precio */}
+                      <div className="text-center">
+                        <div className="w-12 h-12 mx-auto mb-2 border-2 border-[#0A2259] rounded-full flex items-center justify-center">
+                          <svg className="w-5 h-5 text-[#0A2259]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                          </svg>
+                        </div>
+                        <div className="text-lg font-bold text-[#0A2259]">
+                          $7,500
+                        </div>
+                        <div className="text-xs text-gray-600 uppercase">
+                          mx/m²
+                        </div>
                       </div>
                     </div>
-                    {/* Bedrooms */}
-                    <div className="text-center">
-                      <div className="w-12 h-12 mx-auto mb-2 border-2 border-[#0A2259] rounded-full flex items-center justify-center">
-                        <Home className="w-5 h-5 text-[#0A2259]" />
+                  ) : (
+                    /* Especificaciones para Casas */
+                    <div className="grid grid-cols-3 gap-4 mb-6">
+                      {/* Area */}
+                      <div className="text-center">
+                        <div className="w-12 h-12 mx-auto mb-2 border-2 border-[#0A2259] rounded-full flex items-center justify-center">
+                          <Square className="w-5 h-5 text-[#0A2259]" />
+                        </div>
+                        <div className="text-lg font-bold text-[#0A2259]">
+                          {model.area}
+                        </div>
                       </div>
-                      <div className="text-lg font-bold text-[#0A2259]">
-                        {model.bedrooms}
+                      {/* Bedrooms */}
+                      <div className="text-center">
+                        <div className="w-12 h-12 mx-auto mb-2 border-2 border-[#0A2259] rounded-full flex items-center justify-center">
+                          <Home className="w-5 h-5 text-[#0A2259]" />
+                        </div>
+                        <div className="text-lg font-bold text-[#0A2259]">
+                          {model.bedrooms}
+                        </div>
+                      </div>
+                      {/* Bathrooms */}
+                      <div className="text-center">
+                        <div className="w-12 h-12 mx-auto mb-2 border-2 border-[#0A2259] rounded-full flex items-center justify-center">
+                          <Bath className="w-5 h-5 text-[#0A2259]" />
+                        </div>
+                        <div className="text-lg font-bold text-[#0A2259]">
+                          {model.bathrooms}
+                        </div>
                       </div>
                     </div>
-                    {/* Bathrooms */}
-                    <div className="text-center">
-                      <div className="w-12 h-12 mx-auto mb-2 border-2 border-[#0A2259] rounded-full flex items-center justify-center">
-                        <Bath className="w-5 h-5 text-[#0A2259]" />
-                      </div>
-                      <div className="text-lg font-bold text-[#0A2259]">
-                        {model.bathrooms}
-                      </div>
-                    </div>
-                  </div>
+                  )}
+                  
                   {/* Action Button */}
                   <button
                     onClick={() => openModal(model)}
@@ -396,7 +456,7 @@ const ModelsSection = ({ modelsRef, visibleSections }) => {
         </div>
       </section>
 
-      {/* Modal Optimizado */}
+      {/* Modal optimizado para casas y lotes */}
       {selectedModel && (
         <div
           className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-2 md:p-4 modal-backdrop"
@@ -407,12 +467,12 @@ const ModelsSection = ({ modelsRef, visibleSections }) => {
             className="bg-white rounded-2xl md:rounded-3xl max-w-[98vw] md:max-w-[95vw] w-full max-h-[95vh] overflow-hidden shadow-2xl modal-content"
             style={{ willChange: "transform, opacity" }}
           >
-            {/* Modal Header - Simplificado */}
+            {/* Modal Header */}
             <div className="relative bg-[#0A2259] text-white px-4 md:px-8 py-4 md:py-6">
               <div className="flex justify-between items-center">
                 <div>
                   <span className="text-xs md:text-sm font-medium opacity-80 uppercase tracking-wider">
-                    MODELO
+                    {selectedModel.type === "lot" ? "TERRENOS" : "MODELO"}
                   </span>
                   <h3
                     className="text-2xl md:text-3xl lg:text-4xl font-normal uppercase tracking-wider"
@@ -430,224 +490,127 @@ const ModelsSection = ({ modelsRef, visibleSections }) => {
               </div>
             </div>
 
-            {/* Modal Content - Layout optimizado */}
+            {/* Modal Content - Layout específico por tipo */}
             <div className="p-4 md:p-6 lg:p-8 overflow-y-auto max-h-[calc(95vh-100px)] md:max-h-[calc(95vh-120px)] custom-scrollbar">
-              <div className="grid lg:grid-cols-3 gap-4 md:gap-6 lg:gap-8">
-                {/* Left Column - Specifications */}
-                <div className="lg:col-span-1 space-y-4 md:space-y-6">
-                  {/* Main Specs */}
-                  <div className="bg-gray-50 rounded-xl md:rounded-2xl p-4 md:p-6">
-                    <h4 className="text-base md:text-lg font-semibold text-[#0A2259] mb-3 md:mb-4 uppercase tracking-wide">
-                      Especificaciones
-                    </h4>
-                    <div className="grid grid-cols-2 gap-2 md:gap-4">
-                      <div className="bg-white rounded-lg md:rounded-xl p-3 md:p-4 shadow-sm hover:shadow-md transition-shadow duration-200">
-                        <div className="w-8 h-8 md:w-10 md:h-10 mx-auto mb-2 md:mb-3 bg-[#0A2259] rounded-full flex items-center justify-center">
-                          <Square className="w-4 h-4 md:w-5 md:h-5 text-white" />
-                        </div>
-                        <div className="text-xs text-[#0A2259] opacity-70 uppercase tracking-wide text-center">
-                          ÁREA TOTAL
-                        </div>
-                        <div className="text-sm md:text-lg font-bold text-[#0A2259] text-center">
-                          {selectedModel.area}
-                        </div>
-                      </div>
-                      <div className="bg-white rounded-lg md:rounded-xl p-3 md:p-4 shadow-sm hover:shadow-md transition-shadow duration-200">
-                        <div className="w-8 h-8 md:w-10 md:h-10 mx-auto mb-2 md:mb-3 bg-[#0A2259] rounded-full flex items-center justify-center">
-                          <Home className="w-4 h-4 md:w-5 md:h-5 text-white" />
-                        </div>
-                        <div className="text-xs text-[#0A2259] opacity-70 uppercase tracking-wide text-center">
-                          RECÁMARAS
-                        </div>
-                        <div className="text-sm md:text-lg font-bold text-[#0A2259] text-center">
-                          {selectedModel.bedrooms}
-                        </div>
-                      </div>
-                      <div className="bg-white rounded-lg md:rounded-xl p-3 md:p-4 shadow-sm hover:shadow-md transition-shadow duration-200">
-                        <div className="w-8 h-8 md:w-10 md:h-10 mx-auto mb-2 md:mb-3 bg-[#0A2259] rounded-full flex items-center justify-center">
-                          <Bath className="w-4 h-4 md:w-5 md:h-5 text-white" />
-                        </div>
-                        <div className="text-xs text-[#0A2259] opacity-70 uppercase tracking-wide text-center">
-                          BAÑOS
-                        </div>
-                        <div className="text-sm md:text-lg font-bold text-[#0A2259] text-center">
-                          {selectedModel.bathrooms}
-                        </div>
-                      </div>
-                      <div className="bg-white rounded-lg md:rounded-xl p-3 md:p-4 shadow-sm hover:shadow-md transition-shadow duration-200">
-                        <div className="w-8 h-8 md:w-10 md:h-10 mx-auto mb-2 md:mb-3 bg-[#0A2259] rounded-full flex items-center justify-center">
-                          <Layers className="w-4 h-4 md:w-5 md:h-5 text-white" />
-                        </div>
-                        <div className="text-xs text-[#0A2259] opacity-70 uppercase tracking-wide text-center">
-                          NIVELES
-                        </div>
-                        <div className="text-sm md:text-lg font-bold text-[#0A2259] text-center">
-                          {selectedModel.levels}
-                        </div>
-                      </div>
-                      <div className="bg-white rounded-lg md:rounded-xl p-3 md:p-4 shadow-sm hover:shadow-md transition-shadow duration-200">
-                        <div className="w-8 h-8 md:w-10 md:h-10 mx-auto mb-2 md:mb-3 bg-[#0A2259] rounded-full flex items-center justify-center">
-                          <RulerDimensionLineIcon className="w-4 h-4 md:w-5 md:h-5 text-white" />
-                        </div>
-                        <div className="text-xs text-[#0A2259] opacity-70 uppercase tracking-wide text-center">
-                          Medidas
-                        </div>
-                        <div className="text-sm md:text-lg font-bold text-[#0A2259] text-center">
-                          {selectedModel.dimensions}
-                        </div>
-                      </div>
-                      <div className="bg-white rounded-lg md:rounded-xl p-3 md:p-4 shadow-sm hover:shadow-md transition-shadow duration-200">
-                        <div className="w-8 h-8 md:w-10 md:h-10 mx-auto mb-2 md:mb-3 bg-[#0A2259] rounded-full flex items-center justify-center">
-                          <Car className="w-4 h-4 md:w-5 md:h-5 text-white" />
-                        </div>
-                        <div>
-                          <div className="text-xs text-[#0A2259] opacity-70 uppercase tracking-wide text-center">
-                            COCHERA
-                          </div>
-                          <div className="text-sm md:text-lg font-bold text-[#0A2259] text-center">
-                            {selectedModel.parking}
+              {selectedModel.type === "lot" ? (
+                /* Layout para Lotes */
+                <div className="space-y-6">
+                  {/* Imagen principal */}
+                  <div className="relative rounded-xl md:rounded-2xl overflow-hidden bg-gray-100 shadow-lg">
+                    <img
+                      src={selectedModel.mainImage || "/placeholder.svg"}
+                      alt={`Lotes ${selectedModel.name}`}
+                      className="w-full h-64 md:h-80 lg:h-96 object-cover"
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  </div>
+
+                  {/* Información de lotes */}
+                  <div className="grid md:grid-cols-2 gap-6">
+                    {/* Especificaciones */}
+                    <div className="bg-gray-50 rounded-xl md:rounded-2xl p-4 md:p-6">
+                      <h4 className="text-base md:text-lg font-semibold text-[#0A2259] mb-3 md:mb-4 uppercase tracking-wide">
+                        Especificaciones
+                      </h4>
+                      <div className="space-y-4">
+                        <div className="bg-white rounded-lg md:rounded-xl p-3 md:p-4 shadow-sm">
+                          <div className="flex items-center space-x-3">
+                            <div className="w-8 h-8 md:w-10 md:h-10 bg-[#0A2259] rounded-full flex items-center justify-center">
+                              <RulerDimensionLineIcon className="w-4 h-4 md:w-5 md:h-5 text-white" />
+                            </div>
+                            <div>
+                              <div className="text-xs text-[#0A2259] opacity-70 uppercase tracking-wide">
+                                DIMENSIONES
+                              </div>
+                              <div className="text-sm md:text-lg font-bold text-[#0A2259]">
+                                {selectedModel.dimensions}
+                              </div>
+                            </div>
                           </div>
                         </div>
+
+                        <div className="bg-white rounded-lg md:rounded-xl p-3 md:p-4 shadow-sm">
+                          <div className="flex items-center space-x-3">
+                            <div className="w-8 h-8 md:w-10 md:h-10 bg-[#0A2259] rounded-full flex items-center justify-center">
+                              <svg className="w-4 h-4 md:w-5 md:h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                              </svg>
+                            </div>
+                            <div>
+                              <div className="text-xs text-[#0A2259] opacity-70 uppercase tracking-wide">
+                                PRECIO
+                              </div>
+                              <div className="text-sm md:text-lg font-bold text-[#0A2259]">
+                                {selectedModel.price}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Contacto */}
+                    <div className="bg-[#0A2259] rounded-xl md:rounded-2xl p-4 md:p-6 text-white">
+                      <h4 className="text-base md:text-lg font-semibold mb-3 md:mb-4 uppercase tracking-wide">
+                        Información de Contacto
+                      </h4>
+                      <div className="space-y-4">
+                        <div className="flex items-center space-x-3">
+                          <Phone className="w-5 h-5 text-white" />
+                          <div>
+                            <div className="text-sm font-semibold">Teléfono / WhatsApp</div>
+                            <div className="text-lg font-bold">{selectedModel.contactInfo.phone}</div>
+                          </div>
+                        </div>
+                        
+                        <div className="bg-white/10 rounded-lg p-3">
+                          <p className="text-sm text-white/90 leading-relaxed">
+                            {selectedModel.contactInfo.additionalInfo}
+                          </p>
+                        </div>
+
+                        <button
+                          onClick={() => {
+                            const phoneNumber = "526677976941";
+                            const message = encodeURIComponent(
+                              `¡Hola! 👋 Me interesa información sobre los LOTES en Provenza Residencial. ¿Podrían proporcionarme más detalles técnicos? 🏗️`
+                            );
+                            const whatsappUrl = `https://wa.me/${phoneNumber}?text=${message}`;
+                            window.open(whatsappUrl, "_blank", "noopener,noreferrer");
+                          }}
+                          className="w-full bg-[#25D366] text-white py-3 rounded-lg font-semibold hover:bg-[#128C7E] transition-colors flex items-center justify-center space-x-2"
+                        >
+                          <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+                          </svg>
+                          <span>Contactar por WhatsApp</span>
+                        </button>
                       </div>
                     </div>
                   </div>
 
                   {/* Description */}
-                  <div className="bg-[#0A2259] rounded-xl md:rounded-2xl p-4 md:p-6 text-white shadow-lg">
-                    <p className="text-xs md:text-sm leading-relaxed opacity-90">
+                  <div className="bg-gray-50 rounded-xl md:rounded-2xl p-4 md:p-6">
+                    <h4 className="text-base md:text-lg font-semibold text-[#0A2259] mb-3 md:mb-4 uppercase tracking-wide">
+                      Descripción
+                    </h4>
+                    <p className="text-sm md:text-base leading-relaxed text-gray-700 mb-4">
                       {selectedModel.description}
                     </p>
-                  </div>
-                </div>
-
-                {/* Right Section - Images and Virtual Tour */}
-                <div className="lg:col-span-2 space-y-4 md:space-y-6">
-                  {/* Main Display Area */}
-                  <div className="relative rounded-xl md:rounded-2xl overflow-hidden bg-gray-100 shadow-lg">
-                    {isVirtualTourSlide ? (
-                      // Virtual Tour iframe
-                      <div className="relative">
-                        <iframe
-                          src={selectedModel.virtualTour}
-                          className="w-full h-64 md:h-80 lg:h-96 border-0"
-                          allow="vr;gyroscope;accelerometer"
-                          title={`Tour Virtual - Modelo ${selectedModel.name}`}
-                        />
-                        <div className="absolute top-3 md:top-6 left-3 md:left-6 bg-[#0A2259] text-white px-2 md:px-4 py-2 md:py-3 rounded-lg md:rounded-xl shadow-lg">
-                          <div className="flex items-center space-x-1 md:space-x-2">
-                            <Eye className="w-3 h-3 md:w-5 md:h-5" />
-                            <span className="text-xs md:text-sm font-semibold">
-                              Recorrido Virtual 360°
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-                    ) : (
-                      // Regular Image
-                      <div className="relative">
-                        <img
-                          src={
-                            selectedModel.images[modalImageIndex] ||
-                            "/placeholder.svg"
-                          }
-                          alt={`${selectedModel.name} - Vista ${
-                            modalImageIndex + 1
-                          }`}
-                          className="w-full h-64 md:h-80 lg:h-96 object-cover cursor-pointer"
-                          loading="lazy"
-                          decoding="async"
-                          onClick={openFullscreen} // ✅ Click para pantalla completa
-                        />
-
-                        {/* ✅ Botón de pantalla completa */}
-                        <button
-                          onClick={openFullscreen}
-                          className="absolute top-3 md:top-4 right-3 md:right-4 p-2 md:p-3 bg-black/70 hover:bg-black/90 rounded-lg md:rounded-xl transition-all duration-200 shadow-lg hover:shadow-xl group"
-                          title="Ver en pantalla completa"
-                        >
-                          <Maximize className="w-4 h-4 md:w-5 md:h-5 text-white group-hover:scale-110 transition-transform" />
-                        </button>
-                      </div>
-                    )}
-
-                    {/* Image Navigation */}
-                    <button
-                      onClick={prevImage}
-                      className="absolute left-2 md:left-4 top-1/2 transform -translate-y-1/2 p-2 md:p-4 bg-white/95 rounded-full hover:bg-white transition-all duration-200 shadow-lg hover:shadow-xl hover:scale-110"
-                      style={{ willChange: "transform" }}
-                    >
-                      <ChevronLeft className="w-4 h-4 md:w-6 md:h-6 text-[#0A2259]" />
-                    </button>
-                    <button
-                      onClick={nextImage}
-                      className="absolute right-2 md:right-4 top-1/2 transform -translate-y-1/2 p-2 md:p-4 bg-white/95 rounded-full hover:bg-white transition-all duration-200 shadow-lg hover:shadow-xl hover:scale-110"
-                      style={{ willChange: "transform" }}
-                    >
-                      <ChevronRight className="w-4 h-4 md:w-6 md:h-6 text-[#0A2259]" />
-                    </button>
-
-                    {/* Image Counter */}
-                    <div className="absolute bottom-2 md:bottom-4 right-2 md:right-4 bg-black/70 text-white px-2 md:px-3 py-1 rounded-full text-xs md:text-sm">
-                      {isVirtualTourSlide
-                        ? "Tour 360°"
-                        : `${modalImageIndex + 1} / ${
-                            selectedModel.images.length
-                          }`}
-                    </div>
-                  </div>
-
-                  {/* Thumbnail Gallery */}
-                  <div className="bg-gray-50 rounded-xl md:rounded-2xl p-3 md:p-4">
-                    <div className="grid grid-cols-4 md:grid-cols-6 gap-2 md:gap-3">
-                      {/* Image Thumbnails */}
-                      {selectedModel.images.map((image, index) => (
-                        <button
-                          key={index}
-                          onClick={() => setImageIndex(index)}
-                          className={`relative rounded-lg md:rounded-xl overflow-hidden transition-all duration-200 ${
-                            index === modalImageIndex && !isVirtualTourSlide
-                              ? "ring-2 md:ring-3 ring-[#0A2259] ring-offset-1 md:ring-offset-2 scale-105 shadow-lg"
-                              : "opacity-70 hover:opacity-100 hover:scale-105 shadow-md hover:shadow-lg"
-                          }`}
-                          style={{ willChange: "transform" }}
-                        >
-                          <img
-                            src={image || "/placeholder.svg"}
-                            alt={`Vista ${index + 1}`}
-                            className="w-full h-12 md:h-16 object-cover"
-                            loading="lazy"
-                            decoding="async"
-                          />
-                        </button>
-                      ))}
-                      {/* Virtual Tour Thumbnail */}
-                      {/* <button
-                        onClick={() =>
-                          setImageIndex(selectedModel.images.length)
-                        }
-                        className={`relative rounded-lg md:rounded-xl overflow-hidden bg-[#0A2259] transition-all duration-200 ${
-                          isVirtualTourSlide
-                            ? "ring-2 md:ring-3 ring-[#0A2259] ring-offset-1 md:ring-offset-2 scale-105 shadow-lg"
-                            : "opacity-70 hover:opacity-100 hover:scale-105 shadow-md hover:shadow-lg"
-                        }`}
-                        style={{ willChange: "transform" }}
-                      >
-                        <div className="w-full h-12 md:h-16 flex items-center justify-center">
-                          <div className="text-center">
-                            <Eye className="w-4 h-4 md:w-6 md:h-6 text-white mx-auto mb-0.5 md:mb-1" />
-                            <span className="text-xs text-white font-semibold">
-                              360°
-                            </span>
-                          </div>
-                        </div>
-                      </button> */}
+                    
+                    {/* Nota importante */}
+                    <div className="bg-yellow-50 border-l-4 border-yellow-400 p-3 rounded">
+                      <p className="text-sm text-yellow-800">
+                        <span className="font-semibold">Importante:</span> {selectedModel.contactInfo.note}
+                      </p>
                     </div>
                   </div>
 
                   {/* Features */}
                   <div className="bg-white rounded-xl md:rounded-2xl p-4 md:p-6 shadow-lg border border-gray-100">
                     <h4 className="text-base md:text-lg font-semibold text-[#0A2259] mb-3 md:mb-4 uppercase tracking-wide flex items-center">
-                      <Maximize2 className="w-4 h-4 md:w-5 md:h-5 mr-2" />
+                      <MapPin className="w-4 h-4 md:w-5 md:h-5 mr-2" />
                       Características
                     </h4>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-3">
@@ -664,66 +627,263 @@ const ModelsSection = ({ modelsRef, visibleSections }) => {
                       ))}
                     </div>
                   </div>
-                  {/* Modal de Pantalla Completa */}
-                  {isFullscreen && !isVirtualTourSlide && (
-                    <div
-                      className="fixed inset-0 bg-black z-[60] flex items-center justify-center"
-                      onClick={handleFullscreenBackdrop}
-                    >
-                      {/* Imagen en pantalla completa */}
-                      <img
-                        src={
-                          selectedModel.images[modalImageIndex] ||
-                          "/placeholder.svg"
-                        }
-                        alt={`${selectedModel.name} - Vista ${
-                          modalImageIndex + 1
-                        }`}
-                        className="max-w-[95vw] max-h-[95vh] object-contain"
-                        loading="lazy"
-                        decoding="async"
-                      />
+                </div>
+              ) : (
+                /* Layout original para Casas */
+                <div className="grid lg:grid-cols-3 gap-4 md:gap-6 lg:gap-8">
+                  {/* Left Column - Specifications */}
+                  <div className="lg:col-span-1 space-y-4 md:space-y-6">
+                    {/* Main Specs */}
+                    <div className="bg-gray-50 rounded-xl md:rounded-2xl p-4 md:p-6">
+                      <h4 className="text-base md:text-lg font-semibold text-[#0A2259] mb-3 md:mb-4 uppercase tracking-wide">
+                        Especificaciones
+                      </h4>
+                      <div className="grid grid-cols-2 gap-2 md:gap-4">
+                        <div className="bg-white rounded-lg md:rounded-xl p-3 md:p-4 shadow-sm hover:shadow-md transition-shadow duration-200">
+                          <div className="w-8 h-8 md:w-10 md:h-10 mx-auto mb-2 md:mb-3 bg-[#0A2259] rounded-full flex items-center justify-center">
+                            <Square className="w-4 h-4 md:w-5 md:h-5 text-white" />
+                          </div>
+                          <div className="text-xs text-[#0A2259] opacity-70 uppercase tracking-wide text-center">
+                            ÁREA TOTAL
+                          </div>
+                          <div className="text-sm md:text-lg font-bold text-[#0A2259] text-center">
+                            {selectedModel.area}
+                          </div>
+                        </div>
+                        <div className="bg-white rounded-lg md:rounded-xl p-3 md:p-4 shadow-sm hover:shadow-md transition-shadow duration-200">
+                          <div className="w-8 h-8 md:w-10 md:h-10 mx-auto mb-2 md:mb-3 bg-[#0A2259] rounded-full flex items-center justify-center">
+                            <Home className="w-4 h-4 md:w-5 md:h-5 text-white" />
+                          </div>
+                          <div className="text-xs text-[#0A2259] opacity-70 uppercase tracking-wide text-center">
+                            RECÁMARAS
+                          </div>
+                          <div className="text-sm md:text-lg font-bold text-[#0A2259] text-center">
+                            {selectedModel.bedrooms}
+                          </div>
+                        </div>
+                        <div className="bg-white rounded-lg md:rounded-xl p-3 md:p-4 shadow-sm hover:shadow-md transition-shadow duration-200">
+                          <div className="w-8 h-8 md:w-10 md:h-10 mx-auto mb-2 md:mb-3 bg-[#0A2259] rounded-full flex items-center justify-center">
+                            <Bath className="w-4 h-4 md:w-5 md:h-5 text-white" />
+                          </div>
+                          <div className="text-xs text-[#0A2259] opacity-70 uppercase tracking-wide text-center">
+                            BAÑOS
+                          </div>
+                          <div className="text-sm md:text-lg font-bold text-[#0A2259] text-center">
+                            {selectedModel.bathrooms}
+                          </div>
+                        </div>
+                        <div className="bg-white rounded-lg md:rounded-xl p-3 md:p-4 shadow-sm hover:shadow-md transition-shadow duration-200">
+                          <div className="w-8 h-8 md:w-10 md:h-10 mx-auto mb-2 md:mb-3 bg-[#0A2259] rounded-full flex items-center justify-center">
+                            <Layers className="w-4 h-4 md:w-5 md:h-5 text-white" />
+                          </div>
+                          <div className="text-xs text-[#0A2259] opacity-70 uppercase tracking-wide text-center">
+                            NIVELES
+                          </div>
+                          <div className="text-sm md:text-lg font-bold text-[#0A2259] text-center">
+                            {selectedModel.levels}
+                          </div>
+                        </div>
+                        <div className="bg-white rounded-lg md:rounded-xl p-3 md:p-4 shadow-sm hover:shadow-md transition-shadow duration-200">
+                          <div className="w-8 h-8 md:w-10 md:h-10 mx-auto mb-2 md:mb-3 bg-[#0A2259] rounded-full flex items-center justify-center">
+                            <RulerDimensionLineIcon className="w-4 h-4 md:w-5 md:h-5 text-white" />
+                          </div>
+                          <div className="text-xs text-[#0A2259] opacity-70 uppercase tracking-wide text-center">
+                            Medidas
+                          </div>
+                          <div className="text-sm md:text-lg font-bold text-[#0A2259] text-center">
+                            {selectedModel.dimensions}
+                          </div>
+                        </div>
+                        <div className="bg-white rounded-lg md:rounded-xl p-3 md:p-4 shadow-sm hover:shadow-md transition-shadow duration-200">
+                          <div className="w-8 h-8 md:w-10 md:h-10 mx-auto mb-2 md:mb-3 bg-[#0A2259] rounded-full flex items-center justify-center">
+                            <Car className="w-4 h-4 md:w-5 md:h-5 text-white" />
+                          </div>
+                          <div>
+                            <div className="text-xs text-[#0A2259] opacity-70 uppercase tracking-wide text-center">
+                              COCHERA
+                            </div>
+                            <div className="text-sm md:text-lg font-bold text-[#0A2259] text-center">
+                              {selectedModel.parking}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
 
-                      {/* Botón cerrar */}
-                      <button
-                        onClick={closeFullscreen}
-                        className="absolute top-4 right-4 p-3 bg-black/70 hover:bg-black/90 rounded-full transition-all duration-200"
-                      >
-                        <X className="w-6 h-6 text-white" />
-                      </button>
+                    {/* Description */}
+                    <div className="bg-[#0A2259] rounded-xl md:rounded-2xl p-4 md:p-6 text-white shadow-lg">
+                      <p className="text-xs md:text-sm leading-relaxed opacity-90">
+                        {selectedModel.description}
+                      </p>
+                    </div>
+                  </div>
 
-                      {/* Navegación en pantalla completa */}
+                  {/* Right Section - Images and Virtual Tour */}
+                  <div className="lg:col-span-2 space-y-4 md:space-y-6">
+                    {/* Main Display Area */}
+                    <div className="relative rounded-xl md:rounded-2xl overflow-hidden bg-gray-100 shadow-lg">
+                      {isVirtualTourSlide ? (
+                        // Virtual Tour iframe
+                        <div className="relative">
+
+                        </div>
+                      ) : (
+                        // Regular Image
+                        <div className="relative">
+                          <img
+                            src={
+                              selectedModel.images[modalImageIndex] ||
+                              "/placeholder.svg"
+                            }
+                            alt={`${selectedModel.name} - Vista ${
+                              modalImageIndex + 1
+                            }`}
+                            className="w-full h-64 md:h-80 lg:h-96 object-cover cursor-pointer"
+                            loading="lazy"
+                            decoding="async"
+                            onClick={openFullscreen}
+                          />
+
+                          <button
+                            onClick={openFullscreen}
+                            className="absolute top-3 md:top-4 right-3 md:right-4 p-2 md:p-3 bg-black/70 hover:bg-black/90 rounded-lg md:rounded-xl transition-all duration-200 shadow-lg hover:shadow-xl group"
+                            title="Ver en pantalla completa"
+                          >
+                            <Maximize className="w-4 h-4 md:w-5 md:h-5 text-white group-hover:scale-110 transition-transform" />
+                          </button>
+                        </div>
+                      )}
+
+                      {/* Image Navigation */}
                       <button
                         onClick={prevImage}
-                        className="absolute left-4 top-1/2 transform -translate-y-1/2 p-4 bg-black/70 hover:bg-black/90 rounded-full transition-all duration-200"
+                        className="absolute left-2 md:left-4 top-1/2 transform -translate-y-1/2 p-2 md:p-4 bg-white/95 rounded-full hover:bg-white transition-all duration-200 shadow-lg hover:shadow-xl hover:scale-110"
+                        style={{ willChange: "transform" }}
                       >
-                        <ChevronLeft className="w-8 h-8 text-white" />
+                        <ChevronLeft className="w-4 h-4 md:w-6 md:h-6 text-[#0A2259]" />
                       </button>
                       <button
                         onClick={nextImage}
-                        className="absolute right-4 top-1/2 transform -translate-y-1/2 p-4 bg-black/70 hover:bg-black/90 rounded-full transition-all duration-200"
+                        className="absolute right-2 md:right-4 top-1/2 transform -translate-y-1/2 p-2 md:p-4 bg-white/95 rounded-full hover:bg-white transition-all duration-200 shadow-lg hover:shadow-xl hover:scale-110"
+                        style={{ willChange: "transform" }}
                       >
-                        <ChevronRight className="w-8 h-8 text-white" />
+                        <ChevronRight className="w-4 h-4 md:w-6 md:h-6 text-[#0A2259]" />
                       </button>
 
-                      {/* Info de la imagen */}
-                      <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-black/70 text-white px-4 py-2 rounded-full">
-                        <span className="text-sm font-medium">
-                          {selectedModel.name} - {modalImageIndex + 1} de{" "}
-                          {selectedModel.images.length}
-                        </span>
-                      </div>
-
-                      {/* Hint para cerrar */}
-                      <div className="absolute top-4 left-4 bg-black/70 text-white px-3 py-2 rounded-lg">
-                        <span className="text-sm">
-                          Presiona ESC o haz clic para cerrar
-                        </span>
+                      {/* Image Counter */}
+                      <div className="absolute bottom-2 md:bottom-4 right-2 md:right-4 bg-black/70 text-white px-2 md:px-3 py-1 rounded-full text-xs md:text-sm">
+                        {isVirtualTourSlide
+                          ? "Tour 360°"
+                          : `${modalImageIndex + 1} / ${
+                              selectedModel.images.length
+                            }`}
                       </div>
                     </div>
-                  )}
+
+                    {/* Thumbnail Gallery */}
+                    <div className="bg-gray-50 rounded-xl md:rounded-2xl p-3 md:p-4">
+                      <div className="grid grid-cols-4 md:grid-cols-6 gap-2 md:gap-3">
+                        {/* Image Thumbnails */}
+                        {selectedModel.images.map((image, index) => (
+                          <button
+                            key={index}
+                            onClick={() => setImageIndex(index)}
+                            className={`relative rounded-lg md:rounded-xl overflow-hidden transition-all duration-200 ${
+                              index === modalImageIndex && !isVirtualTourSlide
+                                ? "ring-2 md:ring-3 ring-[#0A2259] ring-offset-1 md:ring-offset-2 scale-105 shadow-lg"
+                                : "opacity-70 hover:opacity-100 hover:scale-105 shadow-md hover:shadow-lg"
+                            }`}
+                            style={{ willChange: "transform" }}
+                          >
+                            <img
+                              src={image || "/placeholder.svg"}
+                              alt={`Vista ${index + 1}`}
+                              className="w-full h-12 md:h-16 object-cover"
+                              loading="lazy"
+                              decoding="async"
+                            />
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Features */}
+                    <div className="bg-white rounded-xl md:rounded-2xl p-4 md:p-6 shadow-lg border border-gray-100">
+                      <h4 className="text-base md:text-lg font-semibold text-[#0A2259] mb-3 md:mb-4 uppercase tracking-wide flex items-center">
+                        <Maximize2 className="w-4 h-4 md:w-5 md:h-5 mr-2" />
+                        Características
+                      </h4>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-3">
+                        {selectedModel.features.map((feature, index) => (
+                          <div
+                            key={index}
+                            className="flex items-center space-x-3 p-2 md:p-3 border-b border-gray-200 last:border-b-0"
+                          >
+                            <div className="w-1.5 h-1.5 md:w-2 md:h-2 bg-[#0A2259] rounded-full flex-shrink-0"></div>
+                            <span className="text-xs md:text-sm text-[#0A2259] uppercase tracking-wide font-medium">
+                              {feature}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Modal de Pantalla Completa */}
+                    {isFullscreen && !isVirtualTourSlide && (
+                      <div
+                        className="fixed inset-0 bg-black z-[60] flex items-center justify-center"
+                        onClick={handleFullscreenBackdrop}
+                      >
+                        <img
+                          src={
+                            selectedModel.images[modalImageIndex] ||
+                            "/placeholder.svg"
+                          }
+                          alt={`${selectedModel.name} - Vista ${
+                            modalImageIndex + 1
+                          }`}
+                          className="max-w-[95vw] max-h-[95vh] object-contain"
+                          loading="lazy"
+                          decoding="async"
+                        />
+
+                        <button
+                          onClick={closeFullscreen}
+                          className="absolute top-4 right-4 p-3 bg-black/70 hover:bg-black/90 rounded-full transition-all duration-200"
+                        >
+                          <X className="w-6 h-6 text-white" />
+                        </button>
+
+                        <button
+                          onClick={prevImage}
+                          className="absolute left-4 top-1/2 transform -translate-y-1/2 p-4 bg-black/70 hover:bg-black/90 rounded-full transition-all duration-200"
+                        >
+                          <ChevronLeft className="w-8 h-8 text-white" />
+                        </button>
+                        <button
+                          onClick={nextImage}
+                          className="absolute right-4 top-1/2 transform -translate-y-1/2 p-4 bg-black/70 hover:bg-black/90 rounded-full transition-all duration-200"
+                        >
+                          <ChevronRight className="w-8 h-8 text-white" />
+                        </button>
+
+                        <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-black/70 text-white px-4 py-2 rounded-full">
+                          <span className="text-sm font-medium">
+                            {selectedModel.name} - {modalImageIndex + 1} de{" "}
+                            {selectedModel.images.length}
+                          </span>
+                        </div>
+
+                        <div className="absolute top-4 left-4 bg-black/70 text-white px-3 py-2 rounded-lg">
+                          <span className="text-sm">
+                            Presiona ESC o haz clic para cerrar
+                          </span>
+                        </div>
+                      </div>
+                    )}
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
           </div>
         </div>
