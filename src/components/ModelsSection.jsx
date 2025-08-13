@@ -29,6 +29,7 @@ import malvaBaja from "../assets/Malva-planta-baja.jpg";
 import malvaAlta from "../assets/Malva-planta-alta.jpg";
 
 import Lotes from "../assets/Lotes.png";
+import Infonavit from "../assets/Infonavit.png";
 
 const ModelsSection = ({ modelsRef, visibleSections }) => {
   const [selectedModel, setSelectedModel] = useState(null);
@@ -39,7 +40,7 @@ const ModelsSection = ({ modelsRef, visibleSections }) => {
     rosa: [],
   });
   const [isFullscreen, setIsFullscreen] = useState(false);
-  
+
   const closeModal = useCallback(() => {
     setSelectedModel(null);
     setModalImageIndex(0);
@@ -139,8 +140,34 @@ const ModelsSection = ({ modelsRef, visibleSections }) => {
 
   const models = useMemo(
     () => [
+      // Nuevo modelo: LOTES
       {
         id: 1,
+        name: "LOTES",
+        type: "lot",
+        area: "7.5m x 17.5m",
+        dimensions: "7.5m x 17.5m",
+        price: "$7,500 mx/m²",
+        mainImage: Lotes,
+        images: [Lotes],
+        description:
+          "Exclusivos Lotes en Provenza Residencial (Primera Etapa): Construye a tu Medida. Ubicaciones privilegiadas frente al área común con la libertad de diseñar tu hogar ideal según tus necesidades y gustos.",
+        features: [
+          "UBICACIONES PRIVILEGIADAS FRENTE AL ÁREA COMÚN",
+          "MEDIDAS: 7.5M DE FRENTE X 17.5M DE FONDO",
+          "PRECIO: $7,500 MX POR M²",
+          "CONSTRUYE A TU MEDIDA",
+          "PRIMERA ETAPA",
+        ],
+        contactInfo: {
+          phone: "(667) 797 6941",
+          note: "*Algunas ubicaciones pueden tener variaciones en sus medidas.",
+          additionalInfo:
+            "Para más información técnica favor de contactarnos vía telefónica o WhatsApp al (667) 797 6941",
+        },
+      },
+      {
+        id: 2,
         name: "ROSA",
         area: "155 M2",
         bedrooms: "3",
@@ -165,7 +192,7 @@ const ModelsSection = ({ modelsRef, visibleSections }) => {
         ],
       },
       {
-        id: 2,
+        id: 3,
         name: "LIRIO",
         area: "169 M2",
         bedrooms: "3",
@@ -190,7 +217,7 @@ const ModelsSection = ({ modelsRef, visibleSections }) => {
         ],
       },
       {
-        id: 3,
+        id: 4,
         name: "MALVA",
         area: "185 M2",
         bedrooms: "3",
@@ -213,31 +240,6 @@ const ModelsSection = ({ modelsRef, visibleSections }) => {
           "ÁREA DE LAVADO EN SEGUNDA PLANTA",
           "WALK IN CLOSET Y BAÑO COMPLETO EN RECÁMARA PRINCIPAL",
         ],
-      },
-      // Nuevo modelo: LOTES
-      {
-        id: 4,
-        name: "LOTES",
-        type: "lot",
-        area: "7.5m x 17.5m",
-        dimensions: "7.5m x 17.5m",
-        price: "$7,500 mx/m²",
-        mainImage: Lotes,
-        images: [Lotes],
-        description:
-          "Exclusivo Lotes en Provenza Residencial (Primera Etapa): Construye a tu Medida. Ubicaciones privilegiadas frente al área común con la libertad de diseñar tu hogar ideal según tus necesidades y gustos.",
-        features: [
-          "UBICACIONES PRIVILEGIADAS FRENTE AL ÁREA COMÚN",
-          "MEDIDAS: 7.5M DE FRENTE X 17.5M DE FONDO",
-          "PRECIO: $7,500 MX POR M²",
-          "CONSTRUYE A TU MEDIDA",
-          "PRIMERA ETAPA",
-        ],
-        contactInfo: {
-          phone: "(667) 797 6941",
-          note: "*Algunas ubicaciones pueden tener variaciones en sus medidas.",
-          additionalInfo: "Para más información técnica favor de contactarnos vía telefónica o WhatsApp al (667) 797 6941"
-        }
       },
     ],
     [images]
@@ -276,7 +278,11 @@ const ModelsSection = ({ modelsRef, visibleSections }) => {
   }, []);
 
   const isVirtualTourSlide = useMemo(() => {
-    return selectedModel && selectedModel.type !== "lot" && modalImageIndex === selectedModel.images.length;
+    return (
+      selectedModel &&
+      selectedModel.type !== "lot" &&
+      modalImageIndex === selectedModel.images.length
+    );
   }, [selectedModel, modalImageIndex]);
 
   useEffect(() => {
@@ -372,7 +378,9 @@ const ModelsSection = ({ modelsRef, visibleSections }) => {
                 <div className="relative mx-6 mb-6 rounded-2xl overflow-hidden">
                   <img
                     src={model.mainImage || "/placeholder.svg"}
-                    alt={`${model.type === "lot" ? "Lotes" : "Modelo"} ${model.name}`}
+                    alt={`${model.type === "lot" ? "Lotes" : "Modelo"} ${
+                      model.name
+                    }`}
                     className="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-105"
                     loading="lazy"
                     decoding="async"
@@ -397,8 +405,18 @@ const ModelsSection = ({ modelsRef, visibleSections }) => {
                       {/* Precio */}
                       <div className="text-center">
                         <div className="w-12 h-12 mx-auto mb-2 border-2 border-[#0A2259] rounded-full flex items-center justify-center">
-                          <svg className="w-5 h-5 text-[#0A2259]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                          <svg
+                            className="w-5 h-5 text-[#0A2259]"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                            />
                           </svg>
                         </div>
                         <div className="text-lg font-bold text-[#0A2259]">
@@ -441,7 +459,7 @@ const ModelsSection = ({ modelsRef, visibleSections }) => {
                       </div>
                     </div>
                   )}
-                  
+
                   {/* Action Button */}
                   <button
                     onClick={() => openModal(model)}
@@ -505,6 +523,26 @@ const ModelsSection = ({ modelsRef, visibleSections }) => {
                       decoding="async"
                     />
                   </div>
+                  {/* Banner Infonavit */}
+                  <div className="bg-white rounded-xl md:rounded-2xl p-4 shadow-lg border border-gray-100">
+                    <div
+                      className="flex flex-col items-center justify-center px-1"
+                      aria-label="Crédito Infonavit disponible"
+                    >
+                      <div className="shrink-0">
+                        <img
+                          src={Infonavit}
+                          alt="Infonavit"
+                          className="w-20 h-20 object-contain"
+                          loading="lazy"
+                          decoding="async"
+                        />
+                      </div>
+                      <span className="text-sm sm:text-base font-semibold tracking-wide uppercase text-[#E30613] text-center">
+                        Utiliza tu crédito Infonavit
+                      </span>
+                    </div>
+                  </div>
 
                   {/* Información de lotes */}
                   <div className="grid md:grid-cols-2 gap-6">
@@ -533,8 +571,18 @@ const ModelsSection = ({ modelsRef, visibleSections }) => {
                         <div className="bg-white rounded-lg md:rounded-xl p-3 md:p-4 shadow-sm">
                           <div className="flex items-center space-x-3">
                             <div className="w-8 h-8 md:w-10 md:h-10 bg-[#0A2259] rounded-full flex items-center justify-center">
-                              <svg className="w-4 h-4 md:w-5 md:h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                              <svg
+                                className="w-4 h-4 md:w-5 md:h-5 text-white"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                              >
+                                <path
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  strokeWidth={2}
+                                  d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                                />
                               </svg>
                             </div>
                             <div>
@@ -559,11 +607,15 @@ const ModelsSection = ({ modelsRef, visibleSections }) => {
                         <div className="flex items-center space-x-3">
                           <Phone className="w-5 h-5 text-white" />
                           <div>
-                            <div className="text-sm font-semibold">Teléfono / WhatsApp</div>
-                            <div className="text-lg font-bold">{selectedModel.contactInfo.phone}</div>
+                            <div className="text-sm font-semibold">
+                              Teléfono / WhatsApp
+                            </div>
+                            <div className="text-lg font-bold">
+                              {selectedModel.contactInfo.phone}
+                            </div>
                           </div>
                         </div>
-                        
+
                         <div className="bg-white/10 rounded-lg p-3">
                           <p className="text-sm text-white/90 leading-relaxed">
                             {selectedModel.contactInfo.additionalInfo}
@@ -577,11 +629,19 @@ const ModelsSection = ({ modelsRef, visibleSections }) => {
                               `¡Hola! 👋 Me interesa información sobre los LOTES en Provenza Residencial. ¿Podrían proporcionarme más detalles técnicos? 🏗️`
                             );
                             const whatsappUrl = `https://wa.me/${phoneNumber}?text=${message}`;
-                            window.open(whatsappUrl, "_blank", "noopener,noreferrer");
+                            window.open(
+                              whatsappUrl,
+                              "_blank",
+                              "noopener,noreferrer"
+                            );
                           }}
                           className="w-full bg-[#25D366] text-white py-3 rounded-lg font-semibold hover:bg-[#128C7E] transition-colors flex items-center justify-center space-x-2"
                         >
-                          <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                          <svg
+                            className="w-5 h-5"
+                            fill="currentColor"
+                            viewBox="0 0 24 24"
+                          >
                             <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
                           </svg>
                           <span>Contactar por WhatsApp</span>
@@ -598,11 +658,12 @@ const ModelsSection = ({ modelsRef, visibleSections }) => {
                     <p className="text-sm md:text-base leading-relaxed text-gray-700 mb-4">
                       {selectedModel.description}
                     </p>
-                    
+
                     {/* Nota importante */}
                     <div className="bg-yellow-50 border-l-4 border-yellow-400 p-3 rounded">
                       <p className="text-sm text-yellow-800">
-                        <span className="font-semibold">Importante:</span> {selectedModel.contactInfo.note}
+                        <span className="font-semibold">Importante:</span>{" "}
+                        {selectedModel.contactInfo.note}
                       </p>
                     </div>
                   </div>
@@ -724,9 +785,7 @@ const ModelsSection = ({ modelsRef, visibleSections }) => {
                     <div className="relative rounded-xl md:rounded-2xl overflow-hidden bg-gray-100 shadow-lg">
                       {isVirtualTourSlide ? (
                         // Virtual Tour iframe
-                        <div className="relative">
-
-                        </div>
+                        <div className="relative"></div>
                       ) : (
                         // Regular Image
                         <div className="relative">
