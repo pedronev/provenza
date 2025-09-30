@@ -9,7 +9,7 @@ export default defineConfig({
   // base: '/provenza/',
 
   // ✅ O usar conditional base según el entorno
-  base: "/provenza/", // Base URL para GitHub Pages
+  base: "/", // Base URL para GitHub Pages
 
   build: {
     outDir: "dist",
