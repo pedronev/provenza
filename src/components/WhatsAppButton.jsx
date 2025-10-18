@@ -1,27 +1,33 @@
+import { useState, useEffect } from "react";
+import { fetchWhatsAppConfig } from "../lib/sanity";
+
 const WhatsAppButton = () => {
-  const phoneNumber = "526677976941"; // Número sin + ni espacios ni guiones
+  const [config, setConfig] = useState(null);
 
-  // Mensaje personalizado que hace referencia a la página web
+  useEffect(() => {
+    fetchWhatsAppConfig().then(setConfig);
+  }, []);
+
+  const phoneNumber = config?.numeroTelefono || "526677976941";
   const message = encodeURIComponent(
-    `¡Hola! 👋 ` +
-      `Vengo desde su sitio web y me gustaría más información sobre Provenza Residencial 🏠✨`
+    config?.mensajeBotonFlotante ||
+      "¡Hola! 👋 Vengo desde su sitio web y me gustaría más información sobre Provenza Residencial 🏠✨"
   );
+  const tooltipText = config?.tooltipTexto || "¡Contáctanos ahora!";
 
-  // URL de WhatsApp con número y mensaje
   const whatsappUrl = `https://wa.me/${phoneNumber}?text=${message}`;
 
   const handleWhatsAppClick = () => {
-    // Abrir WhatsApp en una nueva ventana/pestaña
     window.open(whatsappUrl, "_blank", "noopener,noreferrer");
   };
 
   return (
-    <div className="fixed bottom-8 right-8 z-40">
+    <div className="fixed bottom-8 right-8 z-40 group">
       <button
         onClick={handleWhatsAppClick}
-        className="w-14 h-14 bg-[#25D366] rounded-full flex items-center justify-center shadow-2xl hover:shadow-3xl hover:scale-110 transition-all duration-300 animate-pulse-subtle group relative overflow-hidden"
+        className="w-14 h-14 bg-[#25D366] rounded-full flex items-center justify-center shadow-2xl hover:shadow-3xl hover:scale-110 transition-all duration-300 animate-pulse-subtle relative overflow-hidden"
         aria-label="Contactar por WhatsApp"
-        title="¡Contáctanos por WhatsApp!"
+        title={tooltipText}
       >
         {/* Efecto de onda al hacer hover */}
         <div className="absolute inset-0 bg-[#25D366] rounded-full scale-0 group-hover:scale-150 opacity-0 group-hover:opacity-20 transition-all duration-500"></div>
@@ -36,10 +42,9 @@ const WhatsAppButton = () => {
         </svg>
       </button>
 
-      {/* Tooltip que aparece al hacer hover */}
       <div className="absolute bottom-16 right-0 mb-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
         <div className="bg-gray-900 text-white text-xs rounded-lg py-2 px-3 whitespace-nowrap">
-          ¡Contáctanos ahora!
+          {tooltipText}
           <div className="absolute top-full right-4 w-0 h-0 border-l-4 border-l-transparent border-r-4 border-r-transparent border-t-4 border-t-gray-900"></div>
         </div>
       </div>

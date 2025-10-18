@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
+import { fetchPromotions, urlFor } from "../lib/sanity";
 import lirio from "../assets/lirio.png";
 import rosa from "../assets/rosa.png";
 import malva from "../assets/malva.png";
 
-// Hook para detectar scroll
+// Hook para detectar scroll (sin cambios)
 export const useScrollDetection = (threshold = 50) => {
   const [isScrolled, setIsScrolled] = useState(false);
 
@@ -13,7 +14,7 @@ export const useScrollDetection = (threshold = 50) => {
     };
 
     window.addEventListener("scroll", handleScroll);
-    handleScroll(); // Llamar inmediatamente para el estado inicial
+    handleScroll();
 
     return () => window.removeEventListener("scroll", handleScroll);
   }, [threshold]);
@@ -21,7 +22,7 @@ export const useScrollDetection = (threshold = 50) => {
   return isScrolled;
 };
 
-// Hook para Intersection Observer
+// Hook para Intersection Observer (sin cambios)
 export const useIntersectionObserver = (sectionRefs) => {
   const [visibleSections, setVisibleSections] = useState(new Set());
 
@@ -54,7 +55,6 @@ export const useIntersectionObserver = (sectionRefs) => {
       rootMargin: "20px",
     });
 
-    // Pequeño delay para asegurar que los refs estén listos
     const timeoutId = setTimeout(() => {
       Object.entries(sectionRefs).forEach(([key, ref]) => {
         if (ref.current) {
@@ -68,22 +68,21 @@ export const useIntersectionObserver = (sectionRefs) => {
       clearTimeout(timeoutId);
       observer.disconnect();
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []); // Sin dependencias para evitar re-renders
+  }, []);
 
   return visibleSections;
 };
 
-// Hook para datos de modelos
+// Hook para datos de modelos - ACTUALIZADO
 export const useModelsData = () => {
-  const modelsData = [
+  const [modelsData, setModelsData] = useState([
     {
       id: 1,
       name: "ROSA",
       area: "155 M²",
       bedrooms: "3",
       bathrooms: "2 1/2",
-      image: rosa,
+      image: rosa, // Imagen por defecto
     },
     {
       id: 2,
@@ -91,7 +90,7 @@ export const useModelsData = () => {
       area: "169 M²",
       bedrooms: "3",
       bathrooms: "2 1/2",
-      image: lirio,
+      image: lirio, // Imagen por defecto
     },
     {
       id: 3,
@@ -99,9 +98,48 @@ export const useModelsData = () => {
       area: "185 M²",
       bedrooms: "3",
       bathrooms: "3 1/2",
-      image: malva,
+      image: malva, // Imagen por defecto
     },
-  ];
+  ]);
+
+  useEffect(() => {
+    const loadPromotions = async () => {
+      const promotions = await fetchPromotions();
+
+      if (promotions) {
+        setModelsData((prevData) =>
+          prevData.map((model) => {
+            let imageUrl = model.image; // Mantener imagen por defecto
+
+            // Obtener imagen de Sanity si existe
+            if (
+              model.name === "ROSA" &&
+              promotions.modeloRosa?.imagenPrincipal
+            ) {
+              imageUrl = urlFor(promotions.modeloRosa.imagenPrincipal).url();
+            } else if (
+              model.name === "LIRIO" &&
+              promotions.modeloLirio?.imagenPrincipal
+            ) {
+              imageUrl = urlFor(promotions.modeloLirio.imagenPrincipal).url();
+            } else if (
+              model.name === "MALVA" &&
+              promotions.modeloMalva?.imagenPrincipal
+            ) {
+              imageUrl = urlFor(promotions.modeloMalva.imagenPrincipal).url();
+            }
+
+            return {
+              ...model,
+              image: imageUrl,
+            };
+          })
+        );
+      }
+    };
+
+    loadPromotions();
+  }, []);
 
   return modelsData;
 };

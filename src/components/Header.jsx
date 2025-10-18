@@ -1,6 +1,8 @@
 import { Facebook, Instagram } from "lucide-react";
 import logoSvg from "../assets/logo.svg";
 import TikTokIcon from "../assets/icons/TikTokIcon";
+import { useState, useEffect } from "react";
+import { fetchPromotions } from "../lib/sanity";
 
 const Header = ({
   isScrolled,
@@ -15,6 +17,12 @@ const Header = ({
     { name: "MODELOS", key: "models" },
     { name: "¿POR QUÉ PROVENZA?", key: "why" },
   ];
+  const [promotions, setPromotions] = useState(null);
+  useEffect(() => {
+    fetchPromotions().then(setPromotions);
+  }, []);
+
+  const textoBoton = promotions?.textoBotonHeader || "PROMOCIONES";
 
   const socialLinks = [
     {
@@ -117,7 +125,7 @@ const Header = ({
               <div className="absolute inset-0 bg-gradient-to-r from-red-700 to-red-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               <div className="relative z-10 flex items-center space-x-2">
                 <span className="animate-pulse">🔥</span>
-                <span>PROMOCIONES</span>
+                <span>{textoBoton}</span>
                 <span className="animate-bounce">⚡</span>
               </div>
               {/* Efecto de brillo */}

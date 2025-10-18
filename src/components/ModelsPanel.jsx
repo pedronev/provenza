@@ -1,5 +1,7 @@
 import Lotes from "../assets/Lotes.png";
 import Infonavit from "../assets/Infonavit.png";
+import { useEffect, useState } from "react";
+import { fetchPromotions, fetchWhatsAppConfig } from "../lib/sanity";
 
 const ModelsPanel = ({
   showModelsPanel,
@@ -7,8 +9,39 @@ const ModelsPanel = ({
   modelsData,
   scrollToSection,
 }) => {
-  if (!showModelsPanel) return null;
+  const [promotions, setPromotions] = useState(null);
+  const [whatsappConfig, setWhatsappConfig] = useState(null);
 
+  useEffect(() => {
+    const loadData = async () => {
+      const promoData = await fetchPromotions();
+      const whatsappData = await fetchWhatsAppConfig();
+      setPromotions(promoData);
+      setWhatsappConfig(whatsappData);
+    };
+    loadData();
+  }, []);
+
+  const modelPrices = {
+    ROSA: {
+      current: promotions?.modeloRosa?.precioActual || "...",
+      previous: promotions?.modeloRosa?.precioAnterior || "...",
+    },
+    LIRIO: {
+      current: promotions?.modeloLirio?.precioActual || "...",
+      previous: promotions?.modeloLirio?.precioAnterior || "...",
+    },
+    MALVA: {
+      current: promotions?.modeloMalva?.precioActual || "...",
+      previous: promotions?.modeloMalva?.precioAnterior || "...",
+    },
+  };
+  const whatsappNumber = whatsappConfig?.numeroTelefono || "526677976941";
+  const whatsappMessageLotes =
+    whatsappConfig?.mensajeLotes ||
+    "¡Hola! 👋 Me interesa información sobre los LOTES en Provenza Residencial. ¿Podrían proporcionarme más detalles? 🏗️";
+
+  if (!showModelsPanel) return null;
   return (
     <>
       <div
@@ -46,29 +79,6 @@ const ModelsPanel = ({
                     />
                   </svg>
                 </button>
-              </div>
-
-              {/* Promoción Banner */}
-              <div className="bg-gradient-to-r from-red-600 to-red-500 rounded-2xl p-4 mb-4 relative overflow-hidden">
-                <div className="absolute top-0 right-0 w-20 h-20 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/2" />
-                <div className="relative z-10">
-                  <div className="text-center">
-                    <div className="text-xs font-semibold text-red-100 uppercase tracking-wide mb-1">
-                      🏠 CASAS DESDE
-                    </div>
-                    <div className="flex items-center justify-center space-x-2 mb-2">
-                      <span className="text-3xl font-bold text-cyan-300">
-                        2.8 MDP
-                      </span>
-                      <span className="text-xl text-red-200 line-through decoration-2">
-                        3.3 MDP
-                      </span>
-                    </div>
-                    <div className="bg-yellow-400 text-red-800 px-3 py-1 rounded-full text-xs font-bold inline-block animate-pulse">
-                      ¡PROMOCIÓN LIMITADA!
-                    </div>
-                  </div>
-                </div>
               </div>
 
               <div className="group bg-gradient-to-br from-white/95 to-white rounded-2xl p-5 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.02] border border-white/50 relative overflow-hidden">
@@ -152,8 +162,7 @@ const ModelsPanel = ({
                   className="flex items-center justify-around px-1 mb-6"
                   aria-label="Crédito Infonavit disponible"
                 >
-                  {/* bolita con el logo */}
-                  <div className="shrink-0 w-9 h-9 rounded-full   flex items-center justify-center">
+                  <div className="shrink-0 w-9 h-9 rounded-full flex items-center justify-center">
                     <img
                       src={Infonavit}
                       alt="Infonavit"
@@ -162,8 +171,6 @@ const ModelsPanel = ({
                       decoding="async"
                     />
                   </div>
-
-                  {/* texto */}
                   <span className="text-[11px] sm:text-xs font-semibold tracking-wide uppercase text-[#E30613]">
                     Utiliza tu crédito Infonavit
                   </span>
@@ -190,11 +197,8 @@ const ModelsPanel = ({
                   </button>
                   <button
                     onClick={() => {
-                      const phoneNumber = "526677976941";
-                      const message = encodeURIComponent(
-                        `¡Hola! 👋 Me interesa información sobre los LOTES en Provenza Residencial. ¿Podrían proporcionarme más detalles? 🏗️`
-                      );
-                      const whatsappUrl = `https://wa.me/${phoneNumber}?text=${message}`;
+                      const message = encodeURIComponent(whatsappMessageLotes);
+                      const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${message}`;
                       window.open(whatsappUrl, "_blank", "noopener,noreferrer");
                     }}
                     className="bg-[#25D366] text-white p-3 rounded-full hover:bg-[#128C7E] transition-all duration-200 hover:scale-[1.05] shadow-lg hover:shadow-xl hover:cursor-pointer"
@@ -223,13 +227,20 @@ const ModelsPanel = ({
               <div className="w-16 h-0.5 bg-[#0A2259] mx-auto mt-2"></div>
             </div>
 
-            {/* Models List (existente) */}
+            {/* Models List */}
             {modelsData.map((model, index) => (
               <div
                 key={model.id}
                 className="bg-gradient-to-br from-gray-50 to-white rounded-2xl p-5 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.02] border border-gray-100 animate-slide-in-right relative overflow-hidden"
                 style={{ animationDelay: `${index * 150 + 150}ms` }}
               >
+                {/* Promoción Badge */}
+                <div className="absolute top-3 right-3 z-10">
+                  <div className="bg-red-500 text-white px-3 py-1 rounded-full text-xs font-bold shadow-lg">
+                    ¡OFERTA!
+                  </div>
+                </div>
+
                 {/* Model Image */}
                 <div className="relative rounded-xl overflow-hidden mb-4 group">
                   <img
@@ -237,13 +248,6 @@ const ModelsPanel = ({
                     alt={`Modelo ${model.name}`}
                     className="w-full h-32 object-cover transition-transform duration-500 group-hover:scale-110"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <div className="absolute bottom-2 left-2 right-2">
-                      <span className="text-white text-xs font-semibold bg-[#0A2259]/80 px-2 py-1 rounded-full">
-                        Tour Virtual Disponible
-                      </span>
-                    </div>
-                  </div>
                 </div>
 
                 {/* Model Info */}
@@ -263,6 +267,20 @@ const ModelsPanel = ({
                       </div>
                     </div>
                   </div>
+
+                  {/* Precio con descuento */}
+                  {modelPrices[model.name] && (
+                    <div className="bg-gradient-to-r from-red-50 to-red-100 rounded-lg p-3 border border-red-200">
+                      <div className="flex items-center justify-center space-x-3">
+                        <span className="text-xl font-bold text-red-600">
+                          {modelPrices[model.name].current}
+                        </span>
+                        <span className="text-base text-gray-500 line-through">
+                          {modelPrices[model.name].previous}
+                        </span>
+                      </div>
+                    </div>
+                  )}
 
                   {/* Specs */}
                   <div className="flex justify-between items-center py-3 px-4 bg-white rounded-lg border">
@@ -299,8 +317,12 @@ const ModelsPanel = ({
           {/* Action Button */}
           <div className="p-6 bg-gradient-to-r from-red-50 to-red-100 border-t border-red-200">
             <div className="text-center">
-              <p className="text-sm text-gray-600 mb-4">
+              <p className="text-sm text-gray-600 mb-2">
                 Descubre todos los detalles de nuestros modelos en promoción
+              </p>
+              <p className="text-xs text-gray-500 mb-4">
+                {promotions?.textoRestriccion ||
+                  "*Precio con descuento aplicado *Aplican restricciones *Ubicaciones seleccionadas"}
               </p>
               <button
                 onClick={() => {
