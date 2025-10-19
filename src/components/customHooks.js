@@ -4,7 +4,7 @@ import lirio from "../assets/lirio.png";
 import rosa from "../assets/rosa.png";
 import malva from "../assets/malva.png";
 
-// Hook para detectar scroll (sin cambios)
+// Hook para detectar scroll
 export const useScrollDetection = (threshold = 50) => {
   const [isScrolled, setIsScrolled] = useState(false);
 
@@ -22,7 +22,7 @@ export const useScrollDetection = (threshold = 50) => {
   return isScrolled;
 };
 
-// Hook para Intersection Observer (sin cambios)
+// Hook para Intersection Observer
 export const useIntersectionObserver = (sectionRefs) => {
   const [visibleSections, setVisibleSections] = useState(new Set());
 
@@ -68,12 +68,12 @@ export const useIntersectionObserver = (sectionRefs) => {
       clearTimeout(timeoutId);
       observer.disconnect();
     };
-  }, []);
+  }, [sectionRefs]);
 
   return visibleSections;
 };
 
-// Hook para datos de modelos - ACTUALIZADO
+// Hook para datos de modelos - CON IMÁGENES DE SANITY
 export const useModelsData = () => {
   const [modelsData, setModelsData] = useState([
     {
@@ -104,37 +104,50 @@ export const useModelsData = () => {
 
   useEffect(() => {
     const loadPromotions = async () => {
-      const promotions = await fetchPromotions();
+      try {
+        const promotions = await fetchPromotions();
 
-      if (promotions) {
-        setModelsData((prevData) =>
-          prevData.map((model) => {
-            let imageUrl = model.image; // Mantener imagen por defecto
+        if (promotions) {
+          setModelsData((prevData) =>
+            prevData.map((model) => {
+              let imageUrl = model.image; // Mantener imagen por defecto
 
-            // Obtener imagen de Sanity si existe
-            if (
-              model.name === "ROSA" &&
-              promotions.modeloRosa?.imagenPrincipal
-            ) {
-              imageUrl = urlFor(promotions.modeloRosa.imagenPrincipal).url();
-            } else if (
-              model.name === "LIRIO" &&
-              promotions.modeloLirio?.imagenPrincipal
-            ) {
-              imageUrl = urlFor(promotions.modeloLirio.imagenPrincipal).url();
-            } else if (
-              model.name === "MALVA" &&
-              promotions.modeloMalva?.imagenPrincipal
-            ) {
-              imageUrl = urlFor(promotions.modeloMalva.imagenPrincipal).url();
-            }
+              // Obtener imagen de Sanity si existe
+              if (
+                model.name === "ROSA" &&
+                promotions.modeloRosa?.imagenPrincipal
+              ) {
+                imageUrl = urlFor(promotions.modeloRosa.imagenPrincipal)
+                  .width(800)
+                  .height(600)
+                  .url();
+              } else if (
+                model.name === "LIRIO" &&
+                promotions.modeloLirio?.imagenPrincipal
+              ) {
+                imageUrl = urlFor(promotions.modeloLirio.imagenPrincipal)
+                  .width(800)
+                  .height(600)
+                  .url();
+              } else if (
+                model.name === "MALVA" &&
+                promotions.modeloMalva?.imagenPrincipal
+              ) {
+                imageUrl = urlFor(promotions.modeloMalva.imagenPrincipal)
+                  .width(800)
+                  .height(600)
+                  .url();
+              }
 
-            return {
-              ...model,
-              image: imageUrl,
-            };
-          })
-        );
+              return {
+                ...model,
+                image: imageUrl,
+              };
+            })
+          );
+        }
+      } catch (error) {
+        console.error("Error loading promotions:", error);
       }
     };
 

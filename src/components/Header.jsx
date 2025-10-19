@@ -1,8 +1,9 @@
-import { Facebook, Instagram } from "lucide-react";
+import { Facebook, Instagram, Download, FileText } from "lucide-react";
 import logoSvg from "../assets/logo.svg";
 import TikTokIcon from "../assets/icons/TikTokIcon";
 import { useState, useEffect } from "react";
-import { fetchPromotions } from "../lib/sanity";
+import { fetchPromotions, fetchFlyerConfig } from "../lib/sanity";
+import { useNavigate } from "react-router-dom";
 
 const Header = ({
   isScrolled,
@@ -11,6 +12,8 @@ const Header = ({
   scrollToSection,
   setShowModelsPanel,
 }) => {
+  const navigate = useNavigate();
+  const [flyerConfig, setFlyerConfig] = useState(null);
   const navigationItems = [
     { name: "UBICACIÓN", key: "location" },
     { name: "AMENIDADES", key: "gallery" },
@@ -20,9 +23,11 @@ const Header = ({
   const [promotions, setPromotions] = useState(null);
   useEffect(() => {
     fetchPromotions().then(setPromotions);
+    fetchFlyerConfig().then(setFlyerConfig);
   }, []);
 
   const textoBoton = promotions?.textoBotonHeader || "PROMOCIONES";
+  const textoFlyer = flyerConfig?.textoBoton || "NEWSLETTER";
 
   const socialLinks = [
     {
@@ -131,6 +136,17 @@ const Header = ({
               {/* Efecto de brillo */}
               <div className="absolute top-0 -left-full h-full w-1/2 bg-gradient-to-r from-transparent via-white/30 to-transparent transform skew-x-12 group-hover:left-full transition-all duration-700" />
             </button>
+            <button
+              onClick={() => navigate("/flyer")}
+              className={`px-4 py-2 rounded-full font-semibold text-sm uppercase tracking-wide transition-all duration-300 hover:scale-105 flex items-center space-x-2 ${
+                isScrolled
+                  ? "bg-white text-[#0A2259] hover:bg-gray-100"
+                  : "bg-[#0A2259] text-white hover:bg-[#1a3668]"
+              }`}
+            >
+              <FileText className="w-4 h-4" />
+              <span>{textoFlyer}</span>
+            </button>
           </nav>
 
           {/* Social Icons Desktop */}
@@ -230,6 +246,22 @@ const Header = ({
                 </div>
                 {/* Efecto de brillo móvil */}
                 <div className="absolute top-0 -left-full h-full w-1/2 bg-gradient-to-r from-transparent via-white/30 to-transparent transform skew-x-12 group-hover:left-full transition-all duration-700" />
+              </button>
+            </div>
+            <div className="pt-4">
+              <button
+                onClick={() => {
+                  navigate("/flyer");
+                  setMobileMenuOpen(false);
+                }}
+                className={`w-full py-3 px-4 rounded-xl font-semibold text-sm uppercase tracking-wide transition-all duration-300 hover:scale-[1.02] shadow-lg flex items-center justify-center space-x-2 ${
+                  isScrolled
+                    ? "bg-white text-[#0A2259]"
+                    : "bg-white text-[#0A2259]"
+                }`}
+              >
+                <FileText className="w-4 h-4" />
+                <span>NEWSLETTER</span>
               </button>
             </div>
           </nav>
