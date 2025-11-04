@@ -16,6 +16,8 @@ import {
   Phone,
 } from "lucide-react";
 
+import { fetchPromotions } from "../lib/sanity";
+
 import lirio from "../assets/lirio.png";
 import lirioBaja from "../assets/Lirio-planta-baja.jpg";
 import lirioAlta from "../assets/Lirio-planta-alta.jpg";
@@ -40,6 +42,8 @@ const ModelsSection = ({ modelsRef, visibleSections }) => {
     rosa: [],
   });
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const [promotions, setPromotions] = useState(null);
+  const [filteredModels, setFilteredModels] = useState([]);
 
   const closeModal = useCallback(() => {
     setSelectedModel(null);
@@ -73,6 +77,38 @@ const ModelsSection = ({ modelsRef, visibleSections }) => {
     },
     [closeFullscreen]
   );
+
+  useEffect(() => {
+    const loadPromotions = async () => {
+      const promoData = await fetchPromotions();
+      console.log(promoData);
+      setPromotions(promoData);
+    };
+    loadPromotions();
+  }, []);
+
+  useEffect(() => {
+    if (promotions && models) {
+      const filtered = models.filter((model) => {
+        if (model.type === "lot") {
+          return promotions.lotes?.mostrarEnModelos === true;
+        }
+        if (model.name === "ROSA") {
+          return promotions.modeloRosa?.mostrarEnModelos === true;
+        }
+        if (model.name === "LIRIO") {
+          return promotions.modeloLirio?.mostrarEnModelos === true;
+        }
+        if (model.name === "MALVA") {
+          return promotions.modeloMalva?.mostrarEnModelos === true;
+        }
+        return true;
+      });
+      setFilteredModels(filtered);
+    } else {
+      setFilteredModels(models);
+    }
+  }, [promotions]);
 
   useEffect(() => {
     const loadImages = async () => {
@@ -146,8 +182,8 @@ const ModelsSection = ({ modelsRef, visibleSections }) => {
         name: "LOTES",
         type: "lot",
         area: "7.5m x 17.5m",
-        dimensions: "7.5m x 17.5m",
-        price: "$7,500 mx/m²",
+        price: promotions?.lotes?.precioMetroCuadrado || "$7,500 mx/m²",
+        dimensions: promotions?.lotes?.dimensiones || "7.5m x 17.5m",
         mainImage: Lotes,
         images: [Lotes],
         description:
@@ -348,7 +384,7 @@ const ModelsSection = ({ modelsRef, visibleSections }) => {
 
           {/* Models Grid */}
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
-            {models.map((model, index) => (
+            {filteredModels.map((model, index) => (
               <div
                 key={model.id}
                 className={`bg-white rounded-3xl shadow-xl overflow-hidden hover:shadow-2xl transition-all duration-300 hover:scale-[1.02] group ${

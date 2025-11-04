@@ -2,7 +2,7 @@ import { Facebook, Instagram, Download, FileText } from "lucide-react";
 import logoSvg from "../assets/logo.svg";
 import TikTokIcon from "../assets/icons/TikTokIcon";
 import { useState, useEffect } from "react";
-import { fetchPromotions, fetchFlyerConfig } from "../lib/sanity";
+import { fetchPromotions, fetchProyectos } from "../lib/sanity";
 import { useNavigate } from "react-router-dom";
 
 const Header = ({
@@ -13,7 +13,7 @@ const Header = ({
   setShowModelsPanel,
 }) => {
   const navigate = useNavigate();
-  const [flyerConfig, setFlyerConfig] = useState(null);
+  const [proyectos, setProyectos] = useState([]);
   const navigationItems = [
     { name: "UBICACIÓN", key: "location" },
     { name: "AMENIDADES", key: "gallery" },
@@ -23,11 +23,11 @@ const Header = ({
   const [promotions, setPromotions] = useState(null);
   useEffect(() => {
     fetchPromotions().then(setPromotions);
-    fetchFlyerConfig().then(setFlyerConfig);
+    fetchProyectos().then(setProyectos);
   }, []);
 
   const textoBoton = promotions?.textoBotonHeader || "PROMOCIONES";
-  const textoFlyer = flyerConfig?.textoBoton || "NEWSLETTER";
+  const textoFlyer = "NEWSLETTER";
 
   const socialLinks = [
     {

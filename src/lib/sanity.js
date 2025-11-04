@@ -34,12 +34,14 @@ export const fetchWhatsAppConfig = async () => {
   }
 };
 
-export const fetchFlyerConfig = async () => {
+export const fetchProyectos = async () => {
   try {
-    const data = await client.fetch('*[_type == "flyer"][0]');
+    const data = await client.fetch(
+      '*[_type == "proyecto" && activo == true] | order(orden asc)'
+    );
     return data;
   } catch (error) {
-    console.error("Error fetching flyer config:", error);
-    return null;
+    console.error("Error fetching proyectos:", error);
+    return [];
   }
 };

@@ -2,11 +2,11 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { X, Download, Loader2, CheckCircle2 } from "lucide-react";
 import { client, urlFor } from "../lib/sanity";
-import logoSvg from "../assets/logo.svg";
 
 const FlyerPage = () => {
   const navigate = useNavigate();
-  const [flyerData, setFlyerData] = useState(null);
+  const [proyectos, setProyectos] = useState([]);
+  const [proyectoSeleccionado, setProyectoSeleccionado] = useState(null);
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -17,32 +17,63 @@ const FlyerPage = () => {
     email: "",
     telefono: "",
     mensaje: "",
+    proyecto: "",
   });
 
-  // Cargar datos del flyer desde Sanity
+  // Cargar todos los proyectos activos
   useEffect(() => {
-    const fetchFlyerData = async () => {
+    const fetchProyectos = async () => {
       try {
-        const data = await client.fetch('*[_type == "flyer"][0]');
-        setFlyerData(data);
+        const data = await client.fetch(
+          '*[_type == "proyecto" && activo == true] | order(orden asc)'
+        );
+        setProyectos(data);
 
-        // Obtener URL del PDF
-        if (data?.pdfDescarga?.asset?._ref) {
-          const pdfAssetId = data.pdfDescarga.asset._ref;
-          const pdfAsset = await client.fetch(
-            `*[_id == "${pdfAssetId}"][0]{url}`
-          );
-          setPdfUrl(pdfAsset?.url);
+        // Seleccionar el primer proyecto por defecto
+        if (data && data.length > 0) {
+          setProyectoSeleccionado(data[0]);
+          setFormData((prev) => ({ ...prev, proyecto: data[0].nombre }));
+
+          // Obtener URL del PDF del primer proyecto
+          if (data[0]?.pdfDescarga?.asset?._ref) {
+            const pdfAssetId = data[0].pdfDescarga.asset._ref;
+            const pdfAsset = await client.fetch(
+              `*[_id == "${pdfAssetId}"][0]{url}`
+            );
+            setPdfUrl(pdfAsset?.url);
+          }
         }
       } catch (error) {
-        console.error("Error fetching flyer data:", error);
+        console.error("Error fetching proyectos:", error);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchFlyerData();
+    fetchProyectos();
   }, []);
+
+  // Cuando cambia el proyecto seleccionado, actualizar el PDF
+  useEffect(() => {
+    const updatePDF = async () => {
+      if (proyectoSeleccionado?.pdfDescarga?.asset?._ref) {
+        const pdfAssetId = proyectoSeleccionado.pdfDescarga.asset._ref;
+        const pdfAsset = await client.fetch(
+          `*[_id == "${pdfAssetId}"][0]{url}`
+        );
+        setPdfUrl(pdfAsset?.url);
+      }
+    };
+
+    updatePDF();
+  }, [proyectoSeleccionado]);
+
+  const handleProyectoChange = (e) => {
+    const nombreProyecto = e.target.value;
+    const proyecto = proyectos.find((p) => p.nombre === nombreProyecto);
+    setProyectoSeleccionado(proyecto);
+    setFormData((prev) => ({ ...prev, proyecto: nombreProyecto }));
+  };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -66,6 +97,7 @@ const FlyerPage = () => {
         formDataToSend.append("email", formData.email);
         formDataToSend.append("telefono", formData.telefono);
         formDataToSend.append("mensaje", formData.mensaje);
+        formDataToSend.append("proyecto", formData.proyecto);
         formDataToSend.append("fecha", new Date().toLocaleString("es-MX"));
 
         await fetch(googleScriptUrl, {
@@ -82,6 +114,7 @@ const FlyerPage = () => {
         email: "",
         telefono: "",
         mensaje: "",
+        proyecto: proyectoSeleccionado?.nombre || "",
       });
     } catch (error) {
       console.error("Error submitting form:", error);
@@ -107,8 +140,32 @@ const FlyerPage = () => {
     );
   }
 
+  if (!proyectoSeleccionado) {
+    return (
+      <div className="min-h-screen bg-[#0A2259] flex items-center justify-center p-4">
+        <div className="text-center text-white">
+          <p className="text-xl mb-4">No hay proyectos disponibles</p>
+          <button
+            onClick={() => navigate("/")}
+            className="bg-white text-[#0A2259] px-6 py-3 rounded-full font-semibold hover:bg-gray-100 transition-colors"
+          >
+            Volver al Inicio
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  const colorFondo = proyectoSeleccionado.colorFondo || "#0A2259";
+  const colorSecundario = proyectoSeleccionado.colorSecundario || "#1a3668";
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#0A2259] to-[#1a3668] relative overflow-hidden">
+    <div
+      className="min-h-screen relative overflow-hidden"
+      style={{
+        background: `linear-gradient(to bottom right, ${colorFondo}, ${colorSecundario})`,
+      }}
+    >
       {/* Decorative elements */}
       <div className="absolute top-0 right-0 w-96 h-96 bg-white/5 rounded-full -translate-y-1/2 translate-x-1/2" />
       <div className="absolute bottom-0 left-0 w-64 h-64 bg-white/5 rounded-full translate-y-1/2 -translate-x-1/2" />
@@ -117,11 +174,13 @@ const FlyerPage = () => {
         {/* Header */}
         <header className="p-4 md:p-6">
           <div className="max-w-7xl mx-auto flex items-center justify-between">
-            <img
-              src={logoSvg}
-              alt="Provenza Logo"
-              className="h-8 md:h-12 brightness-0 invert"
-            />
+            {proyectoSeleccionado.logo && (
+              <img
+                src={urlFor(proyectoSeleccionado.logo).width(200).url()}
+                alt={`${proyectoSeleccionado.nombre} Logo`}
+                className="h-8 md:h-12 brightness-0 invert"
+              />
+            )}
             <button
               onClick={() => navigate("/")}
               className="p-2 hover:bg-white/10 rounded-full transition-colors"
@@ -134,35 +193,58 @@ const FlyerPage = () => {
 
         {/* Main Content */}
         <div className="max-w-7xl mx-auto px-4 py-8 md:py-12">
-          <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-            {/* Left - Image */}
-            <div className="order-2 lg:order-1">
-              {flyerData?.imagenFlyer && (
-                <div className="relative rounded-3xl overflow-hidden shadow-2xl">
-                  <img
-                    src={urlFor(flyerData.imagenFlyer).width(800).url()}
-                    alt="Flyer Provenza"
-                    className="w-full h-auto"
-                  />
-                </div>
-              )}
-            </div>
-
-            {/* Right - Form */}
-            <div className="order-1 lg:order-2">
+          <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-start">
+            {/* Left - Form (order-1 en móvil para que esté arriba) */}
+            <div className="order-2 lg:order-2">
               <div className="bg-white rounded-3xl p-6 md:p-8 lg:p-10 shadow-2xl">
                 {!success ? (
                   <>
-                    <h1 className="text-3xl md:text-4xl font-bold text-[#0A2259] mb-4">
-                      {flyerData?.tituloFlyer ||
+                    <h1
+                      className="text-3xl md:text-4xl font-bold mb-4"
+                      style={{ color: colorFondo }}
+                    >
+                      {proyectoSeleccionado.tituloFlyer ||
                         "Descarga el Proyecto Completo"}
                     </h1>
                     <p className="text-gray-600 mb-8">
-                      {flyerData?.descripcionFlyer ||
-                        "Completa el formulario y obtén acceso al PDF con todos los detalles de Provenza Residencial"}
+                      {proyectoSeleccionado.descripcionFlyer ||
+                        "Completa el formulario y obtén acceso al PDF con todos los detalles"}
                     </p>
 
                     <form onSubmit={handleSubmit} className="space-y-6">
+                      {/* Selector de Proyecto */}
+                      {proyectos.length > 1 && (
+                        <div>
+                          <label
+                            htmlFor="proyecto"
+                            className="block text-sm font-medium text-gray-700 mb-2"
+                          >
+                            Selecciona un Proyecto *
+                          </label>
+                          <select
+                            id="proyecto"
+                            name="proyecto"
+                            required
+                            value={formData.proyecto}
+                            onChange={handleProyectoChange}
+                            className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:border-transparent transition-all"
+                            style={{
+                              focusRing: `2px solid ${colorFondo}`,
+                              outlineColor: colorFondo,
+                            }}
+                          >
+                            {proyectos.map((proyecto) => (
+                              <option
+                                key={proyecto._id}
+                                value={proyecto.nombre}
+                              >
+                                {proyecto.nombre}
+                              </option>
+                            ))}
+                          </select>
+                        </div>
+                      )}
+
                       <div>
                         <label
                           htmlFor="nombre"
@@ -177,7 +259,10 @@ const FlyerPage = () => {
                           required
                           value={formData.nombre}
                           onChange={handleInputChange}
-                          className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#0A2259] focus:border-transparent transition-all"
+                          className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:border-transparent transition-all"
+                          style={{
+                            "--focus-color": colorFondo,
+                          }}
                           placeholder="Ej. Juan Pérez"
                         />
                       </div>
@@ -196,7 +281,7 @@ const FlyerPage = () => {
                           required
                           value={formData.email}
                           onChange={handleInputChange}
-                          className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#0A2259] focus:border-transparent transition-all"
+                          className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:border-transparent transition-all"
                           placeholder="correo@ejemplo.com"
                         />
                       </div>
@@ -215,7 +300,7 @@ const FlyerPage = () => {
                           required
                           value={formData.telefono}
                           onChange={handleInputChange}
-                          className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#0A2259] focus:border-transparent transition-all"
+                          className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:border-transparent transition-all"
                           placeholder="(667) 123 4567"
                         />
                       </div>
@@ -233,7 +318,7 @@ const FlyerPage = () => {
                           rows="4"
                           value={formData.mensaje}
                           onChange={handleInputChange}
-                          className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#0A2259] focus:border-transparent transition-all resize-none"
+                          className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:border-transparent transition-all resize-none"
                           placeholder="¿Tienes alguna pregunta o comentario?"
                         />
                       </div>
@@ -241,7 +326,18 @@ const FlyerPage = () => {
                       <button
                         type="submit"
                         disabled={submitting}
-                        className="w-full bg-[#0A2259] text-white py-4 px-6 rounded-xl font-semibold hover:bg-[#1a3668] transition-all duration-300 hover:scale-[1.02] shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
+                        className="w-full text-white py-4 px-6 rounded-xl font-semibold transition-all duration-300 hover:scale-[1.02] shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
+                        style={{
+                          backgroundColor: colorFondo,
+                          "--hover-bg": colorSecundario,
+                        }}
+                        onMouseEnter={(e) =>
+                          (e.currentTarget.style.backgroundColor =
+                            colorSecundario)
+                        }
+                        onMouseLeave={(e) =>
+                          (e.currentTarget.style.backgroundColor = colorFondo)
+                        }
                       >
                         {submitting ? (
                           <>
@@ -258,7 +354,8 @@ const FlyerPage = () => {
 
                       <p className="text-xs text-gray-500 text-center">
                         Al enviar este formulario, aceptas que tus datos sean
-                        utilizados para contactarte sobre Provenza Residencial.
+                        utilizados para contactarte sobre{" "}
+                        {proyectoSeleccionado.nombre}.
                       </p>
                     </form>
                   </>
@@ -267,7 +364,10 @@ const FlyerPage = () => {
                     <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
                       <CheckCircle2 className="w-12 h-12 text-green-600" />
                     </div>
-                    <h2 className="text-3xl font-bold text-[#0A2259] mb-4">
+                    <h2
+                      className="text-3xl font-bold mb-4"
+                      style={{ color: colorFondo }}
+                    >
                       ¡Gracias por tu interés!
                     </h2>
                     <p className="text-gray-600 mb-8">
@@ -278,7 +378,8 @@ const FlyerPage = () => {
                     <div className="space-y-4">
                       <button
                         onClick={handleDownload}
-                        className="w-full bg-[#0A2259] text-white py-4 px-6 rounded-xl font-semibold hover:bg-[#1a3668] transition-all duration-300 hover:scale-[1.02] shadow-lg hover:shadow-xl flex items-center justify-center space-x-2"
+                        className="w-full text-white py-4 px-6 rounded-xl font-semibold transition-all duration-300 hover:scale-[1.02] shadow-lg hover:shadow-xl flex items-center justify-center space-x-2"
+                        style={{ backgroundColor: colorFondo }}
                       >
                         <Download className="w-5 h-5" />
                         <span>Descargar PDF</span>
@@ -286,7 +387,11 @@ const FlyerPage = () => {
 
                       <button
                         onClick={() => navigate("/")}
-                        className="w-full border-2 border-[#0A2259] text-[#0A2259] py-4 px-6 rounded-xl font-semibold hover:bg-[#0A2259] hover:text-white transition-all duration-300"
+                        className="w-full py-4 px-6 rounded-xl font-semibold transition-all duration-300"
+                        style={{
+                          border: `2px solid ${colorFondo}`,
+                          color: colorFondo,
+                        }}
                       >
                         Volver al Inicio
                       </button>
@@ -294,6 +399,21 @@ const FlyerPage = () => {
                   </div>
                 )}
               </div>
+            </div>
+
+            {/* Right - Image (order-2 en móvil para que esté abajo) */}
+            <div className="order-1 lg:order-1">
+              {proyectoSeleccionado.imagenFlyer && (
+                <div className="relative rounded-3xl overflow-hidden shadow-2xl">
+                  <img
+                    src={urlFor(proyectoSeleccionado.imagenFlyer)
+                      .width(800)
+                      .url()}
+                    alt={`Flyer ${proyectoSeleccionado.nombre}`}
+                    className="w-full h-auto"
+                  />
+                </div>
+              )}
             </div>
           </div>
         </div>
